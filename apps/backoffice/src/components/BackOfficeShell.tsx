@@ -253,8 +253,16 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
       </nav>
 
       {/* Main App Container (Cadra Shell) */}
-      <div className="cadra-app">
-        <header className="cadra-top">
+      <div
+        className={`cadra-app ${
+          pathname.startsWith("/marketing") ? "!pb-4" : ""
+        }`}
+      >
+        <header
+          className={`cadra-top ${
+            pathname.startsWith("/marketing") ? "!mb-3" : ""
+          }`}
+        >
           <Link href="/" className="cadra-brand text-left">
             <span className="cadra-brand__mark">K</span>
             <span className="cadra-brand__text">
@@ -299,7 +307,11 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <section className="phead">
+        <section
+          className={`phead ${
+            pathname.startsWith("/marketing") ? "!mb-3" : ""
+          }`}
+        >
           <div className="phead__lead">
             <nav className="crumbs" aria-label="Breadcrumb">
               <span>Kassa Platform</span>

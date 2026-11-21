@@ -694,3 +694,70 @@ body {
   border-color: color-mix(in srgb, var(--bad) 70%, transparent);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--bad) 20%, transparent);
 }
+
+/* 1-Screen Locked Kanban (Marketing Content Board) */
+.kds-shell-1screen {
+  height: calc(100dvh - 235px);
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+}
+.kds-shell-1screen .kds-ribbon {
+  flex: none;
+  margin-bottom: 10px;
+}
+.kds-shell-1screen .kds-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+.kds-shell-1screen .kds-board {
+  height: 100%;
+  align-items: stretch;
+  gap: 10px;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+}
+@media (max-width: 1080px) {
+  .kds-shell-1screen .kds-board {
+    grid-template-columns: repeat(var(--cols, 4), minmax(260px, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .kds-shell-1screen {
+    height: calc(100dvh - 210px);
+    min-height: 380px;
+  }
+  .kds-shell-1screen .kds-board {
+    grid-template-columns: repeat(var(--cols, 4), minmax(84vw, 1fr));
+  }
+}
+.kds-shell-1screen .kds-col {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px;
+  gap: 8px;
+}
+.kds-shell-1screen .kds-col__head {
+  flex: none;
+  padding: 2px 4px 6px;
+}
+.kds-col__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+.kds-shell-1screen .kds-ticket {
+  padding: 10px;
+  gap: 7px;
+  border-radius: 14px;
+}

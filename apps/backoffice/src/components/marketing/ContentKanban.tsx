@@ -105,9 +105,9 @@ export default function ContentKanban({
 
   return (
     <>
-      <div className="cadra-card space-y-3">
+      <div className="cadra-card kds-shell-1screen">
         {/* Cadra Kanban Stage Distribution Ribbon */}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted)]">
+        <div className="mb-2 flex flex-none flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted)]">
           <span className="font-semibold">
             Seret kartu antar kolom atau klik tombol aksi cepat · Total{" "}
             <b className="text-[var(--text)]">{posts.length} konten</b>
@@ -176,7 +176,7 @@ export default function ContentKanban({
                   {list.length === 0 ? (
                     <div className="kds-col__empty">{col.emptyText}</div>
                   ) : (
-                    <div className="flex flex-col gap-2.5">
+                    <div className="kds-col__list">
                       {list.map((p) => {
                         const st = getStatus(p.id);
                         const cap = getCaption(p);
@@ -230,28 +230,11 @@ export default function ContentKanban({
                               </span>
                             </div>
 
-                            {/* Ticket Body (Hook + Brief preview) */}
-                            <div className="divide-y divide-[var(--line)] rounded-xl bg-[var(--surface)] px-2.5 py-1.5">
-                              <div className="py-1">
-                                <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--primary-ink)]">
-                                  Hook
-                                </div>
-                                <p className="mt-0.5 line-clamp-2 text-[11.5px] leading-relaxed text-[var(--text)]">
-                                  “{p.hook}”
-                                </p>
-                              </div>
-                              {p.brief.length > 0 && (
-                                <div className="py-1.5">
-                                  <div className="text-[11px] leading-snug text-[var(--muted)] line-clamp-2">
-                                    • {p.brief[0]}
-                                  </div>
-                                  {p.brief.length > 1 && (
-                                    <div className="mt-0.5 font-mono-num text-[10px] text-[var(--faint)]">
-                                      +{p.brief.length - 1} poin brief lainnya
-                                    </div>
-                                  )}
-                                </div>
-                              )}
+                            {/* Ticket Body (Hook preview) */}
+                            <div className="rounded-lg bg-[var(--surface)] px-2.5 py-1.5">
+                              <p className="line-clamp-2 text-[11px] leading-snug text-[var(--muted)]">
+                                “{p.hook}”
+                              </p>
                             </div>
 
                             {/* Secondary Utility Row */}

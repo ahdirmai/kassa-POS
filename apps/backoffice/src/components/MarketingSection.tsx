@@ -23,6 +23,7 @@ export default function MarketingSection({
 }) {
   const [subTab, setSubTab] = useState<SubTab>("kanban");
   const [platform, setPlatform] = useState<"all" | "Instagram" | "Threads">("all");
+  const [week, setWeek] = useState<"all" | 1 | 2 | 3 | 4>("all");
   const [statuses, setStatuses] = useState<Record<string, PostStatus>>({});
   const [customCaptions, setCustomCaptions] = useState<Record<string, string>>({});
 
@@ -67,11 +68,25 @@ export default function MarketingSection({
     navigator.clipboard.writeText(text).then(() => onNotify(label));
   };
 
-  const filteredPosts = INITIAL_POSTS.filter((p) => platform === "all" || p.platform === platform);
+  const weekRanges: Record<1 | 2 | 3 | 4, [number, number]> = {
+    1: [1, 7],
+    2: [8, 14],
+    3: [15, 21],
+    4: [22, 30],
+  };
+
+  const filteredPosts = INITIAL_POSTS.filter((p) => {
+    if (platform !== "all" && p.platform !== platform) return false;
+    if (week !== "all") {
+      const [start, end] = weekRanges[week];
+      if (p.day < start || p.day > end) return false;
+    }
+    return true;
+  });
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 card p-3.5">
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 card p-2.5">
         <div className="flex flex-wrap gap-1.5">
           {(
             [
@@ -97,18 +112,40 @@ export default function MarketingSection({
         </div>
 
         {subTab === "kanban" && (
-          <div className="flex gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
             {(["all", "Instagram", "Threads"] as const).map((pf) => (
               <button
                 key={pf}
                 onClick={() => setPlatform(pf)}
-                className={`rounded-full px-3 py-1 text-xs font-medium ${
+                className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                   platform === pf
                     ? "bg-[#0f5257] text-white"
                     : "border border-[var(--line)] text-[var(--muted)]"
                 }`}
               >
                 {pf === "all" ? "Semua" : pf}
+              </button>
+            ))}
+            <span className="mx-0.5 text-[var(--line-2)]">|</span>
+            {(
+              [
+                ["all", "30H"],
+                [1, "M1"],
+                [2, "M2"],
+                [3, "M3"],
+                [4, "M4"],
+              ] as const
+            ).map(([w, label]) => (
+              <button
+                key={String(w)}
+                onClick={() => setWeek(w)}
+                className={`rounded-full px-2.5 py-1 font-mono-num text-xs font-semibold ${
+                  week === w
+                    ? "bg-[var(--ink)] text-[var(--on-ink)]"
+                    : "border border-[var(--line)] text-[var(--muted)]"
+                }`}
+              >
+                {label}
               </button>
             ))}
           </div>
