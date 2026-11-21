@@ -241,44 +241,64 @@ const SERVICE_TARGETS = [
   { key: "admin-api", name: "Admin API", url: "https://admin-api.kassa.biz.id/health", host: "admin-api.kassa.biz.id", path: "/health" },
 ];
 
-async function checkServiceHealth(target) {
+function checkServiceHealth(target) {
   const start = Date.now();
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3500);
-    const res = await fetch(`${HEALTH_BASE_URL}${target.path}`, {
-      headers: { Host: target.host },
-      redirect: "manual",
-      signal: controller.signal,
+  return new Promise((resolve) => {
+    let baseUrl;
+    try {
+      baseUrl = new URL(HEALTH_BASE_URL);
+    } catch {
+      baseUrl = new URL("http://127.0.0.1:80");
+    }
+
+    const req = http.request(
+      {
+        hostname: baseUrl.hostname,
+        port: baseUrl.port || 80,
+        path: target.path,
+        method: "GET",
+        headers: { Host: target.host },
+        timeout: 3500,
+      },
+      (res) => {
+        res.resume();
+        const status = res.statusCode || 0;
+        resolve({
+          key: target.key,
+          name: target.name,
+          url: target.url,
+          httpStatus: status,
+          ok: status >= 200 && status < 400,
+          latencyMs: Date.now() - start,
+        });
+      },
+    );
+
+    req.on("timeout", () => {
+      req.destroy(new Error("Health check timeout"));
     });
-    clearTimeout(timer);
-    const ok = res.status >= 200 && res.status < 400;
-    return {
-      key: target.key,
-      name: target.name,
-      url: target.url,
-      httpStatus: res.status,
-      ok,
-      latencyMs: Date.now() - start,
-    };
-  } catch (err) {
-    return {
-      key: target.key,
-      name: target.name,
-      url: target.url,
-      httpStatus: 0,
-      ok: false,
-      latencyMs: Date.now() - start,
-      error: err instanceof Error ? err.message : "Connection failed",
-    };
-  }
+
+    req.on("error", (err) => {
+      resolve({
+        key: target.key,
+        name: target.name,
+        url: target.url,
+        httpStatus: 0,
+        ok: false,
+        latencyMs: Date.now() - start,
+        error: err instanceof Error ? err.message : "Connection failed",
+      });
+    });
+
+    req.end();
+  });
 }
 
 async function getDockerContainers() {
   const cmd = USE_SUDO_DOCKER ? "sudo" : "docker";
   const args = USE_SUDO_DOCKER
-    ? ["docker", "compose", "-f", COMPOSE_FILE, "ps", "-a", "--format", "json"]
-    : ["compose", "-f", COMPOSE_FILE, "ps", "-a", "--format", "json"];
+    ? ["docker", "compose", "-f", COMPOSE_FILE, "--env-file", ".env", "ps", "-a", "--format", "json"]
+    : ["compose", "-f", COMPOSE_FILE, "--env-file", ".env", "ps", "-a", "--format", "json"];
 
   try {
     const { stdout } = await execFileAsync(cmd, args, { cwd: REPO_DIR, timeout: 6000 });
