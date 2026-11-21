@@ -25,6 +25,7 @@ model Tenant {
 
   outlets Outlet[]
   users   User[]
+  roles   Role[]
 }
 
 model Outlet {
@@ -62,11 +63,16 @@ model Setting {
 
 model Role {
   id          Int              @id @default(autoincrement())
-  code        String           @unique @db.VarChar(40)
+  tenantId    Int?             // null = role sistem default, non-null = custom role milik tenant
+  code        String           @db.VarChar(40)
   name        String           @db.VarChar(80)
   description String?          @db.VarChar(255)
+  tenant      Tenant?          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   users       User[]
   permissions RolePermission[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
 }
 
 model Permission {
@@ -343,10 +349,10 @@ model Order {
   shiftId             Int?
   tableId             Int?
   cashierId           Int?
-  clientUuid          String?   @unique @db.Char(36)
+  clientUuid          String?   @db.Char(36)
   orderNo             String    @db.VarChar(40)
   queueNo             Int       @default(1)
-  receiptNo           String?   @unique @db.VarChar(50)
+  receiptNo           String?   @db.VarChar(50)
   orderType           String    @default("DINE_IN") @db.VarChar(20) // DINE_IN | TAKEAWAY | DELIVERY
   status              String    @default("OPEN") @db.VarChar(20) // DRAFT | OPEN | SENT | SERVED | PAID | CLOSED | VOID
   customerName        String?   @db.VarChar(120)
@@ -374,6 +380,8 @@ model Order {
   payments       Payment[]
   kitchenTickets KitchenTicket[]
 
+  @@unique([outletId, clientUuid])
+  @@unique([outletId, receiptNo])
   @@index([outletId, createdAt])
   @@index([status])
   @@index([tableId])
@@ -506,7 +514,7 @@ model PaymentWebhookEvent {
 model Ingredient {
   id           Int       @id @default(autoincrement())
   outletId     Int       @default(1)
-  sku          String    @unique @db.VarChar(40)
+  sku          String    @db.VarChar(40)
   name         String    @db.VarChar(120)
   unit         String    @db.VarChar(20) // gram, ml, pcs
   purchaseUnit String    @db.VarChar(20) // kg, liter, pack
@@ -520,6 +528,8 @@ model Ingredient {
 
   recipeItems RecipeItem[]
   movements   StockMovement[]
+
+  @@unique([outletId, sku])
 }
 
 model Recipe {
@@ -571,8 +581,10 @@ model StockMovement {
 model SyncLog {
   id          Int      @id @default(autoincrement())
   outletId    Int      @default(1)
-  clientUuid  String   @unique @db.Char(36)
+  clientUuid  String   @db.Char(36)
   orderId     Int?
   status      String   @default("PROCESSED") @db.VarChar(20)
   processedAt DateTime @default(now())
+
+  @@unique([outletId, clientUuid])
 }

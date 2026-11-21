@@ -98,11 +98,17 @@ async function main() {
 
   const roleMap = new Map<string, number>();
   for (const r of roleDefs) {
-    const role = await prisma.role.upsert({
-      where: { code: r.code },
-      update: { name: r.name, description: r.description },
-      create: { code: r.code, name: r.name, description: r.description },
-    });
+    let role = await prisma.role.findFirst({ where: { code: r.code, tenantId: null } });
+    if (role) {
+      role = await prisma.role.update({
+        where: { id: role.id },
+        data: { name: r.name, description: r.description },
+      });
+    } else {
+      role = await prisma.role.create({
+        data: { tenantId: null, code: r.code, name: r.name, description: r.description },
+      });
+    }
     roleMap.set(r.code, role.id);
 
     for (const pCode of r.perms) {
@@ -414,7 +420,7 @@ async function main() {
   const ingMap = new Map<string, number>();
   for (const ing of ingDefs) {
     const rec = await prisma.ingredient.upsert({
-      where: { sku: ing.sku },
+      where: { outletId_sku: { outletId: outlet.id, sku: ing.sku } },
       update: {},
       create: {
         outletId: outlet.id,
