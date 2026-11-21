@@ -40,6 +40,16 @@ export const updatePlanSchema = z.object({
   plan: z.enum(["FREE", "PRO", "ENTERPRISE"]),
 });
 
+export const completeOnboardingSchema = z.object({
+  pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").optional(),
+  businessType: z.enum(["COFFEE_SHOP", "RESTAURANT", "BAKERY", "FAST_FOOD", "BEVERAGE_BAR"]),
+  foodTypes: z
+    .array(z.enum(["COFFEE", "NON_COFFEE", "BOBA_COLD", "HEAVY_MEAL", "GRILL_WESTERN", "PASTRY_CAKE", "SNACK"]))
+    .min(1, "Pilih minimal 1 jenis menu"),
+  serviceMode: z.enum(["DINE_IN_AND_TAKEAWAY", "COUNTER_ONLY"]),
+  seedSampleData: z.boolean().default(true),
+});
+
 export const refreshSchema = z.object({
   refreshToken: z.string().min(10).optional(),
 });
