@@ -1,0 +1,177 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Columns3, Copy, Layers, MessageSquare, Palette } from "lucide-react";
+import {
+  BRAND_COLORS,
+  DM_SCRIPTS,
+  INITIAL_POSTS,
+  type ContentPost,
+  type PostStatus,
+} from "@/data/marketing-data";
+import CarouselStudio from "@/components/marketing/CarouselStudio";
+import ContentKanban from "@/components/marketing/ContentKanban";
+
+const STORAGE_KEY = "kassa_marketing_manager_v1";
+
+type SubTab = "kanban" | "carousel" | "brand" | "scripts";
+
+export default function MarketingSection({
+  onNotify,
+}: {
+  onNotify: (msg: string, tone?: "ok" | "err") => void;
+}) {
+  const [subTab, setSubTab] = useState<SubTab>("kanban");
+  const [platform, setPlatform] = useState<"all" | "Instagram" | "Threads">("all");
+  const [statuses, setStatuses] = useState<Record<string, PostStatus>>({});
+  const [customCaptions, setCustomCaptions] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as {
+          statuses?: Record<string, PostStatus>;
+          customCaptions?: Record<string, string>;
+        };
+        if (parsed.statuses) setStatuses(parsed.statuses);
+        if (parsed.customCaptions) setCustomCaptions(parsed.customCaptions);
+      }
+    } catch {}
+  }, []);
+
+  const persist = (nextStatuses: Record<string, PostStatus>, nextCaptions: Record<string, string>) => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ statuses: nextStatuses, customCaptions: nextCaptions }),
+    );
+  };
+
+  const getStatus = (id: string): PostStatus => statuses[id] ?? "draft";
+  const getCaption = (p: ContentPost) => customCaptions[p.id] ?? p.caption;
+
+  const updateStatus = (id: string, val: PostStatus) => {
+    const next = { ...statuses, [id]: val };
+    setStatuses(next);
+    persist(next, customCaptions);
+    onNotify(`Status konten diperbarui: ${val.toUpperCase()}`);
+  };
+
+  const updateCaption = (id: string, val: string) => {
+    const next = { ...customCaptions, [id]: val };
+    setCustomCaptions(next);
+    persist(statuses, next);
+  };
+
+  const copyText = (text: string, label = "Tersalin ke clipboard!") => {
+    navigator.clipboard.writeText(text).then(() => onNotify(label));
+  };
+
+  const filteredPosts = INITIAL_POSTS.filter((p) => platform === "all" || p.platform === platform);
+
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-3 card p-3.5">
+        <div className="flex flex-wrap gap-1.5">
+          {(
+            [
+              ["kanban", "Kanban Konten", Columns3],
+              ["carousel", "Carousel Studio", Layers],
+              ["brand", "Brand & Warna", Palette],
+              ["scripts", "Script DM", MessageSquare],
+            ] as const
+          ).map(([id, label, Icon]) => (
+            <button
+              key={id}
+              onClick={() => setSubTab(id)}
+              className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+                subTab === id
+                  ? "bg-[#0b1013] text-[#e5ba78]"
+                  : "border border-[var(--line)] text-[var(--muted)] hover:text-[var(--ink)]"
+              }`}
+            >
+              <Icon className="h-3.5 w-3.5" />
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {subTab === "kanban" && (
+          <div className="flex gap-1.5">
+            {(["all", "Instagram", "Threads"] as const).map((pf) => (
+              <button
+                key={pf}
+                onClick={() => setPlatform(pf)}
+                className={`rounded-full px-3 py-1 text-xs font-medium ${
+                  platform === pf
+                    ? "bg-[#0f5257] text-white"
+                    : "border border-[var(--line)] text-[var(--muted)]"
+                }`}
+              >
+                {pf === "all" ? "Semua" : pf}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {subTab === "kanban" && (
+        <ContentKanban
+          posts={filteredPosts}
+          getStatus={getStatus}
+          getCaption={getCaption}
+          onUpdateStatus={updateStatus}
+          onUpdateCaption={updateCaption}
+          onCopy={copyText}
+        />
+      )}
+
+      {subTab === "carousel" && <CarouselStudio />}
+
+      {subTab === "brand" && (
+        <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {BRAND_COLORS.map((c) => (
+            <button
+              key={c.hex}
+              onClick={() => copyText(c.hex, `HEX ${c.hex} tersalin!`)}
+              className="overflow-hidden card text-left transition hover:-translate-y-0.5 hover:border-[#121517]"
+            >
+              <div className="h-16 w-full border-b border-[var(--line)]" style={{ background: c.hex }} />
+              <div className="p-3.5">
+                <div className="text-xs font-bold">{c.name}</div>
+                <div className="mt-0.5 font-mono-num text-xs font-semibold text-[#0f5257]">
+                  {c.hex}
+                </div>
+                <div className="mt-1 text-[11px] text-[var(--muted)]">{c.role}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {subTab === "scripts" && (
+        <div className="grid gap-4 md:grid-cols-2">
+          {DM_SCRIPTS.map((s) => (
+            <div key={s.title} className="card p-5">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <span className="font-mono-num text-[11px] font-semibold uppercase tracking-wider text-[#0f5257]">
+                  {s.title}
+                </span>
+                <button
+                  onClick={() => copyText(s.text, `"${s.title}" tersalin!`)}
+                  className="inline-flex items-center gap-1 rounded-md border border-[var(--line)] px-2.5 py-1 font-mono-num text-[11px] font-medium hover:bg-[#0b1013] hover:text-white"
+                >
+                  <Copy className="h-3 w-3" />
+                  Salin
+                </button>
+              </div>
+              <pre className="whitespace-pre-wrap font-sans text-xs leading-relaxed text-[var(--ink)]">
+                {s.text}
+              </pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

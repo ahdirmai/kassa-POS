@@ -6,7 +6,8 @@ export type PlanFeature =
   | "stock"
   | "reports"
   | "rbacCustom"
-  | "multiOutlet";
+  | "multiOutlet"
+  | "digitalMenu";
 
 export interface PlanPolicy {
   tier: PlanTier;
@@ -31,6 +32,7 @@ export const PLAN_POLICIES: Record<PlanTier, PlanPolicy> = {
       reports: false,
       rbacCustom: false,
       multiOutlet: false,
+      digitalMenu: false,
     },
   },
   PRO: {
@@ -46,6 +48,7 @@ export const PLAN_POLICIES: Record<PlanTier, PlanPolicy> = {
       reports: true,
       rbacCustom: true,
       multiOutlet: true,
+      digitalMenu: true,
     },
   },
   ENTERPRISE: {
@@ -61,6 +64,7 @@ export const PLAN_POLICIES: Record<PlanTier, PlanPolicy> = {
       reports: true,
       rbacCustom: true,
       multiOutlet: true,
+      digitalMenu: true,
     },
   },
 };

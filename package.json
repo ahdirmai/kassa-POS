@@ -1,5 +1,5 @@
 {
-  "name": "cadra-pos-monorepo",
+  "name": "kassa-pos-monorepo",
   "private": true,
   "packageManager": "pnpm@10.32.0",
   "engines": {
@@ -7,6 +7,11 @@
   },
   "scripts": {
     "dev": "turbo run dev",
+    "dev:api": "pnpm --filter @pos/api dev",
+    "dev:admin-api": "pnpm --filter @pos/admin-api dev",
+    "dev:web": "pnpm --filter @pos/web dev",
+    "dev:landing": "pnpm --filter kassa-landing dev",
+    "dev:backoffice": "pnpm --filter @pos/backoffice dev",
     "build": "turbo run build",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",

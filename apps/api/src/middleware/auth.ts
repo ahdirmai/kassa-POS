@@ -88,6 +88,7 @@ const FEATURE_LABELS: Record<PlanFeature, string> = {
   reports: "Dashboard & Laporan",
   rbacCustom: "Role RBAC Kustom",
   multiOutlet: "Multi-Outlet",
+  digitalMenu: "Landing Page & Menu Digital",
 };
 
 /**

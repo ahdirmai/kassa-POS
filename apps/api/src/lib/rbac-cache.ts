@@ -7,7 +7,7 @@ interface CacheEntry {
   expiresAt: number;
 }
 
-const CACHE_TTL_MS = 30_000;
+const CACHE_TTL_MS = 10_000;
 const userPermCache = new Map<number, CacheEntry>();
 
 export function invalidateRbacCache(userId?: number) {
@@ -50,13 +50,20 @@ export async function getLiveUserAuth(userId: number): Promise<AuthUser | null> 
     return null;
   }
 
+  const rawPlan = normalizePlanTier(user.tenant.plan);
+  const isPlanExpired =
+    rawPlan !== "FREE" &&
+    user.tenant.planExpiresAt !== null &&
+    user.tenant.planExpiresAt.getTime() < Date.now();
+  const effectivePlan = isPlanExpired ? "FREE" : rawPlan;
+
   const live: AuthUser = {
     id: user.id,
     tenantId: user.tenantId,
     tenantName: user.tenant.name,
-    plan: normalizePlanTier(user.tenant.plan),
-    maxOutlets: user.tenant.maxOutlets,
-    maxUsers: user.tenant.maxUsers,
+    plan: effectivePlan,
+    maxOutlets: isPlanExpired ? 1 : user.tenant.maxOutlets,
+    maxUsers: isPlanExpired ? 3 : user.tenant.maxUsers,
     outletId: user.outletId,
     outletCode: user.outlet.code,
     outletName: user.outlet.name,

@@ -219,3 +219,71 @@ export const updateUserSchema = z.object({
   pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").nullable().optional(),
   isActive: z.boolean().optional(),
 });
+
+export const DIGITAL_MENU_THEMES = ["amber", "emerald", "indigo", "rose", "slate"] as const;
+export type DigitalMenuTheme = (typeof DIGITAL_MENU_THEMES)[number];
+
+export const DIGITAL_MENU_SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+export const RESERVED_DIGITAL_MENU_SLUGS = new Set([
+  "admin",
+  "api",
+  "app",
+  "auth",
+  "login",
+  "register",
+  "preview",
+  "sitemap",
+  "robots",
+  "kassa",
+  "menu",
+  "p",
+  "pos",
+  "kds",
+  "docs",
+  "help",
+  "support",
+]);
+
+const optionalUrlSchema = z
+  .string()
+  .trim()
+  .max(500)
+  .refine(
+    (v) => v === "" || /^https?:\/\/.+/i.test(v),
+    "URL harus diawali http:// atau https://",
+  )
+  .nullable()
+  .optional();
+
+export const updateDigitalMenuSchema = z.object({
+  enabled: z.boolean().optional(),
+  slug: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(3, "Slug minimal 3 karakter")
+    .max(80, "Slug maksimal 80 karakter")
+    .regex(DIGITAL_MENU_SLUG_REGEX, "Slug hanya boleh huruf kecil, angka, dan tanda hubung (-)")
+    .optional(),
+  defaultOutletId: z.number().int().positive().nullable().optional(),
+  displayName: z.string().trim().max(120).nullable().optional(),
+  tagline: z.string().trim().max(180).nullable().optional(),
+  description: z.string().trim().max(1500).nullable().optional(),
+  city: z.string().trim().max(80).nullable().optional(),
+  address: z.string().trim().max(255).nullable().optional(),
+  openingHours: z.string().trim().max(120).nullable().optional(),
+  whatsapp: z.string().trim().max(40).nullable().optional(),
+  instagram: z.string().trim().max(80).nullable().optional(),
+  googleMapsUrl: optionalUrlSchema,
+  heroImageUrl: optionalUrlSchema,
+  logoUrl: optionalUrlSchema,
+  themeAccent: z.enum(DIGITAL_MENU_THEMES).optional(),
+  showPrices: z.boolean().optional(),
+  showUnavailable: z.boolean().optional(),
+  seoTitle: z.string().trim().max(140).nullable().optional(),
+  seoDescription: z.string().trim().max(320).nullable().optional(),
+  seoKeywords: z.string().trim().max(320).nullable().optional(),
+  cuisineType: z.string().trim().max(100).nullable().optional(),
+  priceRange: z.enum(["$", "$$", "$$$"]).optional(),
+});

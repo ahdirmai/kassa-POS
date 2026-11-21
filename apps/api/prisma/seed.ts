@@ -36,6 +36,33 @@ async function main() {
     },
   });
 
+  // 1b. Landing Page / Digital Menu Tenant PRO (kassa.biz.id/p/kopi-senja)
+  await prisma.tenantDigitalMenu.upsert({
+    where: { tenantId: tenantPro.id },
+    update: {},
+    create: {
+      tenantId: tenantPro.id,
+      defaultOutletId: outlet.id,
+      enabled: true,
+      displayName: "Kopi & Dapur Senja",
+      tagline: "Specialty Coffee, Artisan Pastry & All-Day Comfort Kitchen di Kemang",
+      description:
+        "Kopi & Dapur Senja menyajikan kopi specialty sangrai segar, signature kopi susu gula aren, pastry hangat setiap pagi, serta hidangan nusantara dan western untuk kerja maupun bersantai bersama teman di Kemang, Jakarta Selatan.",
+      city: "Jakarta Selatan",
+      address: "Jl. Kemang Raya No. 48, Jakarta Selatan",
+      openingHours: "Setiap hari, 07.30 – 22.00 WIB",
+      whatsapp: "628127194820",
+      instagram: "kopisenja.kemang",
+      themeAccent: "amber",
+      showPrices: true,
+      showUnavailable: true,
+      cuisineType: "Coffee Shop, Cafe, Indonesian, Western",
+      priceRange: "$$",
+      seoKeywords:
+        "menu kopi senja, kopi dan dapur senja kemang, cafe kemang jakarta selatan, harga kopi susu gula aren, coffee shop kemang",
+    },
+  });
+
   // 2. Settings (PB1 10%, Service Charge 5%, belum termasuk harga, pajak setelah service, pembulatan Rp100)
   const defaultSettings: Record<string, string> = {
     businessName: "Kopi & Dapur Senja",
@@ -988,7 +1015,52 @@ async function main() {
     });
   }
 
-  console.log("Seed selesai! Akun Multi-Tenant:");
+  // 14. Platform Back Office Superadmin & Sample Subscription Invoice
+  const adminEmail = (process.env.PLATFORM_ADMIN_EMAIL || "superadmin@kassa.biz.id").trim().toLowerCase();
+  const adminPass = process.env.PLATFORM_ADMIN_PASSWORD || "kassa-superadmin-2026";
+  const adminPasswordHash = await bcrypt.hash(adminPass, 10);
+
+  const superAdmin = await prisma.platformAdmin.upsert({
+    where: { email: adminEmail },
+    update: { isActive: true },
+    create: {
+      name: "Kassa Superadmin",
+      email: adminEmail,
+      passwordHash: adminPasswordHash,
+      role: "SUPERADMIN",
+      isActive: true,
+    },
+  });
+
+  // Set default planExpiresAt (+30 hari) untuk tenantPro jika belum ada
+  if (!tenantPro.planExpiresAt) {
+    await prisma.tenant.update({
+      where: { id: tenantPro.id },
+      data: { planExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) },
+    });
+  }
+
+  await prisma.subscriptionInvoice.upsert({
+    where: { invoiceNo: "INV-KSA-SEED-001" },
+    update: {},
+    create: {
+      invoiceNo: "INV-KSA-SEED-001",
+      tenantId: tenantPro.id,
+      plan: "PRO",
+      billingCycle: "MONTHLY",
+      durationDays: 30,
+      amount: BigInt(49_000),
+      status: "PAID",
+      paymentMethod: "MANUAL_TRANSFER",
+      referenceNo: "BCA-20261121-SENJA",
+      notes: "Aktivasi awal paket Kassa Pro (seed)",
+      paidAt: new Date(),
+      approvedById: superAdmin.id,
+    },
+  });
+
+  console.log("Seed selesai! Akun Multi-Tenant & Back Office:");
+  console.log(`  [BACK OFFICE] Superadmin: ${adminEmail} / ${adminPass}`);
   console.log("  [PRO · 2 Outlet] Owner: owner@senja.id / password123 (PIN: 1111, OUT-01 & OUT-02)");
   console.log("  [PRO] Manager: manager@senja.id (2222), Kasir: kasir@senja.id (1234), Dapur: dapur@senja.id (5678)");
   console.log("  [FREE · 1 Outlet, 3 Akun, POS Only] Owner: free@kopipagi.id / password123 (PIN: 7777, PGI-01)");

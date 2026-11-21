@@ -122,7 +122,9 @@ export default function OutletsAndPlanPage() {
                 <span className="text-2xl font-bold">{isFree ? "Starter (FREE)" : "Kassa PRO"}</span>
               </div>
               <p className="mt-1 text-xs text-[var(--muted)]">
-                {isFree ? "Khusus Kasir POS · 1 Outlet · Total 3 Akun" : "All-In: Multi-Outlet, KDS, Stok/HPP & Laporan"}
+                {isFree
+                  ? "Khusus Kasir POS · 1 Outlet · Total 3 Akun"
+                  : "All-In: Multi-Outlet, KDS, Stok/HPP, Laporan & Menu Digital SEO"}
               </p>
               <div className="mt-4">
                 {isFree ? (
@@ -217,7 +219,7 @@ export default function OutletsAndPlanPage() {
                   <p className="font-bold text-amber-800 dark:text-amber-300">Multi-Outlet terkunci di Paket Free</p>
                   <p className="mt-1 text-[var(--muted)]">
                     Paket Free dibatasi 1 Outlet, total 3 akun (1 Owner + 2 Staf), dan khusus layar Kasir POS.
-                    Upgrade ke <b>Kassa Pro (Rp49.000/bulan)</b> untuk menambah outlet serta membuka KDS, Stok/HPP, dan Laporan.
+                    Upgrade ke <b>Kassa Pro (Rp49.000/bulan)</b> untuk menambah outlet serta membuka KDS, Stok/HPP, Laporan, dan Landing Page Menu Digital (SEO Google).
                   </p>
                   <button
                     onClick={() => handleChangePlan("PRO")}

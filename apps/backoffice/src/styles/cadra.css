@@ -1,0 +1,696 @@
+/* Cadra POS visual layer: glassmorphism, mesh, floating dock, mobile bottom bar, sliding tabs, KPIs, POS tiles, serrated thermal receipt */
+
+body {
+  min-height: 100dvh;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+
+/* Ambient blurred mesh */
+.mesh {
+  z-index: -1;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+.mesh i {
+  filter: blur(60px);
+  opacity: 0.95;
+  border-radius: 50%;
+  position: absolute;
+}
+.mesh__a {
+  background: radial-gradient(closest-side, var(--mesh-a), transparent);
+  width: 62vmax;
+  height: 62vmax;
+  top: -24vmax;
+  left: -18vmax;
+}
+.mesh__b {
+  background: radial-gradient(closest-side, var(--mesh-b), transparent);
+  width: 70vmax;
+  height: 70vmax;
+  bottom: -30vmax;
+  right: -24vmax;
+}
+.mesh__c {
+  background: radial-gradient(closest-side, var(--mesh-c), transparent);
+  width: 46vmax;
+  height: 46vmax;
+  top: -16vmax;
+  right: 8vmax;
+}
+
+/* App Shell */
+.cadra-app {
+  max-width: var(--app-max);
+  padding: 20px var(--gutter) 56px calc(var(--dock-x) + var(--dock-w) + var(--gutter));
+  margin: 0 auto;
+  overflow-x: clip;
+}
+@media (max-width: 860px) {
+  .cadra-app {
+    padding: 14px 14px calc(92px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Floating Left Dock (Desktop & Landscape Tablet) */
+.cadra-dock {
+  z-index: 46;
+  left: max(var(--dock-x), calc((100vw - var(--app-max)) / 2 + var(--dock-x)));
+  background: var(--dock);
+  height: fit-content;
+  color: var(--on-dock);
+  border-radius: 999px;
+  flex-direction: column;
+  gap: 4px;
+  margin: auto 0;
+  padding: 8px;
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  box-shadow: 0 20px 40px -18px #0a141e73;
+}
+:root[data-theme="dark"] .cadra-dock {
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--line);
+}
+@media (max-width: 860px) {
+  .cadra-dock {
+    display: none;
+  }
+}
+
+/* Mobile & Portrait Tablet Bottom Navigation Bar */
+.cadra-mobile-nav {
+  display: none;
+}
+@media (max-width: 860px) {
+  .cadra-mobile-nav {
+    z-index: 46;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    background: var(--dock);
+    color: var(--on-dock);
+    border-radius: 999px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2px;
+    box-shadow: 0 20px 40px -14px #0a141e99;
+  }
+  :root[data-theme="dark"] .cadra-mobile-nav {
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--line);
+  }
+}
+
+.dock-btn {
+  width: 44px;
+  height: 44px;
+  color: inherit;
+  opacity: 0.76;
+  border-radius: 50%;
+  place-items: center;
+  display: grid;
+  position: relative;
+  flex: none;
+  transition: background 0.18s var(--ease), opacity 0.18s var(--ease);
+}
+.dock-btn:hover,
+.dock-btn[data-active="true"] {
+  opacity: 1;
+  background: #ffffff21;
+}
+.dock-btn[data-active="true"]::after {
+  content: "";
+  background: var(--dot);
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 50%;
+  right: 3px;
+  transform: translateY(-50%);
+}
+.cadra-mobile-nav .dock-btn[data-active="true"]::after {
+  top: auto;
+  right: auto;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dock-sep {
+  background: #ffffff29;
+  height: 1px;
+  margin: 4px 10px;
+}
+
+/* Top Bar */
+.cadra-top {
+  z-index: 30;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.cadra-top__nav {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .cadra-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .cadra-top__nav {
+    grid-column: 1 / -1;
+    order: 3;
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+.cadra-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  min-width: 0;
+}
+.cadra-brand__mark {
+  background: var(--ink);
+  color: var(--on-ink);
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex: none;
+}
+.cadra-brand__text {
+  display: grid;
+  line-height: 1.1;
+  min-width: 0;
+}
+.cadra-brand__text b {
+  letter-spacing: -0.02em;
+  font-size: 20px;
+  font-weight: 700;
+}
+.cadra-brand__text small {
+  font-size: var(--fs-2xs);
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pill Navigation */
+.ttabs-track {
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--rim);
+  backdrop-filter: blur(14px);
+  border-radius: 999px;
+  padding: 4px;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.ttabs-track::-webkit-scrollbar {
+  display: none;
+}
+.ttab {
+  color: var(--text);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  white-space: nowrap;
+  border-radius: 999px;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  display: inline-flex;
+  flex: none;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.ttab:hover {
+  background: var(--well);
+}
+.ttab[data-active="true"] {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+/* Glass Card */
+.cadra-card {
+  border-radius: var(--r-card);
+  background: var(--glass);
+  border: 1px solid var(--rim);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  padding: 18px;
+}
+@media (max-width: 640px) {
+  .cadra-card {
+    padding: 14px;
+    border-radius: 20px;
+  }
+}
+
+/* KPI Grid — Cadra signature: 1st tile is solid Ink, 2nd tile is solid Accent */
+.cadra-kpis {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  margin-bottom: var(--gap);
+}
+.cadra-stat {
+  border-radius: var(--r-card);
+  background: var(--glass);
+  border: 1px solid var(--rim);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.cadra-kpis > .cadra-stat:first-child {
+  background: var(--ink);
+  color: var(--on-ink);
+  border-color: transparent;
+}
+.cadra-kpis > .cadra-stat:nth-child(2) {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: transparent;
+}
+
+/* Buttons & Chips */
+.btn-cadra {
+  min-height: 40px;
+  border-radius: 999px;
+  padding: 0 16px;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition: transform 0.12s var(--ease), opacity 0.15s, background 0.15s;
+}
+.btn-cadra:active {
+  transform: scale(0.98);
+}
+.btn-cadra--primary {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.btn-cadra--ghost {
+  background: var(--glass-2);
+  border: 1px solid var(--rim);
+  color: var(--text);
+}
+.btn-cadra--danger {
+  background: var(--bad);
+  color: #ffffff;
+}
+:root[data-theme="dark"] .btn-cadra--danger {
+  background: #c93847;
+  color: #ffffff;
+}
+.btn-cadra--accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-cadra:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.chip {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  background: var(--well);
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.chip:hover {
+  color: var(--text);
+}
+.chip[data-active="true"] {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+/* Status Pill */
+.spill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.spill i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.spill--good {
+  background: color-mix(in srgb, var(--good) var(--soft), transparent);
+  color: var(--good);
+}
+.spill--warn {
+  background: color-mix(in srgb, var(--amber) 18%, transparent);
+  color: var(--warn);
+}
+.spill--bad {
+  background: color-mix(in srgb, var(--bad) var(--soft), transparent);
+  color: var(--bad);
+}
+.spill--iris {
+  background: color-mix(in srgb, var(--iris) var(--soft), transparent);
+  color: var(--iris);
+}
+.spill--slate {
+  background: var(--well);
+  color: var(--muted);
+}
+
+/* POS Shelf Tile (Cadra signature monogram card) */
+.pos-tile {
+  --c: var(--iris);
+  text-align: left;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 8px 8px 11px;
+  display: grid;
+  gap: 8px;
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
+}
+.pos-tile:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--c) 45%, transparent);
+  background: color-mix(in srgb, var(--c) 5%, var(--surface-2));
+  transform: translateY(-1px);
+}
+.pos-tile:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.pos-tile__mono {
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--c) 30%, transparent), transparent 60%),
+    color-mix(in srgb, var(--c) 16%, var(--surface));
+  color: color-mix(in srgb, var(--c) 72%, var(--text));
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.pos-tile__mono > b {
+  font-size: clamp(22px, 2.2vw, 32px);
+  letter-spacing: -0.05em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Serrated Thermal Receipt Paper (Cadra .pr-paper) */
+.pr-slot {
+  background: var(--text);
+  opacity: 0.85;
+  border-radius: 6px;
+  height: 12px;
+  margin: 0 12px;
+}
+.pr-paper {
+  background: var(--raised);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-top: 0;
+  margin: -6px 20px 0;
+  padding: 20px 18px 22px;
+  font-size: 12px;
+  line-height: 1.5;
+  box-shadow: 0 14px 24px -18px #00000066;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 8px) no-repeat,
+    radial-gradient(5px at 50% 100%, transparent 98%, #000) bottom / 12px 8px repeat-x;
+}
+.pr-paper hr {
+  border: 0;
+  border-top: 1px dashed var(--line-2);
+  margin: 10px 0;
+}
+
+/* Thermal 58/80mm print rules */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .printable-receipt,
+  .printable-receipt * {
+    visibility: visible !important;
+  }
+  .printable-receipt {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #fff !important;
+    color: #000 !important;
+    mask: none !important;
+  }
+}
+
+/* Input styling */
+.cadra-input {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line-2);
+  background: var(--raised);
+  color: var(--text);
+  padding: 0 12px;
+  font-size: var(--fs-sm);
+  outline: none;
+}
+.cadra-input:focus {
+  border-color: var(--iris);
+}
+.cadra-input--search {
+  padding-left: 36px;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch & Mobile Ergonomics (>= 44px touch targets & prevent iOS auto-zoom) */
+@media (max-width: 860px), (pointer: coarse) {
+  .cadra-input {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .btn-cadra {
+    min-height: 44px;
+  }
+  .chip {
+    min-height: 40px;
+  }
+}
+
+/* Responsive Admin Tables */
+.cadra-table {
+  width: 100%;
+  min-width: 640px;
+  text-align: left;
+  font-size: 12.5px;
+  border-collapse: collapse;
+}
+.cadra-table th,
+.cadra-table td {
+  padding: 10px 10px;
+}
+.cadra-table th:first-child,
+.cadra-table td:first-child {
+  padding-left: 0;
+}
+.cadra-table th:last-child,
+.cadra-table td:last-child {
+  padding-right: 0;
+}
+
+/* Cadra Kanban Board (ported from Cadra .sp-* pipeline board for KDS) */
+.kds-ribbon {
+  display: flex;
+  gap: 3px;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: var(--well);
+}
+.kds-rib {
+  background: var(--c);
+  border-radius: 999px;
+  transition: flex-grow 0.35s var(--ease);
+}
+.kds-scroll {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+.kds-board {
+  display: grid;
+  gap: 14px;
+  align-items: start;
+  grid-template-columns: repeat(var(--cols, 3), minmax(280px, 1fr));
+}
+@media (max-width: 760px) {
+  .kds-scroll {
+    scroll-snap-type: x mandatory;
+    margin: 0 -14px;
+    padding: 0 14px 10px;
+    scroll-padding: 0 14px;
+  }
+  .kds-board {
+    grid-template-columns: repeat(var(--cols, 3), minmax(84vw, 1fr));
+  }
+}
+.kds-col {
+  scroll-snap-align: start;
+  background: var(--surface-2);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 12px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.kds-col.is-over {
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 9%, var(--surface-2));
+}
+.kds-col__head {
+  border-bottom: 2px solid color-mix(in srgb, var(--c) 48%, transparent);
+  padding: 2px 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kds-col__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+}
+.kds-col__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c);
+  flex: none;
+}
+.kds-col__n {
+  background: color-mix(in srgb, var(--c) var(--soft), transparent);
+  color: color-mix(in srgb, var(--c) 72%, var(--text));
+  min-width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  padding: 0 8px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  display: inline-grid;
+  place-items: center;
+}
+.kds-col__empty {
+  border: 1.5px dashed var(--line-2);
+  border-radius: 14px;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--faint);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: 14px;
+}
+.kds-ticket {
+  background: var(--raised);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: grab;
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), border-color 0.15s;
+}
+.kds-ticket:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--line-2);
+}
+.kds-ticket:active {
+  cursor: grabbing;
+}
+.kds-ticket.is-dragging {
+  opacity: 0.45;
+  transform: scale(0.98);
+}
+.kds-ticket.is-overdue {
+  border-color: color-mix(in srgb, var(--bad) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bad) 20%, transparent);
+}

@@ -1,0 +1,171 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Inter", sans-serif;
+      color: #121517;
+    }
+    .kassa-bg {
+      position: absolute;
+      inset: 0;
+      background: #f6f4ef;
+    }
+    .kassa-stage {
+      position: absolute;
+      left: 90px;
+      right: 130px;
+      top: 210px;
+      height: 1100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 26px;
+    }
+    .kassa-eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #0f5257;
+    }
+    .kassa-hero {
+      background: #0b1013;
+      color: #f4f2ec;
+      border-radius: 30px;
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .kassa-hero-row {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .kassa-price {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 82px;
+      font-weight: 800;
+      color: #e5ba78;
+      letter-spacing: -0.03em;
+    }
+    .kassa-unit {
+      font-size: 32px;
+      font-weight: 600;
+      color: #f4f2ec;
+    }
+    .kassa-sub {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      color: #c8cfd6;
+    }
+    .kassa-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .kassa-pill {
+      background: #ffffff;
+      border: 2px solid #e2dfd7;
+      border-radius: 20px;
+      padding: 22px 24px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #121517;
+    }
+    .kassa-check {
+      color: #0f5257;
+      margin-right: 10px;
+    }
+    .kassa-frame {
+      background: #ffffff;
+      border: 2px solid #d5d0c4;
+      border-radius: 24px;
+      padding: 14px;
+      overflow: hidden;
+    }
+    .kassa-shot {
+      display: block;
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 14px;
+    }
+    .kassa-save {
+      background: #0f5257;
+      color: #ffffff;
+      border-radius: 22px;
+      padding: 26px 32px;
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+  </style>
+
+  <div id="root" data-composition-id="kassa" data-width="1080" data-height="1920">
+    <div class="kassa-bg" data-layout-ignore></div>
+
+    <div class="kassa-stage">
+      <div id="kassa-head-clip" class="clip" data-start="0" data-duration="5.5">
+        <div id="kassa-head-inner" class="kassa-eyebrow">KASSA PRO · ALL-IN TANPA ADD-ON</div>
+      </div>
+
+      <div id="kassa-hero-clip" class="clip" data-start="0.15" data-duration="5.35">
+        <div id="kassa-hero-inner" class="kassa-hero">
+          <div class="kassa-hero-row">
+            <span class="kassa-price" data-var-text="kassa_price">Rp49.000</span>
+            <span class="kassa-unit">/ outlet / bln</span>
+          </div>
+          <div class="kassa-sub">~Rp1.600/hari · Rp0 komisi transaksi</div>
+        </div>
+      </div>
+
+      <div id="kassa-list-clip" class="clip" data-start="0.9" data-duration="4.6">
+        <div id="kassa-list-inner" class="kassa-grid">
+          <div class="kassa-pill"><span class="kassa-check">✓</span>POS Offline</div>
+          <div class="kassa-pill"><span class="kassa-check">✓</span>Layar Dapur KDS</div>
+          <div class="kassa-pill"><span class="kassa-check">✓</span>Stok &amp; HPP Auto</div>
+          <div class="kassa-pill"><span class="kassa-check">✓</span>Multi-Outlet</div>
+        </div>
+      </div>
+
+      <div id="kassa-ui-clip" class="clip" data-start="1.7" data-duration="3.8">
+        <div id="kassa-ui-inner" class="kassa-frame">
+          <img class="kassa-shot" src="assets/04-dashboard.png" alt="Dashboard Kassa" />
+        </div>
+      </div>
+
+      <div id="kassa-save-clip" class="clip" data-start="2.5" data-duration="3.0">
+        <div id="kassa-save-inner" class="kassa-save" data-var-text="yearly_savings">
+          HEMAT Rp3.012.000 / TAHUN
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#kassa-head-inner", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 0);
+    tl.fromTo(
+      "#kassa-hero-inner",
+      { opacity: 0, y: 30, scale: 0.96 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power3.out" },
+      0.15,
+    );
+    tl.fromTo("#kassa-list-inner", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.9);
+    tl.fromTo("#kassa-ui-inner", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 1.7);
+    tl.fromTo(
+      "#kassa-save-inner",
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.6)" },
+      2.5,
+    );
+    window.__timelines["kassa"] = tl;
+    tl.seek(0);
+  </script>
+</template>

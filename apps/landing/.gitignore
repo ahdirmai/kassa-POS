@@ -1,0 +1,4 @@
+# Local runtime JSON storage (content, leads, analytics)
+data/
+public/uploads/
+public/screenshots/.backup/

@@ -20,6 +20,7 @@ import { syncRouter } from "./modules/sync/sync.routes.js";
 import { rbacRouter } from "./modules/rbac/rbac.routes.js";
 import { outletsRouter } from "./modules/outlets/outlets.routes.js";
 import { onboardingRouter } from "./modules/onboarding/onboarding.routes.js";
+import { digitalMenuRouter, publicDigitalMenuRouter } from "./modules/digital-menu/digital-menu.routes.js";
 
 export function createApp() {
   const app = express();
@@ -65,6 +66,8 @@ export function createApp() {
   app.use("/api/v1/rbac", rbacRouter);
   app.use("/api/v1/outlets", outletsRouter);
   app.use("/api/v1/onboarding", onboardingRouter);
+  app.use("/api/v1/digital-menu", digitalMenuRouter);
+  app.use("/api/v1/public/digital-menu", publicDigitalMenuRouter);
 
   app.use(errorHandler);
   return app;

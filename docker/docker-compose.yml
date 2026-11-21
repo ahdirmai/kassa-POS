@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: cadra_pos_mysql
+    container_name: kassa_mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root_password
@@ -21,7 +21,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: cadra_pos_redis
+    container_name: kassa_redis
     restart: unless-stopped
     ports:
       - "6380:6379"

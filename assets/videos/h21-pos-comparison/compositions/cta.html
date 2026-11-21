@@ -1,0 +1,156 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Inter", sans-serif;
+      color: #f4f2ec;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 22%, rgba(15, 82, 87, 0.36), transparent 52%),
+        radial-gradient(circle at 82% 70%, rgba(217, 169, 98, 0.22), transparent 50%),
+        #0b1013;
+    }
+    .cta-stage {
+      position: absolute;
+      left: 90px;
+      right: 130px;
+      top: 250px;
+      height: 1020px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 36px;
+    }
+    .cta-brand {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .cta-mark {
+      width: 78px;
+      height: 78px;
+      border-radius: 18px;
+      background: #f4f2ec;
+      color: #0b1013;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+      font-weight: 800;
+    }
+    .cta-brand-name {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .cta-h1 {
+      font-size: 84px;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .cta-italic {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 700;
+      color: #e5ba78;
+    }
+    .cta-plans {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    .cta-plan {
+      background: #12181b;
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      padding: 24px 30px;
+      font-size: 32px;
+      font-weight: 700;
+      color: #f4f2ec;
+    }
+    .cta-plan-gold {
+      color: #e5ba78;
+      font-family: "JetBrains Mono", monospace;
+    }
+    .cta-btn {
+      background: #d9a962;
+      color: #0b1013;
+      border-radius: 999px;
+      padding: 28px 54px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .cta-note {
+      font-size: 30px;
+      color: #cbd2d9;
+      font-weight: 600;
+    }
+  </style>
+
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <div class="cta-bg" data-layout-ignore></div>
+
+    <div class="cta-stage">
+      <div id="cta-brand-clip" class="clip" data-start="0" data-duration="3.5">
+        <div id="cta-brand-inner" class="cta-brand">
+          <div class="cta-mark">K</div>
+          <div class="cta-brand-name">Kassa</div>
+        </div>
+      </div>
+
+      <div id="cta-title-clip" class="clip" data-start="0.15" data-duration="3.35">
+        <div id="cta-title-inner" class="cta-h1">
+          Hemat Rp3 juta/thn
+          <span class="cta-italic">tanpa kurangi fitur.</span>
+        </div>
+      </div>
+
+      <div id="cta-plans-clip" class="clip" data-start="0.6" data-duration="2.9">
+        <div id="cta-plans-inner" class="cta-plans">
+          <div class="cta-plan">
+            <span class="cta-plan-gold">Starter Rp0</span> · Gratis selamanya (1 outlet)
+          </div>
+          <div class="cta-plan">
+            <span class="cta-plan-gold">Trial Pro 14 Hari</span> · All-In Rp49rb/bln
+          </div>
+        </div>
+      </div>
+
+      <div id="cta-btn-clip" class="clip" data-start="0.7" data-duration="2.8">
+        <div id="cta-btn-inner">
+          <div class="cta-btn" data-var-text="cta_url">kassa.biz.id</div>
+        </div>
+      </div>
+
+      <div id="cta-note-clip" class="clip" data-start="0.85" data-duration="2.65">
+        <div id="cta-note-inner" class="cta-note">Komen "KASSA" untuk link demo</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cta-brand-inner", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0);
+    tl.fromTo("#cta-title-inner", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.1);
+    tl.fromTo("#cta-plans-inner", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.4);
+    tl.fromTo(
+      "#cta-btn-inner",
+      { opacity: 0, scale: 0.92 },
+      { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.5)" },
+      0.7,
+    );
+    tl.fromTo("#cta-note-inner", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.85);
+    window.__timelines["cta"] = tl;
+    tl.seek(0);
+  </script>
+</template>

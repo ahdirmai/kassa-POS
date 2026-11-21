@@ -23,9 +23,44 @@ model Tenant {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  outlets Outlet[]
-  users   User[]
-  roles   Role[]
+  outlets              Outlet[]
+  users                User[]
+  roles                Role[]
+  subscriptionInvoices SubscriptionInvoice[]
+  convertedLeads       LandingLead[]
+  digitalMenu          TenantDigitalMenu?
+}
+
+model TenantDigitalMenu {
+  id              Int      @id @default(autoincrement())
+  tenantId        Int      @unique
+  defaultOutletId Int?
+  enabled         Boolean  @default(false)
+  displayName     String?  @db.VarChar(120)
+  tagline         String?  @db.VarChar(180)
+  description     String?  @db.Text
+  city            String?  @db.VarChar(80)
+  address         String?  @db.VarChar(255)
+  openingHours    String?  @db.VarChar(120)
+  whatsapp        String?  @db.VarChar(40)
+  instagram       String?  @db.VarChar(80)
+  googleMapsUrl   String?  @db.VarChar(500)
+  heroImageUrl    String?  @db.VarChar(500)
+  logoUrl         String?  @db.VarChar(500)
+  themeAccent     String   @default("amber") @db.VarChar(20)
+  showPrices      Boolean  @default(true)
+  showUnavailable Boolean  @default(true)
+  seoTitle        String?  @db.VarChar(140)
+  seoDescription  String?  @db.VarChar(320)
+  seoKeywords     String?  @db.VarChar(320)
+  cuisineType     String?  @db.VarChar(100)
+  priceRange      String   @default("$$") @db.VarChar(10)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([enabled])
 }
 
 model Outlet {
@@ -587,4 +622,122 @@ model SyncLog {
   processedAt DateTime @default(now())
 
   @@unique([outletId, clientUuid])
+}
+
+// ============================================================================
+// BACK OFFICE: PLATFORM ADMIN, AUDIT & SUBSCRIPTION BILLING
+// ============================================================================
+
+model PlatformAdmin {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(120)
+  email        String    @unique @db.VarChar(120)
+  passwordHash String    @db.VarChar(255)
+  role         String    @default("SUPERADMIN") @db.VarChar(24) // SUPERADMIN | OPS | MARKETING | SUPPORT
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  auditLogs        PlatformAuditLog[]
+  approvedInvoices SubscriptionInvoice[] @relation("InvoiceApprover")
+}
+
+model PlatformAuditLog {
+  id         Int      @id @default(autoincrement())
+  adminId    Int?
+  action     String   @db.VarChar(80)
+  targetType String   @db.VarChar(40) // TENANT | INVOICE | ADMIN | LANDING | MARKETING
+  targetId   String?  @db.VarChar(60)
+  summary    String   @db.VarChar(255)
+  metadata   String?  @db.Text
+  ipAddress  String?  @db.VarChar(64)
+  createdAt  DateTime @default(now())
+
+  admin PlatformAdmin? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([targetType, targetId])
+}
+
+model SubscriptionInvoice {
+  id            Int       @id @default(autoincrement())
+  invoiceNo     String    @unique @db.VarChar(40)
+  tenantId      Int
+  plan          String    @db.VarChar(20) // PRO | ENTERPRISE
+  billingCycle  String    @default("MONTHLY") @db.VarChar(20) // MONTHLY | YEARLY | CUSTOM
+  durationDays  Int       @default(30)
+  amount        BigInt
+  status        String    @default("PENDING") @db.VarChar(20) // PENDING | PAID | CANCELLED | REFUNDED
+  paymentMethod String    @default("MANUAL_TRANSFER") @db.VarChar(30)
+  referenceNo   String?   @db.VarChar(120)
+  notes         String?   @db.VarChar(255)
+  paidAt        DateTime?
+  approvedById  Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenant     Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  approvedBy PlatformAdmin? @relation("InvoiceApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+
+  @@index([tenantId, createdAt])
+  @@index([status, createdAt])
+}
+
+// ============================================================================
+// BACK OFFICE PHASE 2: LANDING CMS, LEADS CRM & ANALYTICS
+// ============================================================================
+
+model LandingContent {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique @default("default") @db.VarChar(40)
+  data        String   @db.LongText
+  updatedById Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LandingLead {
+  id                Int      @id @default(autoincrement())
+  leadCode          String   @unique @db.VarChar(40)
+  name              String   @db.VarChar(120)
+  businessName      String   @db.VarChar(150)
+  whatsapp          String   @db.VarChar(40)
+  email             String?  @db.VarChar(120)
+  outletCount       String   @default("1 outlet") @db.VarChar(40)
+  planInterest      String   @default("Pro") @db.VarChar(40)
+  message           String?  @db.Text
+  status            String   @default("new") @db.VarChar(20) // new | contacted | demo | won | lost
+  notes             String?  @db.Text
+  source            String   @default("landing-form") @db.VarChar(60)
+  utmSource         String?  @db.VarChar(80)
+  utmMedium         String?  @db.VarChar(80)
+  utmCampaign       String?  @db.VarChar(120)
+  convertedTenantId Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  convertedTenant Tenant? @relation(fields: [convertedTenantId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([convertedTenantId])
+}
+
+model LandingAnalyticsEvent {
+  id          Int      @id @default(autoincrement())
+  type        String   @db.VarChar(20) // pageview | click
+  visitorId   String   @db.VarChar(80)
+  path        String   @default("/") @db.VarChar(255)
+  referrer    String?  @db.VarChar(255)
+  source      String   @default("Direct") @db.VarChar(80)
+  device      String   @default("Desktop") @db.VarChar(20)
+  label       String?  @db.VarChar(120)
+  target      String?  @db.VarChar(255)
+  utmSource   String?  @db.VarChar(80)
+  utmMedium   String?  @db.VarChar(80)
+  utmCampaign String?  @db.VarChar(120)
+  createdAt   DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([createdAt])
 }

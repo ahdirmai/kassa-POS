@@ -1,0 +1,123 @@
+<!doctype html>
+<html
+  lang="id"
+  data-composition-variables='[
+    {"id":"competitor_price","type":"string","label":"Harga POS Lama","default":"Rp300rb / bln"},
+    {"id":"kassa_price","type":"string","label":"Harga Kassa Pro","default":"Rp49.000"},
+    {"id":"yearly_savings","type":"string","label":"Penghematan Tahunan","default":"HEMAT Rp3.012.000 / TAHUN"},
+    {"id":"cta_url","type":"string","label":"Website CTA","default":"kassa.biz.id"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Kassa H21 — Perbandingan Biaya POS Rp300rb vs Rp49rb</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0b1013;
+        font-family: "Inter", sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="18"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div
+        id="hook"
+        class="clip"
+        data-composition-id="hook"
+        data-composition-src="compositions/hook.html"
+        data-start="0"
+        data-duration="4"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 1"
+      ></div>
+
+      <div
+        id="oldpos"
+        class="clip"
+        data-composition-id="oldpos"
+        data-composition-src="compositions/oldpos.html"
+        data-start="4"
+        data-duration="5"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 2"
+      ></div>
+
+      <div
+        id="kassa"
+        class="clip"
+        data-composition-id="kassa"
+        data-composition-src="compositions/kassa.html"
+        data-start="9"
+        data-duration="5.5"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 3"
+      ></div>
+
+      <div
+        id="cta"
+        class="clip"
+        data-composition-id="cta"
+        data-composition-src="compositions/cta.html"
+        data-start="14.5"
+        data-duration="3.5"
+        data-track-index="0"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 4"
+      ></div>
+
+      <audio
+        id="bgm"
+        class="clip"
+        src="assets/bgm.wav"
+        data-start="0"
+        data-duration="18"
+        data-volume="0.55"
+        data-fade-in="0.4"
+        data-fade-out="1.2"
+        data-track-index="1"
+      ></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

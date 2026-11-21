@@ -1,0 +1,171 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Inter", sans-serif;
+      color: #f4f2ec;
+    }
+    .old-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(220, 38, 38, 0.22), transparent 50%),
+        #0b1013;
+    }
+    .old-stage {
+      position: absolute;
+      left: 90px;
+      right: 130px;
+      top: 230px;
+      height: 1060px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+    .old-eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #f87171;
+    }
+    .old-h2 {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #f4f2ec;
+    }
+    .old-row {
+      background: #12181b;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .old-row-label {
+      font-size: 34px;
+      font-weight: 700;
+      color: #f4f2ec;
+    }
+    .old-row-sub {
+      font-size: 28px;
+      color: #b4bcc4;
+      margin-top: 6px;
+    }
+    .old-row-price {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 38px;
+      font-weight: 700;
+      color: #f87171;
+      white-space: nowrap;
+    }
+    .old-total {
+      background: rgba(220, 38, 38, 0.18);
+      border: 3px solid #f87171;
+      border-radius: 28px;
+      padding: 34px 38px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .old-total-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .old-total-k {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fca5a5;
+    }
+    .old-total-v {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 56px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .old-total-yr {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fca5a5;
+    }
+  </style>
+
+  <div id="root" data-composition-id="oldpos" data-width="1080" data-height="1920">
+    <div class="old-bg" data-layout-ignore></div>
+
+    <div class="old-stage">
+      <div id="old-head-clip" class="clip" data-start="0" data-duration="5">
+        <div id="old-head-inner">
+          <div class="old-eyebrow">JEBAKAN ADD-ON POS LAMA</div>
+          <div class="old-h2">Harga awal murah, tapi fitur penting bayar lagi.</div>
+        </div>
+      </div>
+
+      <div id="old-r1-clip" class="clip" data-start="0.3" data-duration="4.7">
+        <div id="old-r1-inner" class="old-row">
+          <div>
+            <div class="old-row-label">01 · Paket Kasir Dasar</div>
+            <div class="old-row-sub">POS standar 1 outlet</div>
+          </div>
+          <div class="old-row-price">Rp150rb</div>
+        </div>
+      </div>
+
+      <div id="old-r2-clip" class="clip" data-start="1.1" data-duration="3.9">
+        <div id="old-r2-inner" class="old-row">
+          <div>
+            <div class="old-row-label">02 · Add-on Stok &amp; Resep</div>
+            <div class="old-row-sub">Biaya tambahan bulanan</div>
+          </div>
+          <div class="old-row-price">+ Rp75rb</div>
+        </div>
+      </div>
+
+      <div id="old-r3-clip" class="clip" data-start="1.9" data-duration="3.1">
+        <div id="old-r3-inner" class="old-row">
+          <div>
+            <div class="old-row-label">03 · Add-on Layar Dapur</div>
+            <div class="old-row-sub">Kitchen Display System</div>
+          </div>
+          <div class="old-row-price">+ Rp75rb</div>
+        </div>
+      </div>
+
+      <div id="old-tot-clip" class="clip" data-start="2.7" data-duration="2.3">
+        <div id="old-tot-inner" class="old-total">
+          <div class="old-total-top">
+            <span class="old-total-k">TOTAL PER OUTLET</span>
+            <span class="old-total-v">Rp300rb/bln</span>
+          </div>
+          <div class="old-total-yr">= Rp3.600.000 / tahun (belum termasuk komisi)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#old-head-inner", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0);
+    tl.fromTo("#old-r1-inner", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.3);
+    tl.fromTo("#old-r2-inner", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 1.1);
+    tl.fromTo("#old-r3-inner", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 1.9);
+    tl.fromTo(
+      "#old-tot-inner",
+      { opacity: 0, scale: 0.92, y: 24 },
+      { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.4)" },
+      2.7,
+    );
+    window.__timelines["oldpos"] = tl;
+    tl.seek(0);
+  </script>
+</template>
