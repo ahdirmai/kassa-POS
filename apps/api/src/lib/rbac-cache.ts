@@ -63,6 +63,7 @@ export async function getLiveUserAuth(userId: number): Promise<AuthUser | null> 
     outlets: user.role.code === "OWNER" ? user.tenant.outlets : [user.outlet],
     name: user.name,
     email: user.email,
+    hasPin: Boolean(user.pinHash),
     roleCode: user.role.code,
     roleName: user.role.name,
     permissions: user.role.permissions.map((rp) => rp.permission.code),

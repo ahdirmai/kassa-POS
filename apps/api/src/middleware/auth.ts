@@ -26,6 +26,7 @@ export interface AuthUser {
   outlets: AuthOutletSummary[];
   name: string;
   email: string;
+  hasPin: boolean;
   roleCode: string;
   roleName: string;
   permissions: string[];
