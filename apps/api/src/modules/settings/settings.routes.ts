@@ -2,6 +2,7 @@ import { Router } from "express";
 import { updateSettingsSchema } from "@pos/shared";
 import { prisma, serializeJson } from "../../lib/prisma.js";
 import { getOutletSettingsMap } from "../../lib/settings.js";
+import { invalidateRbacCache } from "../../lib/rbac-cache.js";
 import { writeAuditLog } from "../../lib/audit.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
@@ -11,12 +12,15 @@ settingsRouter.use(requireAuth);
 
 settingsRouter.get("/", async (req, res, next) => {
   try {
-    const map = await getOutletSettingsMap(req.user!.outletId);
+    const [map, outlet] = await Promise.all([
+      getOutletSettingsMap(req.user!.outletId),
+      prisma.outlet.findUnique({ where: { id: req.user!.outletId } }),
+    ]);
     res.json({
-      businessName: map.businessName ?? "Kopi & Dapur Senja",
-      outletName: map.outletName ?? "Outlet Utama",
-      address: map.address ?? "",
-      phone: map.phone ?? "",
+      businessName: map.businessName ?? req.user!.tenantName ?? "Kassa POS",
+      outletName: map.outletName ?? outlet?.name ?? req.user!.outletName ?? "Outlet Utama",
+      address: map.address ?? outlet?.address ?? "",
+      phone: map.phone ?? outlet?.phone ?? "",
       receiptFooter: map.receiptFooter ?? "",
       taxRatePercent: Number(map.taxRatePercent ?? 10),
       serviceChargePercent: Number(map.serviceChargePercent ?? 5),
@@ -46,6 +50,23 @@ settingsRouter.patch(
           update: { value: String(val) },
           create: { outletId, key, value: String(val) },
         });
+      }
+
+      // Sinkronkan nama/alamat/telepon outlet ke tabel Outlet agar switcher selalu konsisten
+      if (
+        req.body.outletName !== undefined ||
+        req.body.address !== undefined ||
+        req.body.phone !== undefined
+      ) {
+        await prisma.outlet.update({
+          where: { id: outletId },
+          data: {
+            ...(req.body.outletName ? { name: String(req.body.outletName).trim() } : {}),
+            ...(req.body.address !== undefined ? { address: String(req.body.address).trim() || null } : {}),
+            ...(req.body.phone !== undefined ? { phone: String(req.body.phone).trim() || null } : {}),
+          },
+        });
+        invalidateRbacCache();
       }
 
       await writeAuditLog({

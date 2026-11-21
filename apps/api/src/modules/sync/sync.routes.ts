@@ -2,8 +2,9 @@ import { Router } from "express";
 import { calculateCashChange, calculateOrderTotals, syncPushSchema } from "@pos/shared";
 import { prisma, serializeJson } from "../../lib/prisma.js";
 import { getOutletTaxConfig } from "../../lib/settings.js";
-import { requireAuth } from "../../middleware/auth.js";
+import { requireAuth, requirePermission } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
+import { AppError } from "../../middleware/error.js";
 import {
   deductStockForOrder,
   generateDailyOrderNumbers,
@@ -50,7 +51,7 @@ syncRouter.get("/pull", async (req, res, next) => {
 /**
  * Push batch transaksi tunai offline secara idempotent berdasarkan clientUuid.
  */
-syncRouter.post("/push", validateBody(syncPushSchema), async (req, res, next) => {
+syncRouter.post("/push", requirePermission("order.create"), validateBody(syncPushSchema), async (req, res, next) => {
   try {
     const outletId = req.user!.outletId;
     const taxCfg = await getOutletTaxConfig(outletId);
@@ -62,13 +63,22 @@ syncRouter.post("/push", validateBody(syncPushSchema), async (req, res, next) =>
     const results: Array<{ clientUuid: string; status: string; orderNo?: string; receiptNo?: string }> = [];
 
     for (const tx of req.body.transactions) {
-      const existingSync = await prisma.syncLog.findUnique({ where: { clientUuid: tx.clientUuid } });
+      const existingSync = await prisma.syncLog.findUnique({
+        where: { outletId_clientUuid: { outletId, clientUuid: tx.clientUuid } },
+      });
       if (existingSync) {
         results.push({ clientUuid: tx.clientUuid, status: "DUPLICATE_SKIPPED" });
         continue;
       }
 
-      const resolved = await resolveOrderItemsInput(tx.items);
+      if (tx.tableId) {
+        const table = await prisma.diningTable.findFirst({ where: { id: tx.tableId, outletId } });
+        if (!table) {
+          throw new AppError(404, "TABLE_NOT_FOUND", "Meja tidak ditemukan pada outlet ini");
+        }
+      }
+
+      const resolved = await resolveOrderItemsInput(tx.items, outletId);
       const totals = calculateOrderTotals(
         resolved.map((it) => ({
           unitPrice: it.unitPrice,

@@ -18,7 +18,7 @@ export function emitTableUpdate(outletId: number, payload: unknown) {
   ioInstance?.to(`tables:outlet:${outletId}`).emit("table:updated", payload);
 }
 
-export function emitKdsUpdate(stationCode: string, payload: unknown) {
-  ioInstance?.to(`kds:${stationCode}`).emit("kds:updated", payload);
-  ioInstance?.to("kds:ALL").emit("kds:updated", payload);
+export function emitKdsUpdate(outletId: number, stationCode: string, payload: unknown) {
+  ioInstance?.to(`kds:outlet:${outletId}:${stationCode}`).emit("kds:updated", payload);
+  ioInstance?.to(`kds:outlet:${outletId}:ALL`).emit("kds:updated", payload);
 }

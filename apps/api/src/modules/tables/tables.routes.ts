@@ -85,6 +85,8 @@ tablesRouter.post("/areas", requirePermission("table.manage"), validateBody(area
 tablesRouter.patch("/areas/:id", requirePermission("table.manage"), validateBody(areaSchema), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
+    const existing = await prisma.area.findFirst({ where: { id, outletId: req.user!.outletId } });
+    if (!existing) throw new AppError(404, "AREA_NOT_FOUND", "Area tidak ditemukan");
     const updated = await prisma.area.update({
       where: { id },
       data: {
@@ -101,7 +103,9 @@ tablesRouter.patch("/areas/:id", requirePermission("table.manage"), validateBody
 tablesRouter.delete("/areas/:id", requirePermission("table.manage"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const count = await prisma.diningTable.count({ where: { areaId: id } });
+    const existing = await prisma.area.findFirst({ where: { id, outletId: req.user!.outletId } });
+    if (!existing) throw new AppError(404, "AREA_NOT_FOUND", "Area tidak ditemukan");
+    const count = await prisma.diningTable.count({ where: { areaId: id, outletId: req.user!.outletId } });
     if (count > 0) {
       throw new AppError(400, "AREA_NOT_EMPTY", "Hapus atau pindahkan semua meja di area ini terlebih dahulu");
     }
@@ -115,15 +119,19 @@ tablesRouter.delete("/areas/:id", requirePermission("table.manage"), async (req,
 // CRUD Meja
 tablesRouter.post("/", requirePermission("table.manage"), validateBody(createTableSchema), async (req, res, next) => {
   try {
+    const outletId = req.user!.outletId;
+    const area = await prisma.area.findFirst({ where: { id: req.body.areaId, outletId } });
+    if (!area) throw new AppError(404, "AREA_NOT_FOUND", "Area tidak ditemukan pada outlet ini");
+
     const code = req.body.code.trim().toUpperCase();
     const exists = await prisma.diningTable.findUnique({
-      where: { outletId_code: { outletId: req.user!.outletId, code } },
+      where: { outletId_code: { outletId, code } },
     });
     if (exists) throw new AppError(409, "TABLE_CODE_EXISTS", `Kode meja ${code} sudah digunakan`);
 
     const created = await prisma.diningTable.create({
       data: {
-        outletId: req.user!.outletId,
+        outletId,
         areaId: req.body.areaId,
         code,
         name: req.body.name.trim(),
@@ -131,7 +139,7 @@ tablesRouter.post("/", requirePermission("table.manage"), validateBody(createTab
         qrToken: crypto.randomBytes(12).toString("hex"),
       },
     });
-    emitTableUpdate(req.user!.outletId, { type: "CREATED", tableId: created.id });
+    emitTableUpdate(outletId, { type: "CREATED", tableId: created.id });
     res.status(201).json(serializeJson(created));
   } catch (err) {
     next(err);
@@ -141,6 +149,13 @@ tablesRouter.post("/", requirePermission("table.manage"), validateBody(createTab
 tablesRouter.patch("/:id", requirePermission("table.manage"), validateBody(updateTableSchema), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
+    const outletId = req.user!.outletId;
+    const existing = await prisma.diningTable.findFirst({ where: { id, outletId } });
+    if (!existing) throw new AppError(404, "TABLE_NOT_FOUND", "Meja tidak ditemukan");
+    if (req.body.areaId !== undefined) {
+      const area = await prisma.area.findFirst({ where: { id: req.body.areaId, outletId } });
+      if (!area) throw new AppError(404, "AREA_NOT_FOUND", "Area tidak ditemukan pada outlet ini");
+    }
     const updated = await prisma.diningTable.update({
       where: { id },
       data: {
@@ -151,7 +166,7 @@ tablesRouter.patch("/:id", requirePermission("table.manage"), validateBody(updat
         ...(req.body.status !== undefined ? { status: req.body.status } : {}),
       },
     });
-    emitTableUpdate(req.user!.outletId, { type: "UPDATED", tableId: id });
+    emitTableUpdate(outletId, { type: "UPDATED", tableId: id });
     res.json(serializeJson(updated));
   } catch (err) {
     next(err);
@@ -161,36 +176,46 @@ tablesRouter.patch("/:id", requirePermission("table.manage"), validateBody(updat
 tablesRouter.delete("/:id", requirePermission("table.manage"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
+    const outletId = req.user!.outletId;
+    const existing = await prisma.diningTable.findFirst({ where: { id, outletId } });
+    if (!existing) throw new AppError(404, "TABLE_NOT_FOUND", "Meja tidak ditemukan");
     const active = await prisma.order.count({
-      where: { tableId: id, status: { in: ["OPEN", "SENT", "SERVED"] } },
+      where: { tableId: id, outletId, status: { in: ["OPEN", "SENT", "SERVED"] } },
     });
     if (active > 0) {
       throw new AppError(400, "TABLE_HAS_ACTIVE_ORDER", "Meja sedang memiliki order aktif, selesaikan atau pindah dulu");
     }
     await prisma.diningTable.delete({ where: { id } });
-    emitTableUpdate(req.user!.outletId, { type: "DELETED", tableId: id });
+    emitTableUpdate(outletId, { type: "DELETED", tableId: id });
     res.json({ ok: true });
   } catch (err) {
     next(err);
   }
 });
 
-tablesRouter.post("/:id/move", validateBody(moveTableSchema), async (req, res, next) => {
+tablesRouter.post("/:id/move", requirePermission("order.create"), validateBody(moveTableSchema), async (req, res, next) => {
   try {
     const sourceId = Number(req.params.id);
+    const outletId = req.user!.outletId;
     const { targetTableId } = req.body;
     if (sourceId === targetTableId) {
       throw new AppError(400, "SAME_TABLE", "Meja tujuan tidak boleh sama dengan meja asal");
     }
 
     const result = await prisma.$transaction(async (tx) => {
-      const target = await tx.diningTable.findUnique({ where: { id: targetTableId } });
-      if (!target || target.status !== "AVAILABLE") {
+      const [source, target] = await Promise.all([
+        tx.diningTable.findFirst({ where: { id: sourceId, outletId } }),
+        tx.diningTable.findFirst({ where: { id: targetTableId, outletId } }),
+      ]);
+      if (!source || !target) {
+        throw new AppError(404, "TABLE_NOT_FOUND", "Meja asal atau tujuan tidak ditemukan pada outlet ini");
+      }
+      if (target.status !== "AVAILABLE") {
         throw new AppError(409, "TABLE_NOT_AVAILABLE", "Meja tujuan sedang terisi");
       }
 
       const activeOrder = await tx.order.findFirst({
-        where: { tableId: sourceId, status: { in: ["OPEN", "SENT", "SERVED"] } },
+        where: { tableId: sourceId, outletId, status: { in: ["OPEN", "SENT", "SERVED"] } },
       });
       if (!activeOrder) {
         throw new AppError(404, "NO_ACTIVE_ORDER", "Tidak ada order aktif di meja asal");
@@ -203,27 +228,35 @@ tablesRouter.post("/:id/move", validateBody(moveTableSchema), async (req, res, n
       return { orderId: activeOrder.id, from: sourceId, to: targetTableId };
     });
 
-    emitTableUpdate(req.user!.outletId, { type: "MOVED", ...result });
+    emitTableUpdate(outletId, { type: "MOVED", ...result });
     res.json(result);
   } catch (err) {
     next(err);
   }
 });
 
-tablesRouter.post("/merge", validateBody(mergeTablesSchema), async (req, res, next) => {
+tablesRouter.post("/merge", requirePermission("order.create"), validateBody(mergeTablesSchema), async (req, res, next) => {
   try {
+    const outletId = req.user!.outletId;
     const { sourceTableId, targetTableId } = req.body;
     if (sourceTableId === targetTableId) {
       throw new AppError(400, "SAME_TABLE", "Pilih dua meja yang berbeda untuk digabung");
     }
 
     const result = await prisma.$transaction(async (tx) => {
+      const [sourceTable, targetTable] = await Promise.all([
+        tx.diningTable.findFirst({ where: { id: sourceTableId, outletId } }),
+        tx.diningTable.findFirst({ where: { id: targetTableId, outletId } }),
+      ]);
+      if (!sourceTable || !targetTable) {
+        throw new AppError(404, "TABLE_NOT_FOUND", "Meja tidak ditemukan pada outlet ini");
+      }
       const sourceOrder = await tx.order.findFirst({
-        where: { tableId: sourceTableId, status: { in: ["OPEN", "SENT", "SERVED"] } },
+        where: { tableId: sourceTableId, outletId, status: { in: ["OPEN", "SENT", "SERVED"] } },
         include: { items: true },
       });
       const targetOrder = await tx.order.findFirst({
-        where: { tableId: targetTableId, status: { in: ["OPEN", "SENT", "SERVED"] } },
+        where: { tableId: targetTableId, outletId, status: { in: ["OPEN", "SENT", "SERVED"] } },
       });
       if (!sourceOrder || !targetOrder) {
         throw new AppError(400, "MERGE_REQUIRES_ACTIVE", "Kedua meja harus memiliki order aktif untuk digabung");

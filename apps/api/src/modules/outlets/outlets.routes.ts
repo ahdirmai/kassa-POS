@@ -4,13 +4,14 @@ import {
   createOutletSchema,
   PLAN_POLICIES,
   switchOutletSchema,
+  updateOutletSchema,
   updatePlanSchema,
 } from "@pos/shared";
 import { env } from "../../config/env.js";
 import { prisma } from "../../lib/prisma.js";
 import { invalidateRbacCache } from "../../lib/rbac-cache.js";
 import { writeAuditLog } from "../../lib/audit.js";
-import { requireAuth, requireOwner } from "../../middleware/auth.js";
+import { requireAuth, requireFeature, requireOwner } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
 import { AppError } from "../../middleware/error.js";
 import { issueTokensForUser } from "../auth/auth.routes.js";
@@ -130,8 +131,65 @@ outletsRouter.post("/", requireOwner, validateBody(createOutletSchema), async (r
   }
 });
 
-// Pindah outlet aktif (khusus Owner untuk outlet dalam tenant yang sama)
-outletsRouter.post("/switch", requireOwner, validateBody(switchOutletSchema), async (req, res, next) => {
+// Edit atau nonaktifkan/aktifkan outlet milik tenant ini (khusus Owner)
+outletsRouter.patch("/:id", requireOwner, validateBody(updateOutletSchema), async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const tenantId = req.user!.tenantId;
+    const existing = await prisma.outlet.findFirst({ where: { id, tenantId } });
+    if (!existing) {
+      throw new AppError(404, "OUTLET_NOT_FOUND", "Outlet tidak ditemukan pada akun bisnis Anda");
+    }
+
+    if (req.body.isActive === false && existing.isActive) {
+      if (id === req.user!.outletId) {
+        throw new AppError(400, "CANNOT_DEACTIVATE_ACTIVE", "Pindah ke outlet lain terlebih dahulu sebelum menonaktifkan outlet ini");
+      }
+      const activeCount = await prisma.outlet.count({ where: { tenantId, isActive: true } });
+      if (activeCount <= 1) {
+        throw new AppError(400, "LAST_ACTIVE_OUTLET", "Minimal harus ada 1 outlet aktif");
+      }
+    }
+
+    if (req.body.isActive === true && !existing.isActive) {
+      const tenant = await prisma.tenant.findUnique({ where: { id: tenantId } });
+      const activeCount = await prisma.outlet.count({ where: { tenantId, isActive: true } });
+      if (tenant && activeCount >= tenant.maxOutlets) {
+        throw new AppError(403, "PLAN_LIMIT_REACHED", `Batas maksimal ${tenant.maxOutlets} outlet aktif telah tercapai.`);
+      }
+    }
+
+    const updated = await prisma.outlet.update({
+      where: { id },
+      data: {
+        ...(req.body.name !== undefined ? { name: req.body.name.trim() } : {}),
+        ...(req.body.address !== undefined ? { address: req.body.address?.trim() || null } : {}),
+        ...(req.body.phone !== undefined ? { phone: req.body.phone?.trim() || null } : {}),
+        ...(req.body.isActive !== undefined ? { isActive: req.body.isActive } : {}),
+      },
+    });
+
+    invalidateRbacCache(req.user!.id);
+
+    await writeAuditLog({
+      outletId: updated.id,
+      userId: req.user!.id,
+      action: "OUTLET_UPDATE",
+      entityType: "Outlet",
+      entityId: updated.id,
+      beforeValue: { name: existing.name, isActive: existing.isActive },
+      afterValue: { name: updated.name, isActive: updated.isActive },
+      ipAddress: req.ip,
+    });
+
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Pindah outlet aktif (khusus Owner & paket Multi-Outlet)
+outletsRouter.post("/switch", requireOwner, requireFeature("multiOutlet"), validateBody(switchOutletSchema), async (req, res, next) => {
   try {
     const { outletId } = req.body;
     const target = await prisma.outlet.findFirst({
@@ -163,9 +221,30 @@ outletsRouter.post("/plan", requireOwner, validateBody(updatePlanSchema), async 
   try {
     const { plan } = req.body as { plan: "FREE" | "PRO" | "ENTERPRISE" };
     const policy = PLAN_POLICIES[plan];
+    const tenantId = req.user!.tenantId;
+
+    const [activeOutlets, activeUsers] = await Promise.all([
+      prisma.outlet.count({ where: { tenantId, isActive: true } }),
+      prisma.user.count({ where: { tenantId, deletedAt: null, isActive: true } }),
+    ]);
+
+    if (activeOutlets > policy.maxOutlets) {
+      throw new AppError(
+        400,
+        "DOWNGRADE_BLOCKED",
+        `Tidak dapat turun ke paket ${policy.label}: Anda masih memiliki ${activeOutlets} outlet aktif (maksimal ${policy.maxOutlets}). Nonaktifkan cabang berlebih terlebih dahulu.`,
+      );
+    }
+    if (activeUsers > policy.maxUsers) {
+      throw new AppError(
+        400,
+        "DOWNGRADE_BLOCKED",
+        `Tidak dapat turun ke paket ${policy.label}: Anda masih memiliki ${activeUsers} akun aktif (maksimal ${policy.maxUsers}). Nonaktifkan staf berlebih terlebih dahulu.`,
+      );
+    }
 
     await prisma.tenant.update({
-      where: { id: req.user!.tenantId },
+      where: { id: tenantId },
       data: {
         plan: policy.tier,
         maxOutlets: policy.maxOutlets,

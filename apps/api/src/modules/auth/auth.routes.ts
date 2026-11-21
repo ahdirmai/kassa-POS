@@ -64,14 +64,14 @@ authRouter.post("/register", validateBody(registerSchema), async (req, res, next
       throw new AppError(409, "EMAIL_EXISTS", "Email sudah terdaftar. Silakan login.");
     }
 
-    const ownerRole = await prisma.role.findUnique({ where: { code: "OWNER" } });
+    const ownerRole = await prisma.role.findFirst({ where: { code: "OWNER", tenantId: null } });
     if (!ownerRole) {
       throw new AppError(500, "SEED_MISSING", "Role OWNER belum tersedia di database");
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const pinCode = pin || "1111";
-    const pinHash = await bcrypt.hash(pinCode, 10);
+    const pinCode = pin?.trim() || null;
+    const pinHash = pinCode ? await bcrypt.hash(pinCode, 10) : null;
     const outletCode = `KSA-${crypto.randomBytes(2).toString("hex").toUpperCase()}`;
     const freePolicy = PLAN_POLICIES.FREE;
 
@@ -179,20 +179,19 @@ authRouter.post("/login", validateBody(loginSchema), async (req, res, next) => {
 
 authRouter.post("/pin-login", validateBody(pinLoginSchema), async (req, res, next) => {
   try {
-    const { pin, outletId, outletCode } = req.body;
+    const { pin, outletCode } = req.body;
 
-    let resolvedOutletId = outletId;
-    if (!resolvedOutletId && outletCode) {
-      const outlet = await prisma.outlet.findUnique({ where: { code: outletCode.trim().toUpperCase() } });
-      if (!outlet) {
-        throw new AppError(404, "OUTLET_NOT_FOUND", `Kode outlet ${outletCode} tidak ditemukan`);
-      }
-      resolvedOutletId = outlet.id;
+    const outlet = await prisma.outlet.findUnique({
+      where: { code: outletCode.trim().toUpperCase() },
+    });
+    if (!outlet || !outlet.isActive) {
+      throw new AppError(404, "OUTLET_NOT_FOUND", `Kode outlet ${outletCode} tidak ditemukan atau nonaktif`);
     }
 
     const candidates = await prisma.user.findMany({
       where: {
-        ...(resolvedOutletId ? { outletId: resolvedOutletId } : {}),
+        outletId: outlet.id,
+        tenantId: outlet.tenantId,
         pinCode: pin,
         isActive: true,
         deletedAt: null,

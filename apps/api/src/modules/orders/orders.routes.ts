@@ -43,8 +43,8 @@ ordersRouter.get("/", async (req, res, next) => {
 ordersRouter.get("/:id", async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const order = await prisma.order.findUnique({
-      where: { id },
+    const order = await prisma.order.findFirst({
+      where: { id, outletId: req.user!.outletId },
       include: {
         table: true,
         cashier: { select: { id: true, name: true } },
@@ -68,16 +68,24 @@ ordersRouter.post("/", requirePermission("order.create"), validateBody(createOrd
     // Idempotency check if clientUuid provided
     if (body.clientUuid) {
       const existing = await prisma.order.findUnique({
-        where: { clientUuid: body.clientUuid },
+        where: { outletId_clientUuid: { outletId, clientUuid: body.clientUuid } },
         include: { items: { include: { modifiers: true } }, table: true, payments: true },
       });
       if (existing) return res.json(serializeJson(existing));
     }
 
-    // Validasi meja: tidak boleh ada dua order aktif di meja yang sama
+    // Validasi meja milik outlet ini & tidak sedang dipakai order aktif
+    if (body.tableId) {
+      const table = await prisma.diningTable.findFirst({
+        where: { id: body.tableId, outletId },
+      });
+      if (!table) {
+        throw new AppError(404, "TABLE_NOT_FOUND", "Meja tidak ditemukan pada outlet ini");
+      }
+    }
     if (body.orderType === "DINE_IN" && body.tableId) {
       const busy = await prisma.order.findFirst({
-        where: { tableId: body.tableId, status: { in: ["OPEN", "SENT", "SERVED"] } },
+        where: { tableId: body.tableId, outletId, status: { in: ["OPEN", "SENT", "SERVED"] } },
       });
       if (busy) {
         throw new AppError(409, "TABLE_OCCUPIED", `Meja sudah memiliki order aktif (${busy.orderNo})`);
@@ -90,7 +98,7 @@ ordersRouter.post("/", requirePermission("order.create"), validateBody(createOrd
     });
 
     const { orderNo, queueNo } = await generateDailyOrderNumbers(outletId);
-    const resolvedItems = await resolveOrderItemsInput(body.items);
+    const resolvedItems = await resolveOrderItemsInput(body.items, outletId);
 
     const created = await prisma.order.create({
       data: {
@@ -138,7 +146,7 @@ ordersRouter.post("/", requirePermission("order.create"), validateBody(createOrd
     }
 
     if (body.sendToKitchen) {
-      await sendOrderToKitchen(created.id, req.user!.id);
+      await sendOrderToKitchen(created.id, req.user!.id, outletId);
     }
 
     const full = await recalculateOrder(created.id);
@@ -152,12 +160,14 @@ ordersRouter.post("/", requirePermission("order.create"), validateBody(createOrd
 ordersRouter.post("/:id/items", requirePermission("order.create"), validateBody(addOrderItemsSchema), async (req, res, next) => {
   try {
     const orderId = Number(req.params.id);
-    const order = await prisma.order.findUnique({ where: { id: orderId } });
-    if (!order || ["PAID", "CLOSED", "VOID"].includes(order.status)) {
+    const outletId = req.user!.outletId;
+    const order = await prisma.order.findFirst({ where: { id: orderId, outletId } });
+    if (!order) throw new AppError(404, "ORDER_NOT_FOUND", "Order tidak ditemukan");
+    if (["PAID", "CLOSED", "VOID"].includes(order.status)) {
       throw new AppError(400, "ORDER_CLOSED", "Order sudah selesai atau dibatalkan");
     }
 
-    const resolvedItems = await resolveOrderItemsInput(req.body.items);
+    const resolvedItems = await resolveOrderItemsInput(req.body.items, outletId);
     for (const it of resolvedItems) {
       await prisma.orderItem.create({
         data: {
@@ -185,7 +195,7 @@ ordersRouter.post("/:id/items", requirePermission("order.create"), validateBody(
     }
 
     if (req.body.sendToKitchen) {
-      await sendOrderToKitchen(orderId, req.user!.id);
+      await sendOrderToKitchen(orderId, req.user!.id, outletId);
     }
 
     const full = await recalculateOrder(orderId);
@@ -199,7 +209,7 @@ ordersRouter.post("/:id/items", requirePermission("order.create"), validateBody(
 ordersRouter.post("/:id/send", requirePermission("order.create"), async (req, res, next) => {
   try {
     const orderId = Number(req.params.id);
-    const result = await sendOrderToKitchen(orderId, req.user!.id);
+    const result = await sendOrderToKitchen(orderId, req.user!.id, req.user!.outletId);
     res.json(serializeJson(result));
   } catch (err) {
     next(err);
@@ -211,7 +221,7 @@ ordersRouter.post("/:id/void", validateBody(voidOrderSchema), async (req, res, n
     const orderId = Number(req.params.id);
     const manager = await verifyManagerPin(req.body.managerPin, req.user!.outletId);
 
-    const order = await prisma.order.findUnique({ where: { id: orderId } });
+    const order = await prisma.order.findFirst({ where: { id: orderId, outletId: req.user!.outletId } });
     if (!order) throw new AppError(404, "ORDER_NOT_FOUND", "Order tidak ditemukan");
     if (order.status === "VOID") throw new AppError(400, "ALREADY_VOID", "Order sudah di-void");
 

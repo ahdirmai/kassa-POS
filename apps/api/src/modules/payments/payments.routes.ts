@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { calculateCashChange, createPaymentSchema, refundPaymentSchema } from "@pos/shared";
+import { env } from "../../config/env.js";
 import { prisma, serializeJson } from "../../lib/prisma.js";
 import { paymentGateway } from "../../lib/payment-gateway.js";
 import { writeAuditLog } from "../../lib/audit.js";
 import { emitOrderUpdate } from "../../lib/socket.js";
-import { requireAuth, verifyManagerPin } from "../../middleware/auth.js";
+import { requireAuth, requirePermission, verifyManagerPin } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
 import { AppError } from "../../middleware/error.js";
 import {
@@ -110,9 +111,11 @@ async function finalizeOrderIfFullyPaid(orderId: number, userId: number | null) 
 
 paymentsRouter.use(requireAuth);
 
-paymentsRouter.post("/orders/:id/payments", validateBody(createPaymentSchema), async (req, res, next) => {
+paymentsRouter.post("/orders/:id/payments", requirePermission("order.create"), validateBody(createPaymentSchema), async (req, res, next) => {
   try {
     const orderId = Number(req.params.id);
+    const ownedOrder = await prisma.order.findFirst({ where: { id: orderId, outletId: req.user!.outletId } });
+    if (!ownedOrder) throw new AppError(404, "ORDER_NOT_FOUND", "Order tidak ditemukan");
     const order = await recalculateOrder(orderId);
     if (["PAID", "CLOSED", "VOID"].includes(order.status)) {
       throw new AppError(400, "ORDER_ALREADY_FINAL", "Order sudah lunas atau dibatalkan");
@@ -182,10 +185,13 @@ paymentsRouter.post("/orders/:id/payments", validateBody(createPaymentSchema), a
 /**
  * Helper khusus sandbox/mock untuk mensimulasikan settlement QRIS dari UI POS.
  */
-paymentsRouter.post("/payments/:id/simulate-settle", async (req, res, next) => {
+paymentsRouter.post("/payments/:id/simulate-settle", requirePermission("order.create"), async (req, res, next) => {
   try {
+    if (process.env.NODE_ENV === "production" && env.MIDTRANS_MODE !== "mock") {
+      throw new AppError(403, "FORBIDDEN", "Simulasi pembayaran dinonaktifkan di mode produksi");
+    }
     const id = Number(req.params.id);
-    const payment = await prisma.payment.findUnique({ where: { id } });
+    const payment = await prisma.payment.findFirst({ where: { id, outletId: req.user!.outletId } });
     if (!payment || payment.method !== "QRIS") {
       throw new AppError(404, "PAYMENT_NOT_FOUND", "Pembayaran QRIS tidak ditemukan");
     }
@@ -207,11 +213,12 @@ paymentsRouter.post("/payments/:id/refund", validateBody(refundPaymentSchema), a
     const paymentId = Number(req.params.id);
     const manager = await verifyManagerPin(req.body.managerPin, req.user!.outletId);
 
-    const payment = await prisma.payment.findUnique({
-      where: { id: paymentId },
+    const payment = await prisma.payment.findFirst({
+      where: { id: paymentId, outletId: req.user!.outletId },
       include: { refunds: true },
     });
-    if (!payment || payment.status !== "SETTLED") {
+    if (!payment) throw new AppError(404, "PAYMENT_NOT_FOUND", "Pembayaran tidak ditemukan");
+    if (payment.status !== "SETTLED") {
       throw new AppError(400, "CANNOT_REFUND", "Hanya pembayaran SETTLED yang bisa di-refund");
     }
 

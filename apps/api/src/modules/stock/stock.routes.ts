@@ -81,8 +81,11 @@ stockRouter.post(
   validateBody(createIngredientSchema),
   async (req, res, next) => {
     try {
+      const outletId = req.user!.outletId;
       const sku = req.body.sku.trim().toUpperCase();
-      const exists = await prisma.ingredient.findUnique({ where: { sku } });
+      const exists = await prisma.ingredient.findUnique({
+        where: { outletId_sku: { outletId, sku } },
+      });
       if (exists && !exists.deletedAt) {
         throw new AppError(409, "SKU_EXISTS", `SKU bahan ${sku} sudah digunakan`);
       }
@@ -153,8 +156,8 @@ stockRouter.patch(
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const before = await prisma.ingredient.findUnique({ where: { id } });
-      if (!before || before.deletedAt) throw new AppError(404, "INGREDIENT_NOT_FOUND", "Bahan baku tidak ditemukan");
+      const before = await prisma.ingredient.findFirst({ where: { id, outletId: req.user!.outletId, deletedAt: null } });
+      if (!before) throw new AppError(404, "INGREDIENT_NOT_FOUND", "Bahan baku tidak ditemukan");
 
       const updated = await prisma.ingredient.update({
         where: { id },
@@ -200,6 +203,8 @@ stockRouter.patch(
 stockRouter.delete("/ingredients/:id", requirePermission("stock.adjust"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
+    const existing = await prisma.ingredient.findFirst({ where: { id, outletId: req.user!.outletId, deletedAt: null } });
+    if (!existing) throw new AppError(404, "INGREDIENT_NOT_FOUND", "Bahan baku tidak ditemukan");
     const usedInRecipes = await prisma.recipeItem.count({ where: { ingredientId: id } });
     if (usedInRecipes > 0) {
       throw new AppError(400, "INGREDIENT_IN_USE", `Bahan masih dipakai di ${usedInRecipes} resep menu. Hapus dari resep dulu.`);
@@ -235,8 +240,10 @@ stockRouter.post(
   async (req, res, next) => {
     try {
       const { ingredientId, type, qtyChange, inputUnit, unitCost, reason } = req.body;
-      const ing = await prisma.ingredient.findUnique({ where: { id: ingredientId } });
-      if (!ing || ing.deletedAt) throw new AppError(404, "INGREDIENT_NOT_FOUND", "Bahan baku tidak ditemukan");
+      const ing = await prisma.ingredient.findFirst({
+        where: { id: ingredientId, outletId: req.user!.outletId, deletedAt: null },
+      });
+      if (!ing) throw new AppError(404, "INGREDIENT_NOT_FOUND", "Bahan baku tidak ditemukan");
 
       const convertedQty = convertToBaseUnit(qtyChange, inputUnit, ing.unit, ing.purchaseUnit, ing.conversion);
       const conversionNote =
@@ -355,7 +362,8 @@ stockRouter.put(
   async (req, res, next) => {
     try {
       const productId = Number(req.params.productId);
-      const product = await prisma.product.findUnique({ where: { id: productId } });
+      const outletId = req.user!.outletId;
+      const product = await prisma.product.findFirst({ where: { id: productId, outletId, deletedAt: null } });
       if (!product) throw new AppError(404, "PRODUCT_NOT_FOUND", "Menu tidak ditemukan");
 
       const { items, notes, manualCost } = req.body as z.infer<typeof upsertRecipeSchema>;
@@ -363,8 +371,11 @@ stockRouter.put(
       // Konversi satuan takaran fleksibel tiap item ke satuan dasar bahan + gabungkan duplikat
       const ingIds = [...new Set(items.map((i) => i.ingredientId))];
       const ings = ingIds.length
-        ? await prisma.ingredient.findMany({ where: { id: { in: ingIds } } })
+        ? await prisma.ingredient.findMany({ where: { id: { in: ingIds }, outletId, deletedAt: null } })
         : [];
+      if (ings.length !== ingIds.length) {
+        throw new AppError(404, "INGREDIENT_NOT_FOUND", "Salah satu bahan baku tidak ditemukan pada outlet ini");
+      }
       const ingMap = new Map(ings.map((i) => [i.id, i]));
 
       const mergedMap = new Map<number, number>();

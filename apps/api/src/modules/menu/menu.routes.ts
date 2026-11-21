@@ -71,9 +71,10 @@ const modifierGroupUpsertSchema = z.object({
   modifiers: z.array(modifierItemInputSchema).min(1, "Minimal 1 opsi add-on"),
 });
 
-menuRouter.get("/modifier-groups", async (_req, res, next) => {
+menuRouter.get("/modifier-groups", async (req, res, next) => {
   try {
     const groups = await prisma.modifierGroup.findMany({
+      where: { outletId: req.user!.outletId },
       include: {
         modifiers: { orderBy: { id: "asc" } },
         _count: { select: { products: true } },
@@ -95,6 +96,7 @@ menuRouter.post(
       const { name, isRequired, minSelect, maxSelect, modifiers } = req.body as z.infer<typeof modifierGroupUpsertSchema>;
       const created = await prisma.modifierGroup.create({
         data: {
+          outletId: req.user!.outletId,
           name: name.trim(),
           isRequired,
           minSelect: isRequired ? Math.max(1, minSelect) : minSelect,
@@ -133,7 +135,10 @@ menuRouter.patch(
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const existing = await prisma.modifierGroup.findUnique({ where: { id }, include: { modifiers: true } });
+      const existing = await prisma.modifierGroup.findFirst({
+        where: { id, outletId: req.user!.outletId },
+        include: { modifiers: true },
+      });
       if (!existing) throw new AppError(404, "NOT_FOUND", "Grup Add-On tidak ditemukan");
 
       const { name, isRequired, minSelect, maxSelect, modifiers } = req.body as z.infer<typeof modifierGroupUpsertSchema>;
@@ -156,8 +161,8 @@ menuRouter.patch(
 
         for (const m of modifiers) {
           if (m.id) {
-            await tx.modifier.update({
-              where: { id: m.id },
+            await tx.modifier.updateMany({
+              where: { id: m.id, modifierGroupId: id },
               data: { name: m.name.trim(), price: BigInt(m.price ?? 0), isAvailable: m.isAvailable ?? true },
             });
           } else {
@@ -198,7 +203,7 @@ menuRouter.patch(
 menuRouter.delete("/modifier-groups/:id", requirePermission("menu.manage"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const existing = await prisma.modifierGroup.findUnique({ where: { id } });
+    const existing = await prisma.modifierGroup.findFirst({ where: { id, outletId: req.user!.outletId } });
     if (!existing) throw new AppError(404, "NOT_FOUND", "Grup Add-On tidak ditemukan");
 
     await prisma.modifierGroup.delete({ where: { id } });
@@ -264,16 +269,33 @@ menuRouter.post(
         modifierGroupIds,
       } = req.body as z.infer<typeof productUpsertSchema>;
 
+      const outletId = req.user!.outletId;
       const sku = rawSku.trim().toUpperCase();
       const existing = await prisma.product.findUnique({
-        where: { outletId_sku: { outletId: req.user!.outletId, sku } },
+        where: { outletId_sku: { outletId, sku } },
       });
       if (existing && !existing.deletedAt) {
         throw new AppError(409, "SKU_EXISTS", `SKU menu ${sku} sudah digunakan`);
       }
 
+      const category = await prisma.category.findFirst({ where: { id: categoryId, outletId, deletedAt: null } });
+      if (!category) throw new AppError(404, "CATEGORY_NOT_FOUND", "Kategori tidak ditemukan pada outlet ini");
+
+      if (stationId) {
+        const station = await prisma.station.findFirst({ where: { id: stationId, outletId } });
+        if (!station) throw new AppError(404, "STATION_NOT_FOUND", "Stasiun dapur tidak ditemukan pada outlet ini");
+      }
+
       const cleanVariants = (variants ?? []).filter((v) => v.name.trim().length > 0);
       const cleanModIds = [...new Set(modifierGroupIds ?? [])];
+      if (cleanModIds.length > 0) {
+        const validModCount = await prisma.modifierGroup.count({
+          where: { id: { in: cleanModIds }, outletId },
+        });
+        if (validModCount !== cleanModIds.length) {
+          throw new AppError(404, "MODIFIER_GROUP_NOT_FOUND", "Salah satu grup add-on tidak ditemukan pada outlet ini");
+        }
+      }
 
       const product = await prisma.$transaction(async (tx) => {
         if (existing && existing.deletedAt) {
@@ -362,13 +384,29 @@ menuRouter.patch(
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const before = await prisma.product.findUnique({ where: { id } });
-      if (!before || before.deletedAt) throw new AppError(404, "NOT_FOUND", "Menu tidak ditemukan");
+      const outletId = req.user!.outletId;
+      const before = await prisma.product.findFirst({ where: { id, outletId, deletedAt: null } });
+      if (!before) throw new AppError(404, "NOT_FOUND", "Menu tidak ditemukan");
 
       const body = req.body as Partial<z.infer<typeof productUpsertSchema>>;
+      if (body.categoryId !== undefined) {
+        const cat = await prisma.category.findFirst({ where: { id: body.categoryId, outletId, deletedAt: null } });
+        if (!cat) throw new AppError(404, "CATEGORY_NOT_FOUND", "Kategori tidak ditemukan pada outlet ini");
+      }
+      if (body.stationId !== undefined && body.stationId !== null) {
+        const st = await prisma.station.findFirst({ where: { id: body.stationId, outletId } });
+        if (!st) throw new AppError(404, "STATION_NOT_FOUND", "Stasiun dapur tidak ditemukan pada outlet ini");
+      }
+      if (body.modifierGroupIds !== undefined && body.modifierGroupIds.length > 0) {
+        const uniq = [...new Set(body.modifierGroupIds)];
+        const validModCount = await prisma.modifierGroup.count({ where: { id: { in: uniq }, outletId } });
+        if (validModCount !== uniq.length) {
+          throw new AppError(404, "MODIFIER_GROUP_NOT_FOUND", "Salah satu grup add-on tidak ditemukan pada outlet ini");
+        }
+      }
       if (body.sku && body.sku.trim().toUpperCase() !== before.sku) {
         const dup = await prisma.product.findUnique({
-          where: { outletId_sku: { outletId: req.user!.outletId, sku: body.sku.trim().toUpperCase() } },
+          where: { outletId_sku: { outletId, sku: body.sku.trim().toUpperCase() } },
         });
         if (dup && !dup.deletedAt) throw new AppError(409, "SKU_EXISTS", "SKU sudah digunakan menu lain");
       }
@@ -442,8 +480,8 @@ menuRouter.patch(
 menuRouter.delete("/products/:id", requirePermission("menu.manage"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const existing = await prisma.product.findUnique({ where: { id } });
-    if (!existing || existing.deletedAt) throw new AppError(404, "NOT_FOUND", "Menu tidak ditemukan");
+    const existing = await prisma.product.findFirst({ where: { id, outletId: req.user!.outletId, deletedAt: null } });
+    if (!existing) throw new AppError(404, "NOT_FOUND", "Menu tidak ditemukan");
 
     await prisma.product.update({
       where: { id },
@@ -467,11 +505,12 @@ menuRouter.delete("/products/:id", requirePermission("menu.manage"), async (req,
 
 menuRouter.patch(
   "/products/:id/availability",
+  requirePermission("menu.manage"),
   validateBody(updateAvailabilitySchema),
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const exists = await prisma.product.findUnique({ where: { id } });
+      const exists = await prisma.product.findFirst({ where: { id, outletId: req.user!.outletId, deletedAt: null } });
       if (!exists) throw new AppError(404, "NOT_FOUND", "Menu tidak ditemukan");
       const updated = await prisma.product.update({
         where: { id },

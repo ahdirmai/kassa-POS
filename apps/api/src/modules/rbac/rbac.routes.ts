@@ -40,13 +40,15 @@ rbacRouter.get("/permissions", async (_req, res, next) => {
   }
 });
 
-// Daftar semua role beserta permission aktif & jumlah user
-rbacRouter.get("/roles", requirePermission("role.manage"), async (_req, res, next) => {
+// Daftar semua role (sistem + kustom milik tenant ini) beserta permission aktif & jumlah user tenant ini
+rbacRouter.get("/roles", requirePermission("role.manage"), async (req, res, next) => {
   try {
+    const tenantId = req.user!.tenantId;
     const roles = await prisma.role.findMany({
+      where: { OR: [{ tenantId: null }, { tenantId }] },
       include: {
         permissions: { include: { permission: true } },
-        _count: { select: { users: true } },
+        _count: { select: { users: { where: { tenantId, deletedAt: null } } } },
       },
       orderBy: { id: "asc" },
     });
@@ -55,7 +57,7 @@ rbacRouter.get("/roles", requirePermission("role.manage"), async (_req, res, nex
       code: r.code,
       name: r.name,
       description: r.description,
-      isSystem: SYSTEM_ROLES.has(r.code),
+      isSystem: r.tenantId === null || SYSTEM_ROLES.has(r.code),
       userCount: r._count.users,
       permissions: r.permissions.map((rp) => rp.permission.code),
     }));
@@ -65,7 +67,7 @@ rbacRouter.get("/roles", requirePermission("role.manage"), async (_req, res, nex
   }
 });
 
-// Buat role dinamis baru
+// Buat role dinamis baru milik tenant ini
 rbacRouter.post(
   "/roles",
   requireFeature("rbacCustom"),
@@ -74,7 +76,10 @@ rbacRouter.post(
   async (req, res, next) => {
     try {
       const { code, name, description, permissions } = req.body;
-      const existing = await prisma.role.findUnique({ where: { code } });
+      const tenantId = req.user!.tenantId;
+      const existing = await prisma.role.findFirst({
+        where: { code, OR: [{ tenantId: null }, { tenantId }] },
+      });
       if (existing) throw new AppError(409, "ROLE_EXISTS", `Kode role ${code} sudah digunakan`);
 
       const dbPerms = await prisma.permission.findMany({
@@ -83,6 +88,7 @@ rbacRouter.post(
 
       const created = await prisma.role.create({
         data: {
+          tenantId,
           code,
           name,
           description: description ?? null,
@@ -118,28 +124,28 @@ rbacRouter.post(
   },
 );
 
-// Update nama/deskripsi/permission role secara dinamis
+// Update nama/deskripsi/permission role kustom milik tenant ini
 rbacRouter.patch(
   "/roles/:id",
+  requireFeature("rbacCustom"),
   requirePermission("role.manage"),
   validateBody(updateRoleSchema),
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const role = await prisma.role.findUnique({
-        where: { id },
+      const tenantId = req.user!.tenantId;
+      const role = await prisma.role.findFirst({
+        where: { id, OR: [{ tenantId: null }, { tenantId }] },
         include: { permissions: { include: { permission: true } } },
       });
       if (!role) throw new AppError(404, "ROLE_NOT_FOUND", "Role tidak ditemukan");
+      if (role.tenantId === null || SYSTEM_ROLES.has(role.code)) {
+        throw new AppError(403, "SYSTEM_ROLE_PROTECTED", "Role bawaan sistem tidak dapat diubah. Buat role kustom baru untuk mengubah izin.");
+      }
 
       const beforePerms = role.permissions.map((rp) => rp.permission.code);
       const nextPerms: string[] | undefined = req.body.permissions;
-
-      // Proteksi: OWNER tidak boleh kehilangan role.manage & user.manage agar tidak terkunci
-      const safePerms =
-        nextPerms && role.code === "OWNER"
-          ? [...new Set([...nextPerms, "role.manage", "user.manage", "settings.manage"])]
-          : nextPerms;
+      const safePerms = nextPerms;
 
       await prisma.$transaction(async (tx) => {
         if (req.body.name !== undefined || req.body.description !== undefined) {
@@ -198,16 +204,17 @@ rbacRouter.patch(
   },
 );
 
-// Hapus role kustom
-rbacRouter.delete("/roles/:id", requirePermission("role.manage"), async (req, res, next) => {
+// Hapus role kustom milik tenant ini
+rbacRouter.delete("/roles/:id", requireFeature("rbacCustom"), requirePermission("role.manage"), async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const role = await prisma.role.findUnique({
-      where: { id },
-      include: { _count: { select: { users: true } } },
+    const tenantId = req.user!.tenantId;
+    const role = await prisma.role.findFirst({
+      where: { id, OR: [{ tenantId: null }, { tenantId }] },
+      include: { _count: { select: { users: { where: { tenantId, deletedAt: null } } } } },
     });
     if (!role) throw new AppError(404, "ROLE_NOT_FOUND", "Role tidak ditemukan");
-    if (SYSTEM_ROLES.has(role.code)) {
+    if (role.tenantId === null || SYSTEM_ROLES.has(role.code)) {
       throw new AppError(400, "SYSTEM_ROLE_PROTECTED", "Role bawaan sistem tidak dapat dihapus");
     }
     if (role._count.users > 0) {
@@ -283,6 +290,14 @@ rbacRouter.post(
         );
       }
 
+      const targetRole = await prisma.role.findFirst({
+        where: { id: roleId, OR: [{ tenantId: null }, { tenantId }] },
+      });
+      if (!targetRole) throw new AppError(404, "ROLE_NOT_FOUND", "Role tidak ditemukan");
+      if (targetRole.code === "OWNER" && req.user!.roleCode !== "OWNER") {
+        throw new AppError(403, "FORBIDDEN", "Hanya Owner yang dapat membuat akun Owner");
+      }
+
       const exists = await prisma.user.findUnique({ where: { email: email.trim().toLowerCase() } });
       if (exists) throw new AppError(409, "EMAIL_EXISTS", "Email sudah terdaftar");
 
@@ -337,8 +352,44 @@ rbacRouter.patch(
   async (req, res, next) => {
     try {
       const id = Number(req.params.id);
-      const user = await prisma.user.findUnique({ where: { id }, include: { role: true } });
-      if (!user || user.deletedAt) throw new AppError(404, "USER_NOT_FOUND", "Akun tidak ditemukan");
+      const tenantId = req.user!.tenantId;
+      const user = await prisma.user.findFirst({
+        where: {
+          id,
+          tenantId,
+          ...(req.user!.roleCode !== "OWNER" ? { outletId: req.user!.outletId } : {}),
+          deletedAt: null,
+        },
+        include: { role: true },
+      });
+      if (!user) throw new AppError(404, "USER_NOT_FOUND", "Akun tidak ditemukan");
+      if (user.role.code === "OWNER" && req.user!.roleCode !== "OWNER") {
+        throw new AppError(403, "FORBIDDEN", "Hanya Owner yang dapat mengubah akun Owner");
+      }
+
+      if (req.body.roleId !== undefined && req.body.roleId !== user.roleId) {
+        const nextRole = await prisma.role.findFirst({
+          where: { id: req.body.roleId, OR: [{ tenantId: null }, { tenantId }] },
+        });
+        if (!nextRole) throw new AppError(404, "ROLE_NOT_FOUND", "Role tidak ditemukan");
+        if (nextRole.code === "OWNER" && req.user!.roleCode !== "OWNER") {
+          throw new AppError(403, "FORBIDDEN", "Hanya Owner yang dapat menetapkan role Owner");
+        }
+      }
+
+      // Cegah bypass kuota paket saat mengaktifkan kembali akun nonaktif
+      if (!user.isActive && req.body.isActive === true) {
+        const activeCount = await prisma.user.count({
+          where: { tenantId, deletedAt: null, isActive: true },
+        });
+        if (activeCount >= req.user!.maxUsers) {
+          throw new AppError(
+            403,
+            "PLAN_LIMIT_REACHED",
+            `Batas paket ${req.user!.plan} tercapai (maksimal ${req.user!.maxUsers} akun aktif). Upgrade ke Kassa Pro untuk mengaktifkan staf.`,
+          );
+        }
+      }
 
       if (req.body.email && req.body.email !== user.email) {
         const dup = await prisma.user.findUnique({ where: { email: req.body.email } });
@@ -409,12 +460,23 @@ rbacRouter.delete("/users/:id", requirePermission("user.manage"), async (req, re
     if (id === req.user!.id) {
       throw new AppError(400, "CANNOT_DELETE_SELF", "Tidak dapat menghapus akun yang sedang login");
     }
-    const user = await prisma.user.findUnique({ where: { id }, include: { role: true } });
-    if (!user || user.deletedAt) throw new AppError(404, "USER_NOT_FOUND", "Akun tidak ditemukan");
+    const user = await prisma.user.findFirst({
+      where: {
+        id,
+        tenantId: req.user!.tenantId,
+        ...(req.user!.roleCode !== "OWNER" ? { outletId: req.user!.outletId } : {}),
+        deletedAt: null,
+      },
+      include: { role: true },
+    });
+    if (!user) throw new AppError(404, "USER_NOT_FOUND", "Akun tidak ditemukan");
+    if (user.role.code === "OWNER" && req.user!.roleCode !== "OWNER") {
+      throw new AppError(403, "FORBIDDEN", "Hanya Owner yang dapat menghapus akun Owner");
+    }
 
     if (user.role.code === "OWNER") {
       const ownerCount = await prisma.user.count({
-        where: { outletId: user.outletId, deletedAt: null, isActive: true, role: { code: "OWNER" } },
+        where: { tenantId: user.tenantId, deletedAt: null, isActive: true, role: { code: "OWNER" } },
       });
       if (ownerCount <= 1) {
         throw new AppError(400, "LAST_OWNER", "Tidak dapat menghapus satu-satunya akun Owner aktif");

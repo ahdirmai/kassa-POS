@@ -35,17 +35,18 @@ export async function resolveOrderItemsInput(
     notes?: string;
     modifierIds?: number[];
   }>,
+  outletId: number,
 ) {
   const productIds = [...new Set(items.map((i) => i.productId))];
   const products = await prisma.product.findMany({
-    where: { id: { in: productIds } },
+    where: { id: { in: productIds }, outletId, deletedAt: null },
     include: { variants: true },
   });
   const prodMap = new Map(products.map((p) => [p.id, p]));
 
   const allModIds = [...new Set(items.flatMap((i) => i.modifierIds ?? []))];
   const mods = allModIds.length
-    ? await prisma.modifier.findMany({ where: { id: { in: allModIds } } })
+    ? await prisma.modifier.findMany({ where: { id: { in: allModIds }, group: { outletId } } })
     : [];
   const modMap = new Map(mods.map((m) => [m.id, m]));
 
@@ -123,9 +124,9 @@ export async function recalculateOrder(orderId: number) {
   });
 }
 
-export async function sendOrderToKitchen(orderId: number, userId: number) {
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
+export async function sendOrderToKitchen(orderId: number, userId: number, outletId?: number) {
+  const order = await prisma.order.findFirst({
+    where: { id: orderId, ...(outletId !== undefined ? { outletId } : {}) },
     include: {
       items: { where: { roundId: null }, include: { modifiers: true } },
       rounds: true,
@@ -173,7 +174,7 @@ export async function sendOrderToKitchen(orderId: number, userId: number) {
       include: { station: true },
     });
     createdTickets.push(ticket);
-    emitKdsUpdate(ticket.station.code, { type: "NEW_TICKET", ticketId: ticket.id, orderId: order.id });
+    emitKdsUpdate(order.outletId, ticket.station.code, { type: "NEW_TICKET", ticketId: ticket.id, orderId: order.id });
   }
 
   const updated = await prisma.order.update({

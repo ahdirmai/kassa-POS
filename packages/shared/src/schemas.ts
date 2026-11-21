@@ -16,14 +16,20 @@ export const registerSchema = z.object({
 
 export const pinLoginSchema = z.object({
   pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka"),
-  outletId: z.number().int().positive().optional(),
-  outletCode: z.string().min(2).max(20).optional(),
+  outletCode: z.string().trim().min(2, "Kode outlet wajib diisi").max(20),
 });
 
 export const createOutletSchema = z.object({
   name: z.string().min(2).max(120),
   address: z.string().max(255).optional(),
   phone: z.string().max(40).optional(),
+});
+
+export const updateOutletSchema = z.object({
+  name: z.string().min(2).max(120).optional(),
+  address: z.string().max(255).nullable().optional(),
+  phone: z.string().max(40).nullable().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export const switchOutletSchema = z.object({

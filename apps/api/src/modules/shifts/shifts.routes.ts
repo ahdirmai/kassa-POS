@@ -9,9 +9,9 @@ import { AppError } from "../../middleware/error.js";
 export const shiftsRouter = Router();
 shiftsRouter.use(requireAuth);
 
-async function computeShiftSummary(shiftId: number) {
-  const shift = await prisma.shift.findUnique({
-    where: { id: shiftId },
+async function computeShiftSummary(shiftId: number, outletId?: number) {
+  const shift = await prisma.shift.findFirst({
+    where: { id: shiftId, ...(outletId !== undefined ? { outletId } : {}) },
     include: {
       user: { select: { id: true, name: true, email: true } },
       cashMovements: { orderBy: { createdAt: "desc" } },
@@ -129,9 +129,9 @@ shiftsRouter.post("/open", requirePermission("shift.manage"), validateBody(openS
 shiftsRouter.post("/cash-movements", requirePermission("shift.manage"), validateBody(cashMovementSchema), async (req, res, next) => {
   try {
     const { shiftId, type, amount, reason } = req.body;
-    const shift = await prisma.shift.findUnique({ where: { id: shiftId } });
+    const shift = await prisma.shift.findFirst({ where: { id: shiftId, outletId: req.user!.outletId } });
     if (!shift || shift.status !== "OPEN") {
-      throw new AppError(400, "SHIFT_NOT_OPEN", "Shift tidak ditemukan atau sudah ditutup");
+      throw new AppError(404, "SHIFT_NOT_OPEN", "Shift tidak ditemukan atau sudah ditutup");
     }
 
     const mv = await prisma.cashMovement.create({
@@ -164,9 +164,9 @@ shiftsRouter.post("/cash-movements", requirePermission("shift.manage"), validate
 shiftsRouter.post("/:id/close", requirePermission("shift.manage"), validateBody(closeShiftSchema), async (req, res, next) => {
   try {
     const shiftId = Number(req.params.id);
-    const full = await computeShiftSummary(shiftId);
+    const full = await computeShiftSummary(shiftId, req.user!.outletId);
     if (!full || full.status !== "OPEN") {
-      throw new AppError(400, "SHIFT_NOT_OPEN", "Shift sudah ditutup atau tidak ditemukan");
+      throw new AppError(404, "SHIFT_NOT_OPEN", "Shift sudah ditutup atau tidak ditemukan");
     }
 
     const expectedCash = full.summary.expectedCash;

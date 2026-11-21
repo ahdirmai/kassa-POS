@@ -53,8 +53,8 @@ kdsRouter.patch("/tickets/:id/status", async (req, res, next) => {
       throw new AppError(400, "INVALID_STATUS", "Status KDS tidak valid");
     }
 
-    const ticket = await prisma.kitchenTicket.findUnique({
-      where: { id },
+    const ticket = await prisma.kitchenTicket.findFirst({
+      where: { id, outletId: req.user!.outletId },
       include: { station: true },
     });
     if (!ticket) throw new AppError(404, "TICKET_NOT_FOUND", "Tiket dapur tidak ditemukan");
@@ -88,7 +88,7 @@ kdsRouter.patch("/tickets/:id/status", async (req, res, next) => {
       emitOrderUpdate(ticket.outletId, { type: "SERVED", orderId: ticket.orderId });
     }
 
-    emitKdsUpdate(ticket.station.code, { type: "STATUS_CHANGED", ticketId: id, status });
+    emitKdsUpdate(ticket.outletId, ticket.station.code, { type: "STATUS_CHANGED", ticketId: id, status });
     res.json(serializeJson(updated));
   } catch (err) {
     next(err);
