@@ -76,11 +76,12 @@ const TONE_SWATCHES: Record<string, string> = {
 };
 
 function formatRupiah(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(amount);
+  const rounded = Math.round(amount);
+  const sign = rounded < 0 ? "-" : "";
+  const formatted = Math.abs(rounded)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${sign}Rp ${formatted}`;
 }
 
 function buildWhatsappHref(raw: string, cafeName: string): string {
