@@ -21,6 +21,7 @@ export interface UserSession {
   outlets?: OutletSummary[];
   name: string;
   email: string;
+  hasPin?: boolean;
   roleCode: string;
   roleName: string;
   permissions: string[];

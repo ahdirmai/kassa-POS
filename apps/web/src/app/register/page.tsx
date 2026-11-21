@@ -18,7 +18,6 @@ export default function RegisterPage() {
   const [ownerName, setOwnerName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,12 +34,14 @@ export default function RegisterPage() {
           ownerName,
           email,
           password,
-          pin: pin.trim() || undefined,
         }),
       });
       setSession(res.user, res.accessToken);
-      pushToast(`Selamat datang di Kassa, ${res.user.name}!`, "good");
-      router.replace("/pos");
+      if (res.user.outletCode) {
+        window.localStorage.setItem("kassa_outlet_code", res.user.outletCode);
+      }
+      pushToast(`Akun berhasil dibuat! Lanjut atur PIN & profil bisnis.`, "good");
+      router.replace("/onboarding");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal mendaftar");
     } finally {
@@ -86,31 +87,16 @@ export default function RegisterPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Nama Owner</label>
-              <input
-                type="text"
-                className="cadra-input"
-                placeholder="Nama lengkap"
-                value={ownerName}
-                onChange={(e) => setOwnerName(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">PIN Cepat (4–6 digit)</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                pattern="\d{4,6}"
-                maxLength={6}
-                className="cadra-input font-mono"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))}
-                required
-              />
-            </div>
+          <div>
+            <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Nama Owner</label>
+            <input
+              type="text"
+              className="cadra-input"
+              placeholder="Nama lengkap"
+              value={ownerName}
+              onChange={(e) => setOwnerName(e.target.value)}
+              required
+            />
           </div>
 
           <div>
@@ -139,7 +125,7 @@ export default function RegisterPage() {
           </div>
 
           <button type="submit" disabled={loading} className="btn-cadra btn-cadra--primary w-full">
-            {loading ? "Membuat akun..." : "Buat Akun & Masuk Kasir"}
+            {loading ? "Membuat akun..." : "Buat Akun & Lanjut Setup"}
             <ArrowRight className="h-4 w-4" />
           </button>
         </form>

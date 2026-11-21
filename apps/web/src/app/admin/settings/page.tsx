@@ -1,10 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { RotateCcw, Sparkles } from "lucide-react";
 import { CadraShell } from "@/components/cadra-shell";
 import { apiFetch } from "@/lib/api";
+import { useAuthStore } from "@/stores/auth-store";
 import { useUiStore, type AccentMode } from "@/stores/ui-store";
+
+interface OnboardingStatus {
+  completed: boolean;
+  hasPin: boolean;
+  sampleDataActive: boolean;
+  businessType: string | null;
+  foodTypes: string[];
+  serviceMode: string | null;
+}
 
 interface SettingsData {
   businessName: string;
@@ -22,12 +34,31 @@ interface SettingsData {
 const ACCENTS: AccentMode[] = ["ocean", "sage", "coral", "amber", "mono"];
 
 export default function AdminSettingsPage() {
+  const queryClient = useQueryClient();
+  const user = useAuthStore((s) => s.user);
   const { theme, setTheme, accent, setAccent, pushToast } = useUiStore();
   const [form, setForm] = useState<SettingsData | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["settings"],
     queryFn: () => apiFetch<SettingsData>("/settings"),
+  });
+
+  const { data: onboarding } = useQuery({
+    queryKey: ["onboarding-status", user?.outletId],
+    queryFn: () => apiFetch<OnboardingStatus>("/onboarding/status"),
+    enabled: user?.roleCode === "OWNER",
+  });
+
+  const resetSampleMut = useMutation({
+    mutationFn: () => apiFetch<{ ok: boolean; message: string }>("/onboarding/reset-sample", { method: "POST" }),
+    onSuccess: (res) => {
+      setConfirmReset(false);
+      queryClient.invalidateQueries();
+      pushToast(res.message || "Data contoh berhasil direset!", "good");
+    },
+    onError: (e: Error) => pushToast(e.message, "bad"),
   });
 
   const { data: logs = [] } = useQuery({
@@ -99,6 +130,61 @@ export default function AdminSettingsPage() {
               ))}
             </div>
           </div>
+
+          {/* Onboarding & Reset Data Contoh (Owner only) */}
+          {user?.roleCode === "OWNER" && (
+            <div className="border-t border-[var(--line)] pt-4 space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-sm font-bold">Data Contoh (Seeder) &amp; Onboarding</h3>
+                {onboarding?.sampleDataActive && (
+                  <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold text-amber-700 dark:text-amber-300">
+                    Data Contoh Aktif
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[var(--muted)]">
+                Reset data contoh akan menghapus semua menu, kategori, add-on, meja, stok, dan transaksi uji coba di{" "}
+                <strong>outlet aktif ini saja</strong> agar siap dipakai berjualan. Akun staf &amp; pengaturan tetap aman.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <Link href="/onboarding" className="btn-cadra">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Jalankan Ulang Onboarding / Ganti Template
+                </Link>
+
+                {!confirmReset ? (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmReset(true)}
+                    className="btn-cadra border border-red-500/40 text-red-600 dark:text-red-400"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5" />
+                    Reset Data Contoh
+                  </button>
+                ) : (
+                  <div className="flex flex-wrap items-center gap-2 rounded-xl border border-red-500/40 bg-red-500/10 p-2 text-xs">
+                    <span className="font-semibold text-red-700 dark:text-red-300">Yakin hapus semua data outlet ini?</span>
+                    <button
+                      type="button"
+                      disabled={resetSampleMut.isPending}
+                      onClick={() => resetSampleMut.mutate()}
+                      className="rounded-lg bg-red-600 px-3 py-1 font-bold text-white hover:bg-red-700"
+                    >
+                      {resetSampleMut.isPending ? "Mereset..." : "Ya, Reset Sekarang"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmReset(false)}
+                      className="rounded-lg px-2 py-1 font-semibold text-[var(--muted)]"
+                    >
+                      Batal
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* Audit Logs */}
