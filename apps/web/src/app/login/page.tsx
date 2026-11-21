@@ -1,0 +1,204 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { KeyRound, Lock, Mail } from "lucide-react";
+import { apiFetch } from "@/lib/api";
+import { useAuthStore, type UserSession } from "@/stores/auth-store";
+import { useUiStore } from "@/stores/ui-store";
+import { getDefaultHomePath } from "@/lib/rbac";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const setSession = useAuthStore((s) => s.setSession);
+  const pushToast = useUiStore((s) => s.pushToast);
+
+  const [mode, setMode] = useState<"pin" | "email">("pin");
+  const [pin, setPin] = useState("");
+  const [email, setEmail] = useState("owner@senja.id");
+  const [password, setPassword] = useState("password123");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const routeAfterLogin = (user: UserSession) => {
+    pushToast(`Selamat datang, ${user.name}`, "good");
+    const can = (p: string) => user.roleCode === "OWNER" || user.permissions.includes(p);
+    router.push(getDefaultHomePath(can, user.plan));
+  };
+
+  const handlePinLogin = async (pinValue: string) => {
+    setError("");
+    setLoading(true);
+    try {
+      const data = await apiFetch<{ user: UserSession; accessToken: string }>("/auth/pin-login", {
+        method: "POST",
+        body: JSON.stringify({ pin: pinValue }),
+      });
+      setSession(data.user, data.accessToken);
+      routeAfterLogin(data.user);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "PIN salah");
+      setPin("");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const data = await apiFetch<{ user: UserSession; accessToken: string }>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      setSession(data.user, data.accessToken);
+      routeAfterLogin(data.user);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login gagal");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const pressDigit = (d: string) => {
+    if (loading || pin.length >= 6) return;
+    setPin((prev) => prev + d);
+  };
+
+  return (
+    <div className="grid min-h-dvh place-items-center p-4">
+      <div className="cadra-card w-full max-w-md space-y-6 p-7">
+        <div className="flex items-center gap-3">
+          <div className="cadra-brand__mark">K</div>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight">Kassa</h1>
+            <p className="text-xs font-semibold text-[var(--muted)]">Kopi &amp; Dapur Senja · app.kassa.biz.id</p>
+          </div>
+        </div>
+
+        {/* Mode Switcher */}
+        <div className="grid grid-cols-2 rounded-full bg-[var(--well)] p-1">
+          <button
+            type="button"
+            onClick={() => { setMode("pin"); setError(""); }}
+            className={`rounded-full py-2 text-xs font-bold transition ${
+              mode === "pin" ? "bg-[var(--ink)] text-[var(--on-ink)]" : "text-[var(--muted)]"
+            }`}
+          >
+            <KeyRound className="mr-1.5 inline h-3.5 w-3.5" />
+            PIN Cepat Kasir
+          </button>
+          <button
+            type="button"
+            onClick={() => { setMode("email"); setError(""); }}
+            className={`rounded-full py-2 text-xs font-bold transition ${
+              mode === "email" ? "bg-[var(--ink)] text-[var(--on-ink)]" : "text-[var(--muted)]"
+            }`}
+          >
+            <Mail className="mr-1.5 inline h-3.5 w-3.5" />
+            Email Admin
+          </button>
+        </div>
+
+        {mode === "pin" ? (
+          <div className="space-y-4">
+            <div className="flex justify-center gap-3 py-2">
+              {[0, 1, 2, 3, 4, 5].map((idx) => (
+                <div
+                  key={idx}
+                  className={`h-3.5 w-3.5 rounded-full border-2 transition ${
+                    pin.length > idx
+                      ? "border-[var(--ink)] bg-[var(--ink)] scale-110"
+                      : idx < 4
+                        ? "border-[var(--line-2)] bg-transparent"
+                        : "border-dashed border-[var(--line-2)] bg-transparent opacity-55"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="grid grid-cols-3 gap-2.5">
+              {["1", "2", "3", "4", "5", "6", "7", "8", "9", "C", "0", "⌫"].map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  disabled={loading}
+                  onClick={() => {
+                    if (key === "C") setPin("");
+                    else if (key === "⌫") setPin((p) => p.slice(0, -1));
+                    else pressDigit(key);
+                  }}
+                  className="h-14 rounded-2xl border border-[var(--line)] bg-[var(--raised)] text-lg font-bold transition hover:bg-[var(--well)] active:scale-95"
+                >
+                  {key}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              disabled={loading || pin.length < 4}
+              onClick={() => handlePinLogin(pin)}
+              className="btn-cadra btn-cadra--primary w-full"
+            >
+              <KeyRound className="h-4 w-4" />
+              {loading ? "Memverifikasi PIN..." : `Masuk dengan PIN (${pin.length}/4–6 digit)`}
+            </button>
+
+            <div className="rounded-2xl bg-[var(--well)] p-3 text-xs text-[var(--muted)] space-y-1">
+              <div className="font-bold text-[var(--text)]">PIN Demo Cepat:</div>
+              <div className="flex flex-wrap gap-2">
+                <button type="button" onClick={() => handlePinLogin("1234")} className="chip">Kasir: 1234</button>
+                <button type="button" onClick={() => handlePinLogin("2222")} className="chip">Manager: 2222</button>
+                <button type="button" onClick={() => handlePinLogin("1111")} className="chip">Owner: 1111</button>
+                <button type="button" onClick={() => handlePinLogin("5678")} className="chip">Dapur: 5678</button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleEmailLogin} className="space-y-3.5">
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Email</label>
+              <input
+                type="email"
+                className="cadra-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Password</label>
+              <input
+                type="password"
+                className="cadra-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" disabled={loading} className="btn-cadra btn-cadra--primary w-full">
+              <Lock className="h-4 w-4" />
+              {loading ? "Memproses..." : "Masuk ke Sistem"}
+            </button>
+          </form>
+        )}
+
+        {error && (
+          <div className="rounded-2xl bg-[var(--bad)]/12 px-3.5 py-2.5 text-center text-xs font-semibold text-[var(--bad)]">
+            {error}
+          </div>
+        )}
+
+        <div className="border-t border-[var(--rim)] pt-3 text-center text-xs text-[var(--muted)]">
+          Pemilik bisnis baru?{" "}
+          <a href="/register" className="font-semibold text-[var(--primary-ink)] hover:underline">
+            Daftar Gratis (1 Outlet · 3 Akun)
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}

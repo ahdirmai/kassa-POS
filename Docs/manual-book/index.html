@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual Book — Kassa POS (kassa.biz.id)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #efefec;
+      --surface: #ffffff;
+      --soft: #f7f7f4;
+      --ink: #111111;
+      --on-ink: #f7f7f5;
+      --accent: #bcd4f2;
+      --on-accent: #0f1f33;
+      --iris: #2563a8;
+      --muted: #5c5c5a;
+      --line: #e2e2dd;
+      --good: #237a48;
+      --warn: #8f6000;
+      --bad: #bf3644;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Urbanist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+      font-size: 13.5px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+
+    .book {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    .sheet {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 34px 36px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 44px -32px rgba(0, 0, 0, 0.25);
+    }
+
+    .cover {
+      background: linear-gradient(155deg, #111111 0%, #1c2838 65%, #24476e 100%);
+      color: var(--on-ink);
+      border: none;
+      padding: 52px 44px;
+      min-height: 245mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: var(--on-accent);
+      font-weight: 800;
+      font-size: 22px;
+      display: grid;
+      place-items: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+    .cover h1 {
+      font-size: 42px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 18px 0 12px;
+      font-weight: 800;
+    }
+    .cover p.lead {
+      font-size: 16px;
+      color: rgba(247, 247, 245, 0.82);
+      max-width: 600px;
+      margin: 0 0 24px;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .cover-stat {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+    .cover-stat b {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+    .cover-stat span {
+      font-size: 11.5px;
+      color: rgba(247, 247, 245, 0.72);
+    }
+
+    h2.chapter {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chapter-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--iris);
+      margin-bottom: 4px;
+    }
+    h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      margin: 18px 0 6px;
+      color: var(--ink);
+    }
+    p { margin: 0 0 10px; color: #2b2b29; }
+    ul, ol { margin: 0 0 12px; padding-left: 20px; }
+    li { margin-bottom: 5px; }
+
+    .callout {
+      background: var(--soft);
+      border-left: 4px solid var(--iris);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 12px 0 16px;
+      font-size: 12.5px;
+    }
+    .callout b { color: var(--ink); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px;
+      font-size: 12.5px;
+    }
+    th, td {
+      text-align: left;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      background: var(--soft);
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .ss-box {
+      margin: 14px 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f5f5f2;
+      break-inside: avoid;
+    }
+    .ss-box img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .ss-cap {
+      padding: 8px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+    }
+
+    .ss-mobile-wrap {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 18px;
+      align-items: center;
+      margin: 14px 0;
+      break-inside: avoid;
+    }
+    .ss-mobile-wrap .ss-box { margin: 0; }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .toc-item {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .toc-item b { display: block; font-size: 13.5px; margin-bottom: 2px; }
+    .toc-item span { font-size: 11.5px; color: var(--muted); }
+
+    kbd {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 1px 6px;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    @media print {
+      body { background: #ffffff; }
+      .book { max-width: none; padding: 0; margin: 0; }
+      .sheet {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0 0 12px;
+      }
+      .cover {
+        border-radius: 18px;
+        padding: 40px 36px;
+        min-height: 256mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="book">
+
+    <!-- COVER PAGE -->
+    <section class="sheet cover">
+      <div>
+        <div class="brand-row">
+          <div class="brand-mark">K</div>
+          <div>
+            <div style="font-weight:800;font-size:20px;letter-spacing:-0.02em;">Kassa</div>
+            <div style="font-size:12px;opacity:.75;">kassa.biz.id · app.kassa.biz.id · Single-Tenant F&amp;B POS</div>
+          </div>
+        </div>
+
+        <div style="margin-top:46px;">
+          <span class="pill">USER MANUAL BOOK · VERSI 1.0</span>
+          <h1>Panduan Operasional<br/>Kassa POS Cafe &amp; Rumah Makan</h1>
+          <p class="lead">
+            Buku panduan lengkap untuk Owner, Manager, Kasir, dan Tim Dapur/Bar dalam mengoperasikan Kassa POS,
+            Kitchen Display Kanban realtime, manajemen menu &amp; add-on dinamis, stok bahan baku fleksibel &amp; HPP,
+            mode offline, serta RBAC dinamis.
+          </p>
+        </div>
+
+        <div class="ss-box" style="margin-top:26px;border-color:rgba(255,255,255,.18);background:#0f1722;">
+          <img src="screenshots/02-pos.png" alt="Preview Layar Kasir Kassa" />
+        </div>
+      </div>
+
+      <div>
+        <div class="cover-grid">
+          <div class="cover-stat">
+            <b>Mode Offline-Ready</b>
+            <span>Transaksi tunai tetap jalan saat internet mati &amp; sinkron otomatis</span>
+          </div>
+          <div class="cover-stat">
+            <b>KDS Kanban Realtime</b>
+            <span>Drag &amp; drop tiket antar kolom + timer SLA per stasiun</span>
+          </div>
+          <div class="cover-stat">
+            <b>Stok Fleksibel &amp; HPP</b>
+            <span>Konversi satuan otomatis (kg/g/ml/box/shot) &amp; potong stok saat lunas</span>
+          </div>
+        </div>
+        <div style="margin-top:18px;display:flex;justify-content:space-between;font-size:11.5px;opacity:.65;">
+          <span>Stack: Next.js 15 + Express + Prisma + MySQL 8 + Socket.IO</span>
+          <span>Bahasa Indonesia · Mobile, Tablet &amp; Desktop Ready</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAFTAR ISI & BAB 1 -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Ringkasan Panduan</div>
+      <h2 class="chapter">Daftar Isi</h2>
+      <div class="toc-grid">
+        <div class="toc-item"><b>Bab 1 · Login &amp; Hak Akses Per Role</b><span>PIN cepat, email admin, dan navigasi adaptif RBAC</span></div>
+        <div class="toc-item"><b>Bab 2 · Operasional Kasir POS &amp; Offline</b><span>Buka shift, order, add-on, bayar, struk thermal &amp; Z-Report</span></div>
+        <div class="toc-item"><b>Bab 3 · Kitchen Display Kanban (KDS)</b><span>Antrean dapur realtime, drag &amp; drop, SLA &amp; recall</span></div>
+        <div class="toc-item"><b>Bab 4 · Dashboard Owner &amp; Laporan</b><span>KPI omzet, PB1/Service, jam ramai, ekspor CSV</span></div>
+        <div class="toc-item"><b>Bab 5 · Menu, Grup Add-On &amp; Meja</b><span>CRUD menu berfoto, badge Custom, add-on dinamis &amp; denah meja</span></div>
+        <div class="toc-item"><b>Bab 6 · Stok Fleksibel, Resep &amp; HPP</b><span>Satuan bebas, kalkulator harga beli, BOM &amp; Stock Opname</span></div>
+        <div class="toc-item"><b>Bab 7 · RBAC Dinamis &amp; Pengaturan</b><span>Role kustom, multi-staf per shift, pajak PB1, tema &amp; Audit Log</span></div>
+        <div class="toc-item"><b>Bab 8 · Pintasan &amp; Troubleshooting</b><span>Shortcut ⌘K, cetak struk 58/80mm &amp; solusi kendala umum</span></div>
+      </div>
+
+      <hr style="border:0;border-top:1px solid var(--line);margin:24px 0;" />
+
+      <div class="chapter-tag">Bab 1</div>
+      <h2 class="chapter">Login &amp; Hak Akses Per Role</h2>
+      <p>
+        Kassa mendukung dua cara masuk di halaman <b><code>/login</code></b>: <b>PIN Cepat (4–6 digit)</b> untuk kasir dan tim dapur
+        agar pergantian shift berlangsung dalam hitungan detik, serta <b>Email &amp; Password</b> untuk Owner/Manager.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Peran</th><th>Nama Demo</th><th>Email</th><th>PIN Cepat</th><th>Akses Layar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Owner</b></td><td>Raka Pratama</td><td>owner@senja.id</td><td><b>1111</b></td><td>Semua modul (POS, KDS, Admin, RBAC, Pengaturan)</td></tr>
+          <tr><td><b>Manager</b></td><td>Nadia Kusuma</td><td>manager@senja.id</td><td><b>2222</b></td><td>POS, KDS, Dashboard, Menu, Meja, Stok, Shift, Laporan + Approval PIN</td></tr>
+          <tr><td><b>Kasir (Pagi)</b></td><td>Dina Kartika</td><td>kasir@senja.id</td><td><b>1234</b></td><td>Khusus <b>Kasir POS</b> (<code>/pos</code>)</td></tr>
+          <tr><td><b>Kasir (Sore)</b></td><td>Sinta Dewi</td><td>sinta@senja.id</td><td><b>3456</b></td><td>Khusus <b>Kasir POS</b> (<code>/pos</code>)</td></tr>
+          <tr><td><b>Dapur / Bar</b></td><td>Budi Santoso</td><td>dapur@senja.id</td><td><b>5678</b></td><td>Khusus <b>Layar Dapur KDS</b> (<code>/kds</code>)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="ss-box">
+        <img src="screenshots/01-login.png" alt="Halaman Login PIN Cepat Kassa" />
+        <div class="ss-cap">Gambar 1.1 — Halaman Login PIN Cepat 4–6 digit &amp; Tab Email Admin.</div>
+      </div>
+
+      <div class="callout">
+        <b>Keamanan RBAC Ketat:</b> Navigasi (Left Dock, Top Tabs, Mobile Bottom Bar, dan <code>⌘K</code> Finder) otomatis menyesuaikan izin role.
+        Kasir tidak dapat melihat maupun membuka <code>/admin</code> atau <code>/kds</code>.
+      </div>
+    </section>
+
+    <!-- BAB 2: KASIR POS -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 2</div>
+      <h2 class="chapter">Operasional Kasir POS &amp; Mode Offline</h2>
+
+      <h3>2.1 Alur Harian Kasir</h3>
+      <ol>
+        <li><b>Buka Shift:</b> Klik tombol <b>Buka Shift</b> di pojok kanan atas, masukkan <b>Modal Kas Awal</b> (mis. Rp500.000), lalu simpan.</li>
+        <li><b>Pilih Tipe Order &amp; Meja:</b> Pilih <b>Dine-in</b> (ketuk <i>Pilih Meja</i>), <b>Takeaway</b>, atau <b>Delivery</b>. Sistem mengunci meja agar tidak ada 2 order aktif di meja yang sama.</li>
+        <li><b>Tambah Menu:</b> Ketuk foto menu. Menu bertanda <b>Custom</b> otomatis membuka popup pilihan <i>Varian</i>, <i>Add-On</i>, dan <i>Catatan Dapur</i>; menu lainnya masuk keranjang dalam 1 ketuk.</li>
+        <li><b>Kirim ke Dapur atau Langsung Bayar:</b> Klik <b>Dapur</b> untuk mengirim pesanan ke KDS tanpa membayar dulu (Hold Bill), atau klik <b>Bayar</b> untuk langsung menyelesaikan transaksi.</li>
+        <li><b>Pembayaran &amp; Struk Thermal:</b> Pilih <b>Tunai</b> (hitung kembalian otomatis), <b>QRIS Manual</b>, <b>Kartu/EDC</b>, atau <b>Transfer</b>. Perhitungan default: <b>Service Charge 5% → PB1 10% → Pembulatan Rp100</b>. Setelah lunas, pratinjau struk thermal 58/80mm muncul siap cetak.</li>
+        <li><b>Void Order (Sensitif):</b> Membatalkan order aktif di tombol <i>Order Aktif</i> wajib memasukkan <b>PIN Approval Manager/Owner</b> + alasan tertulis (tercatat permanen di Audit Log).</li>
+        <li><b>Tutup Shift (Z-Report):</b> Di akhir shift, klik tombol <b>Shift Aktif</b>, masukkan hitungan kas fisik aktual di laci, lalu simpan. Sistem menghitung selisih (<i>Expected vs Actual</i>) secara otomatis.</li>
+      </ol>
+
+      <div class="ss-box">
+        <img src="screenshots/02-pos.png" alt="Layar Kasir POS Desktop" />
+        <div class="ss-cap">Gambar 2.1 — Layar Kasir POS dengan foto menu HD, badge Custom, keranjang sticky, dan ringkasan pajak PB1 + Service.</div>
+      </div>
+
+      <div class="ss-mobile-wrap">
+        <div>
+          <h3>2.2 Tampilan Mobile &amp; Mode Offline</h3>
+          <ul>
+            <li><b>Responsif HP &amp; Tablet Portrait:</b> Di layar kecil, keranjang otomatis tampil sebagai <b>Floating Checkout Bar</b> di bagian bawah yang membuka <i>Slide-up Bottom Sheet</i> saat diketuk, lengkap dengan tombol <code>+/-</code> ramah sentuh (44px).</li>
+            <li><b>Saat Internet Mati (Offline):</b> Indikator di pojok kanan atas berubah menjadi <b>Offline</b>. Kasir tetap dapat menerima pembayaran <b>Tunai</b> — transaksi tersimpan aman di browser (IndexedDB) dengan nomor struk prefiks <b><code>OFF-</code></b>.</li>
+            <li><b>Sinkron Otomatis:</b> Begitu koneksi internet kembali normal, seluruh antrean offline otomatis dikirim ke server secara <i>idempotent</i> (anti-duplikasi) dan stok bahan baku otomatis menyesuaikan.</li>
+          </ul>
+        </div>
+        <div class="ss-box">
+          <img src="screenshots/10-pos-mobile.png" alt="Tampilan POS di Mobile" />
+          <div class="ss-cap">Gambar 2.2 — POS Mobile (390px) dengan Floating Cart &amp; Bottom Nav.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAB 3: KDS KANBAN -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 3</div>
+      <h2 class="chapter">Kitchen Display System (KDS Kanban)</h2>
+      <p>
+        Halaman <b><code>/kds</code></b> menampilkan seluruh pesanan dari kasir secara <b>realtime (Socket.IO)</b> dalam bentuk papan
+        <b>Kanban 3–4 Kolom</b>: <b>Antrean Baru</b> → <b>Sedang Diproses</b> → <b>Siap Saji</b> → <i>(opsional)</i> <b>Selesai / Recall</b>.
+      </p>
+      <ul>
+        <li><b>Filter Stasiun:</b> Tim Barista cukup memilih <b>Bar &amp; Kopi</b>, tim Chef memilih <b>Dapur Panas</b>, dan tim Bakery memilih <b>Pastry</b> — setiap tiket hanya menampilkan item milik stasiunnya.</li>
+        <li><b>Drag &amp; Drop atau 1-Tap:</b> Di layar desktop, seret kartu tiket ke kolom berikutnya; di layar sentuh dapur, cukup ketuk tombol aksi (<i>Mulai Proses</i> → <i>Tandai Siap</i> → <i>Bump Selesai</i>).</li>
+        <li><b>Peringatan SLA:</b> Setiap tiket memiliki penghitung waktu berjalan. Jika melewati batas SLA stasiun (mis. Bar 6 menit, Dapur 12 menit), kartu otomatis menyala dengan <b>border merah</b>.</li>
+        <li><b>Recall Tiket:</b> Aktifkan tombol <b>Tampilkan Selesai</b> jika ingin menarik kembali tiket yang tidak sengaja ter-bump.</li>
+      </ul>
+
+      <div class="ss-box">
+        <img src="screenshots/03-kds.png" alt="KDS Kanban Board" />
+        <div class="ss-cap">Gambar 3.1 — Papan Kanban KDS Realtime lengkap dengan ribbon proporsi beban kerja, drag-and-drop, dan indikator SLA.</div>
+      </div>
+    </section>
+
+    <!-- BAB 4: DASHBOARD & LAPORAN -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 4</div>
+      <h2 class="chapter">Dashboard Owner &amp; Laporan Penjualan</h2>
+      <p>
+        Di halaman <b><code>/admin</code></b>, Owner dan Manager mendapatkan gambaran kesehatan bisnis secara instan:
+      </p>
+      <ul>
+        <li><b>4 Kartu KPI Utama:</b> Total Penjualan Hari Ini (beserta rincian PB1 &amp; Service Charge), Jumlah Transaksi &amp; Rata-rata Bill, Okupansi Meja aktif, dan Jumlah Bahan Baku Kritis.</li>
+        <li><b>Grafik Jam Ramai (08:00–22:00):</b> Memudahkan penjadwalan shift staf pada jam puncak (pagi, makan siang, sore).</li>
+        <li><b>Rincian Metode Bayar &amp; Alert Stok Minimum:</b> Memantau porsi Tunai vs QRIS/EDC/Transfer serta daftar bahan baku yang perlu segera di-restock.</li>
+        <li><b>Laporan &amp; Ekspor CSV (<code>/admin/reports</code>):</b> Ringkasan omzet bersih, total diskon, total HPP, estimasi laba kotor, jumlah void, dan tombol <b>Ekspor CSV</b> untuk diolah di Excel/Google Sheets.</li>
+      </ul>
+
+      <div class="ss-box">
+        <img src="screenshots/04-dashboard.png" alt="Dashboard Owner Kassa" />
+        <div class="ss-cap">Gambar 4.1 — Dashboard Owner dengan KPI utama, grafik jam ramai, metode bayar, peringatan stok, dan menu terlaris.</div>
+      </div>
+    </section>
+
+    <!-- BAB 5: MENU, ADD-ON & MEJA -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 5</div>
+      <h2 class="chapter">Manajemen Menu, Grup Add-On &amp; Denah Meja</h2>
+
+      <h3>5.1 Menu, Foto HD &amp; Grup Add-On Dinamis (<code>/admin/menu</code>)</h3>
+      <ul>
+        <li><b>Tambah / Edit / Hapus Menu:</b> Atur SKU, Nama, URL Foto (dengan live preview), Kategori, Stasiun KDS, Harga Dasar, HPP, Varian Ukuran/Penyajian, serta centang Grup Add-On yang berlaku khusus untuk menu tersebut.</li>
+        <li><b>Indikator Custom vs 1-Tap:</b> Menu yang memiliki &gt;1 varian atau ≥1 grup add-on otomatis bertanda <b>Custom</b> di Admin maupun di Kasir POS.</li>
+        <li><b>Tab Grup Add-On:</b> Klik tab <b>Grup Add-On</b> untuk menambah/mengubah grup baru (mis. <i>Topping Dessert</i>, <i>Extra Saus</i>), atur Wajib/Opsional, batas Min–Maks pilihan, dan daftar opsi beserta harga tambahannya.</li>
+      </ul>
+
+      <div class="ss-box">
+        <img src="screenshots/05-menu.png" alt="Manajemen Menu dan Add-On" />
+        <div class="ss-cap">Gambar 5.1 — Manajemen Menu berfoto dengan kolom status Custom (Varian &amp; Modifier), toggle ketersediaan cepat, dan tab Grup Add-On.</div>
+      </div>
+
+      <h3>5.2 CRUD Area, Meja &amp; Pindah Meja (<code>/admin/tables</code>)</h3>
+      <p>
+        Kelola area ruangan (Indoor, Teras, VIP) dan daftar meja beserta kapasitas kursinya. Meja yang sedang terisi menampilkan nomor order &amp; nominal tagihan, serta memiliki tombol <b>Pindah Meja</b> untuk memindahkan tamu ke meja kosong lain.
+      </p>
+
+      <div class="ss-box">
+        <img src="screenshots/06-tables.png" alt="Denah Meja dan Area" />
+        <div class="ss-cap">Gambar 5.2 — Denah Meja per Area dengan status Kosong/Terisi, CRUD Area &amp; Meja, serta fitur Pindah Meja.</div>
+      </div>
+    </section>
+
+    <!-- BAB 6: STOK, RESEP & HPP -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 6</div>
+      <h2 class="chapter">Stok Bahan Baku Fleksibel, Resep (BOM) &amp; HPP</h2>
+      <p>
+        Modul <b><code>/admin/stock</code></b> dirancang fleksibel untuk berbagai satuan dapur/bar (<code>gram</code>, <code>kg</code>, <code>ons</code>, <code>ml</code>, <code>liter</code>, <code>sdm</code>, <code>sdt</code>, <code>shot</code>, <code>oz</code>, <code>box</code>, <code>botol</code>, <code>tray</code>, hingga satuan bebas seperti <code>pump</code> atau <code>slice</code>).
+      </p>
+
+      <h3>Langkah Pengisian</h3>
+      <ol>
+        <li><b>Isi Master Bahan Baku (Tab <i>Bahan Baku</i> → <i>+ Tambah Bahan</i>):</b> Pilih <b>Preset Satuan Cepat</b> (mis. <i>Berat kg→gram</i>, <i>Sirup botol→ml 750</i>, <i>Bakery box→pcs 12</i>) atau ketik satuan bebas. Masukkan <b>Harga Beli per Kemasan</b> pada <b>Kalkulator HPP Bahan</b> — sistem otomatis menghitung biaya per satuan dasar.</li>
+        <li><b>Atur Resep (Tab <i>Resep &amp; HPP</i> → <i>Atur Resep / HPP</i>):</b> Tambahkan bahan penyusun 1 porsi menu. Anda bebas memilih satuan takaran (mis. <code>18 gram</code>, <code>150 ml</code>, atau <code>2 sdm</code>). Sistem otomatis menampilkan konversi, subtotal per baris, <b>Estimasi HPP</b>, dan <b>Margin Kotor (%)</b>.</li>
+        <li><b>Catat Restock / Waste / Stock Opname (Panel Kanan):</b> Pilih bahan, jenis mutasi, angka, dan <b>Satuan Input</b> (mis. langsung ketik <code>2 kg</code> atau <code>3 box</code>). Untuk <b>Stock Opname</b>, cukup masukkan jumlah fisik aktual hasil hitung di gudang — sistem menghitung selisihnya otomatis dan mencatat di tab <b>Ledger Mutasi</b>.</li>
+      </ol>
+
+      <div class="ss-box">
+        <img src="screenshots/07-stock.png" alt="Manajemen Stok Bahan Baku dan HPP" />
+        <div class="ss-cap">Gambar 6.1 — Daftar Bahan Baku dengan status Aman/Kritis, form Mutasi &amp; Stock Opname dengan dropdown satuan fleksibel.</div>
+      </div>
+    </section>
+
+    <!-- BAB 7: RBAC & PENGATURAN -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 7</div>
+      <h2 class="chapter">RBAC Dinamis, Multi-Staf &amp; Pengaturan Bisnis</h2>
+
+      <h3>7.1 RBAC Dinamis &amp; Multi-Staf (<code>/admin/rbac</code>)</h3>
+      <ul>
+        <li><b>Role &amp; Matriks Permission:</b> Owner dapat membuat role kustom baru (mis. <i>Supervisor Shift</i>) dan mencentang/mencabut 17 izin secara live tanpa restart server.</li>
+        <li><b>Daftar Staf:</b> Satu role dapat memiliki banyak staf (contoh: <i>Dina Kartika</i> sebagai Kasir Shift Pagi PIN <code>1234</code> dan <i>Sinta Dewi</i> sebagai Kasir Shift Sore PIN <code>3456</code>). Owner dapat menambah akun, mengganti role, reset password/PIN, atau menonaktifkan akun kapan saja.</li>
+      </ul>
+
+      <div class="ss-box">
+        <img src="screenshots/08-rbac.png" alt="RBAC Dinamis dan Staf" />
+        <div class="ss-cap">Gambar 7.1 — Matriks RBAC Dinamis per Role dengan toggle izin secara langsung dan proteksi anti-lockout untuk Owner.</div>
+      </div>
+
+      <h3>7.2 Pengaturan Pajak, Tema &amp; Audit Log (<code>/admin/settings</code>)</h3>
+      <p>
+        Atur nama bisnis, tarif <b>PB1 (%)</b>, <b>Service Charge (%)</b>, <b>Pembulatan (Rp)</b>, teks footer struk, mode tampilan <b>Light/Dark</b>,
+        serta <b>5 aksen warna Kassa</b> (Ocean, Sage, Coral, Amber, Mono). Di sisi kanan tersaji <b>Audit Log Immutable</b> yang merekam seluruh aksi penting (login, buka/tutup shift, void, refund, waste, perubahan RBAC).
+      </p>
+
+      <div class="ss-box">
+        <img src="screenshots/09-settings.png" alt="Pengaturan Bisnis dan Audit Log" />
+        <div class="ss-cap">Gambar 7.2 — Pengaturan Pajak PB1/Service, pilihan Tema &amp; 5 Aksen Kassa, serta Audit Log Immutable.</div>
+      </div>
+    </section>
+
+    <!-- BAB 8: SHORTCUT & TROUBLESHOOTING -->
+    <section class="sheet page-break">
+      <div class="chapter-tag">Bab 8</div>
+      <h2 class="chapter">Pintasan Keyboard &amp; Troubleshooting Cepat</h2>
+
+      <h3>8.1 Pintasan Keyboard</h3>
+      <table>
+        <thead>
+          <tr><th>Pintasan</th><th>Fungsi</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><kbd>⌘K</kbd> atau <kbd>Ctrl+K</kbd></td><td>Membuka Quick Finder untuk melompat cepat ke halaman yang diizinkan role</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Menutup Quick Finder / modal yang sedang terbuka</td></tr>
+        </tbody>
+      </table>
+
+      <h3>8.2 Troubleshooting Umum</h3>
+      <table>
+        <thead>
+          <tr><th>Kendala</th><th>Solusi Cepat</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Internet putus saat jam sibuk</b></td>
+            <td>Tetap layani transaksi <b>Tunai</b> di <code>/pos</code> (struk keluar dengan prefiks <code>OFF-</code>). Saat Wi-Fi kembali menyala, sistem otomatis menyinkronkan antrean ke database tanpa duplikasi.</td>
+          </tr>
+          <tr>
+            <td><b>Kasir salah input order yang sudah dikirim ke dapur</b></td>
+            <td>Buka <b>Order Aktif</b> di <code>/pos</code> → klik <b>Void</b> → masukkan <b>PIN Manager (2222) / Owner (1111)</b> + alasan. Aksi tercatat di Audit Log.</td>
+          </tr>
+          <tr>
+            <td><b>Staf lupa PIN atau Password</b></td>
+            <td>Owner masuk ke <code>/admin/rbac</code> → tab <b>Daftar Staf</b> → klik ikon pensil (<i>Edit Akun</i>) → isi Password/PIN baru lalu simpan.</td>
+          </tr>
+          <tr>
+            <td><b>Struk thermal terpotong / tidak pas 80mm</b></td>
+            <td>Pada dialog print browser, pilih printer thermal 58/80mm, set <i>Margins: None</i>, dan matikan <i>Headers and footers</i>.</td>
+          </tr>
+          <tr>
+            <td><b>Perubahan izin RBAC belum terlihat di layar staf</b></td>
+            <td>Minta staf me-refresh halaman (atau otomatis tersinkron saat berpindah halaman via <code>/auth/me</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:24px;">
+        <b>Dukungan Teknis &amp; Dokumentasi Developer:</b> Dokumentasi teknis lengkap (PRD, System Design, Design System, Database Schema, API Spec, dan Runbook Backup/Restore) tersedia di folder <code>Docs/</code> pada repository proyek.
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Production multi-stage Dockerfile for @pos/web (Next.js 15 + @pos/shared)
+FROM node:20-alpine AS builder
+RUN corepack enable && corepack prepare pnpm@10.32.0 --activate
+WORKDIR /app
+
+ARG NEXT_PUBLIC_API_URL=/api/v1
+ARG NEXT_PUBLIC_SOCKET_URL=
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml tsconfig.base.json ./
+COPY packages/shared/package.json ./packages/shared/
+COPY apps/web/package.json ./apps/web/
+
+RUN pnpm install --frozen-lockfile
+
+COPY packages/shared ./packages/shared
+COPY apps/web ./apps/web
+
+RUN pnpm --filter @pos/shared build
+RUN pnpm --filter @pos/web build
+
+FROM node:20-alpine AS runner
+RUN corepack enable && corepack prepare pnpm@10.32.0 --activate
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/package.json /app/pnpm-workspace.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/shared ./packages/shared
+COPY --from=builder /app/apps/web ./apps/web
+
+WORKDIR /app/apps/web
+EXPOSE 3000
+CMD ["pnpm", "start"]

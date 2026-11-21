@@ -1,0 +1,9 @@
+{
+  "name": "Kassa — POS Cafe & Rumah Makan",
+  "short_name": "Kassa",
+  "start_url": "/pos",
+  "display": "standalone",
+  "background_color": "#efefec",
+  "theme_color": "#111111",
+  "description": "Kassa (kassa.biz.id) — Sistem POS Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, stok fleksibel & kontrol HPP."
+}

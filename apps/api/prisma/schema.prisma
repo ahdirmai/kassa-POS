@@ -1,0 +1,578 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// MULTI-TENANT, OUTLET & RBAC
+// ============================================================================
+
+model Tenant {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(120)
+  slug          String    @unique @db.VarChar(80)
+  plan          String    @default("FREE") @db.VarChar(20) // FREE | PRO | ENTERPRISE
+  planExpiresAt DateTime?
+  maxOutlets    Int       @default(1)
+  maxUsers      Int       @default(3) // FREE: 1 Owner + 2 Staf (total 3 akun)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  outlets Outlet[]
+  users   User[]
+}
+
+model Outlet {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int      @default(1)
+  code      String   @unique @db.VarChar(20)
+  name      String   @db.VarChar(120)
+  address   String?  @db.VarChar(255)
+  phone     String?  @db.VarChar(40)
+  timezone  String   @default("Asia/Jakarta") @db.VarChar(40)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant    Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  users     User[]
+  areas     Area[]
+  tables    DiningTable[]
+  shifts    Shift[]
+  orders    Order[]
+  stations  Station[]
+
+  @@index([tenantId])
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  outletId  Int      @default(1)
+  key       String   @db.VarChar(80)
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@unique([outletId, key])
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  code        String           @unique @db.VarChar(40)
+  name        String           @db.VarChar(80)
+  description String?          @db.VarChar(255)
+  users       User[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          Int              @id @default(autoincrement())
+  code        String           @unique @db.VarChar(60)
+  description String?          @db.VarChar(255)
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  tenantId     Int       @default(1)
+  outletId     Int       @default(1)
+  roleId       Int
+  name         String    @db.VarChar(120)
+  email        String    @unique @db.VarChar(120)
+  passwordHash String    @db.VarChar(255)
+  pinHash      String?   @db.VarChar(255)
+  pinCode      String?   @db.VarChar(10) // lookup cepat per outlet + diverifikasi hash
+  isActive     Boolean   @default(true)
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  outlet        Outlet         @relation(fields: [outletId], references: [id])
+  role          Role           @relation(fields: [roleId], references: [id])
+  refreshTokens RefreshToken[]
+  shifts        Shift[]
+  orders        Order[]        @relation("OrderCashier")
+  auditLogs     AuditLog[]
+
+  @@index([tenantId])
+  @@index([outletId, pinCode])
+}
+
+model RefreshToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  tokenHash String    @unique @db.VarChar(128)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  outletId    Int      @default(1)
+  userId      Int?
+  action      String   @db.VarChar(80)
+  entityType  String   @db.VarChar(60)
+  entityId    String?  @db.VarChar(60)
+  reason      String?  @db.VarChar(255)
+  beforeValue String?  @db.Text
+  afterValue  String?  @db.Text
+  ipAddress   String?  @db.VarChar(64)
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([outletId, createdAt])
+  @@index([entityType, entityId])
+}
+
+// ============================================================================
+// MENU, VARIAN, MODIFIER & STASIUN KDS
+// ============================================================================
+
+model Station {
+  id        Int       @id @default(autoincrement())
+  outletId  Int       @default(1)
+  code      String    @db.VarChar(30)
+  name      String    @db.VarChar(80)
+  tone      String    @default("iris") @db.VarChar(20)
+  slaMins   Int       @default(10)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  outlet   Outlet          @relation(fields: [outletId], references: [id])
+  products Product[]
+  tickets  KitchenTicket[]
+
+  @@unique([outletId, code])
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  outletId  Int       @default(1)
+  name      String    @db.VarChar(80)
+  tone      String    @default("slate") @db.VarChar(20)
+  sortOrder Int       @default(0)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  outletId    Int       @default(1)
+  categoryId  Int
+  stationId   Int?
+  sku         String    @db.VarChar(40)
+  name        String    @db.VarChar(120)
+  monogram    String    @default("MN") @db.VarChar(4)
+  tone        String    @default("iris") @db.VarChar(20)
+  price       BigInt    // rupiah
+  cost        BigInt    @default(0) // HPP estimasi/terhitung rupiah
+  imageUrl    String?   @db.VarChar(255)
+  isAvailable Boolean   @default(true)
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  category       Category               @relation(fields: [categoryId], references: [id])
+  station        Station?               @relation(fields: [stationId], references: [id], onDelete: SetNull)
+  variants       ProductVariant[]
+  modifierGroups ProductModifierGroup[]
+  recipe         Recipe?
+  orderItems     OrderItem[]
+
+  @@unique([outletId, sku])
+  @@index([categoryId])
+}
+
+model ProductVariant {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  name       String   @db.VarChar(80)
+  priceDelta BigInt   @default(0) // tambahan harga dari base price
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ModifierGroup {
+  id         Int        @id @default(autoincrement())
+  outletId   Int        @default(1)
+  name       String     @db.VarChar(80)
+  isRequired Boolean    @default(false)
+  minSelect  Int        @default(0)
+  maxSelect  Int        @default(1)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  modifiers Modifier[]
+  products  ProductModifierGroup[]
+
+  @@index([outletId])
+}
+
+model Modifier {
+  id              Int      @id @default(autoincrement())
+  modifierGroupId Int
+  name            String   @db.VarChar(80)
+  price           BigInt   @default(0)
+  isAvailable     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  group ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
+}
+
+model ProductModifierGroup {
+  productId       Int
+  modifierGroupId Int
+
+  product       Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  modifierGroup ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
+
+  @@id([productId, modifierGroupId])
+}
+
+// ============================================================================
+// MEJA & AREA
+// ============================================================================
+
+model Area {
+  id        Int           @id @default(autoincrement())
+  outletId  Int           @default(1)
+  name      String        @db.VarChar(80)
+  sortOrder Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  outlet Outlet        @relation(fields: [outletId], references: [id])
+  tables DiningTable[]
+}
+
+model DiningTable {
+  id        Int      @id @default(autoincrement())
+  outletId  Int      @default(1)
+  areaId    Int
+  code      String   @db.VarChar(20)
+  name      String   @db.VarChar(60)
+  capacity  Int      @default(4)
+  status    String   @default("AVAILABLE") @db.VarChar(24) // AVAILABLE | OCCUPIED | WAITING_PAYMENT
+  qrToken   String   @unique @db.VarChar(64)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  outlet Outlet  @relation(fields: [outletId], references: [id])
+  area   Area    @relation(fields: [areaId], references: [id])
+  orders Order[]
+
+  @@unique([outletId, code])
+}
+
+// ============================================================================
+// SHIFT & KAS
+// ============================================================================
+
+model Shift {
+  id           Int       @id @default(autoincrement())
+  outletId     Int       @default(1)
+  userId       Int
+  status       String    @default("OPEN") @db.VarChar(20) // OPEN | CLOSED
+  openingCash  BigInt    @default(0)
+  expectedCash BigInt    @default(0)
+  actualCash   BigInt?
+  difference   BigInt?
+  notes        String?   @db.VarChar(255)
+  openedAt     DateTime  @default(now())
+  closedAt     DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  outlet        Outlet         @relation(fields: [outletId], references: [id])
+  user          User           @relation(fields: [userId], references: [id])
+  cashMovements CashMovement[]
+  orders        Order[]
+
+  @@index([outletId, status])
+}
+
+model CashMovement {
+  id        Int      @id @default(autoincrement())
+  outletId  Int      @default(1)
+  shiftId   Int
+  type      String   @db.VarChar(20) // CASH_IN | CASH_OUT
+  amount    BigInt
+  reason    String   @db.VarChar(255)
+  createdBy Int?
+  createdAt DateTime @default(now())
+
+  shift Shift @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+
+  @@index([shiftId])
+}
+
+// ============================================================================
+// ORDER, ROUND, KDS & PEMBAYARAN
+// ============================================================================
+
+model Order {
+  id                  Int       @id @default(autoincrement())
+  outletId            Int       @default(1)
+  shiftId             Int?
+  tableId             Int?
+  cashierId           Int?
+  clientUuid          String?   @unique @db.Char(36)
+  orderNo             String    @db.VarChar(40)
+  queueNo             Int       @default(1)
+  receiptNo           String?   @unique @db.VarChar(50)
+  orderType           String    @default("DINE_IN") @db.VarChar(20) // DINE_IN | TAKEAWAY | DELIVERY
+  status              String    @default("OPEN") @db.VarChar(20) // DRAFT | OPEN | SENT | SERVED | PAID | CLOSED | VOID
+  customerName        String?   @db.VarChar(120)
+  notes               String?   @db.VarChar(255)
+  discountType        String?   @db.VarChar(20) // PERCENT | FIXED
+  discountValue       Int       @default(0)
+  subtotal            BigInt    @default(0)
+  discountAmount      BigInt    @default(0)
+  serviceChargeAmount BigInt    @default(0)
+  taxAmount           BigInt    @default(0)
+  roundingAmount      BigInt    @default(0)
+  tipAmount           BigInt    @default(0)
+  grandTotal          BigInt    @default(0)
+  voidReason          String?   @db.VarChar(255)
+  paidAt              DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  outlet         Outlet          @relation(fields: [outletId], references: [id])
+  shift          Shift?          @relation(fields: [shiftId], references: [id], onDelete: SetNull)
+  table          DiningTable?    @relation(fields: [tableId], references: [id], onDelete: SetNull)
+  cashier        User?           @relation("OrderCashier", fields: [cashierId], references: [id], onDelete: SetNull)
+  rounds         OrderRound[]
+  items          OrderItem[]
+  payments       Payment[]
+  kitchenTickets KitchenTicket[]
+
+  @@index([outletId, createdAt])
+  @@index([status])
+  @@index([tableId])
+}
+
+model OrderRound {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  roundNo   Int
+  sentAt    DateTime @default(now())
+  createdBy Int?
+
+  order   Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  items   OrderItem[]
+  tickets KitchenTicket[]
+
+  @@index([orderId])
+}
+
+model OrderItem {
+  id            Int      @id @default(autoincrement())
+  orderId       Int
+  roundId       Int?
+  productId     Int?
+  variantId     Int?
+  productName   String   @db.VarChar(120) // snapshot nama produk
+  variantName   String?  @db.VarChar(80)  // snapshot nama varian
+  stationId     Int?
+  unitPrice     BigInt   // snapshot harga produk + varian
+  unitCost      BigInt   @default(0) // snapshot HPP
+  modifiersSum  BigInt   @default(0)
+  quantity      Int
+  lineTotal     BigInt
+  notes         String?  @db.VarChar(255)
+  kitchenStatus String   @default("PENDING") @db.VarChar(20) // PENDING | NEW | PREPARING | READY | BUMPED
+  createdAt     DateTime @default(now())
+
+  order     Order               @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  round     OrderRound?         @relation(fields: [roundId], references: [id], onDelete: SetNull)
+  product   Product?            @relation(fields: [productId], references: [id], onDelete: SetNull)
+  modifiers OrderItemModifier[]
+
+  @@index([orderId])
+}
+
+model OrderItemModifier {
+  id           Int    @id @default(autoincrement())
+  orderItemId  Int
+  modifierId   Int?
+  modifierName String @db.VarChar(80)
+  price        BigInt @default(0)
+
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+
+  @@index([orderItemId])
+}
+
+model KitchenTicket {
+  id        Int       @id @default(autoincrement())
+  outletId  Int       @default(1)
+  orderId   Int
+  roundId   Int
+  stationId Int
+  status    String    @default("NEW") @db.VarChar(20) // NEW | PREPARING | READY | BUMPED
+  startedAt DateTime?
+  readyAt   DateTime?
+  bumpedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  order   Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  round   OrderRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  station Station    @relation(fields: [stationId], references: [id])
+
+  @@index([outletId, stationId, status])
+  @@index([orderId])
+}
+
+model Payment {
+  id          Int       @id @default(autoincrement())
+  outletId    Int       @default(1)
+  orderId     Int
+  method      String    @db.VarChar(24) // CASH | QRIS | CARD_EDC | TRANSFER | EWALLET
+  status      String    @default("SETTLED") @db.VarChar(20) // PENDING | SETTLED | FAILED | REFUNDED
+  amount      BigInt
+  paidAmount  BigInt    @default(0)
+  changeAmt   BigInt    @default(0)
+  referenceNo String?   @db.VarChar(120)
+  qrString    String?   @db.Text
+  provider    String?   @db.VarChar(30)
+  settledAt   DateTime?
+  createdBy   Int?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  refunds Refund[]
+
+  @@index([orderId])
+  @@index([referenceNo])
+}
+
+model Refund {
+  id         Int      @id @default(autoincrement())
+  outletId   Int      @default(1)
+  paymentId  Int
+  amount     BigInt
+  reason     String   @db.VarChar(255)
+  approvedBy Int?
+  createdBy  Int?
+  createdAt  DateTime @default(now())
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([paymentId])
+}
+
+model PaymentWebhookEvent {
+  id          Int      @id @default(autoincrement())
+  provider    String   @db.VarChar(30)
+  eventKey    String   @unique @db.VarChar(120)
+  payload     String   @db.Text
+  processedAt DateTime @default(now())
+}
+
+// ============================================================================
+// STOK, RESEP (BOM) & HPP
+// ============================================================================
+
+model Ingredient {
+  id           Int       @id @default(autoincrement())
+  outletId     Int       @default(1)
+  sku          String    @unique @db.VarChar(40)
+  name         String    @db.VarChar(120)
+  unit         String    @db.VarChar(20) // gram, ml, pcs
+  purchaseUnit String    @db.VarChar(20) // kg, liter, pack
+  conversion   Float     @default(1)
+  unitCost     BigInt    @default(0) // biaya per satuan dasar dalam rupiah
+  currentStock Float     @default(0)
+  minStock     Float     @default(0)
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  recipeItems RecipeItem[]
+  movements   StockMovement[]
+}
+
+model Recipe {
+  id        Int      @id @default(autoincrement())
+  productId Int      @unique
+  notes     String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items   RecipeItem[]
+}
+
+model RecipeItem {
+  id           Int   @id @default(autoincrement())
+  recipeId     Int
+  ingredientId Int
+  qty          Float
+
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, ingredientId])
+}
+
+model StockMovement {
+  id           Int      @id @default(autoincrement())
+  outletId     Int      @default(1)
+  ingredientId Int
+  type         String   @db.VarChar(24) // SALE_DEDUCT | PURCHASE_IN | ADJUSTMENT | WASTE | OPNAME
+  qtyChange    Float    // positif masuk, negatif keluar
+  balanceAfter Float
+  unitCost     BigInt   @default(0)
+  referenceId  String?  @db.VarChar(60)
+  reason       String?  @db.VarChar(255)
+  createdBy    Int?
+  createdAt    DateTime @default(now())
+
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@index([ingredientId, createdAt])
+  @@index([outletId, createdAt])
+}
+
+// ============================================================================
+// SINKRONISASI OFFLINE
+// ============================================================================
+
+model SyncLog {
+  id          Int      @id @default(autoincrement())
+  outletId    Int      @default(1)
+  clientUuid  String   @unique @db.Char(36)
+  orderId     Int?
+  status      String   @default("PROCESSED") @db.VarChar(20)
+  processedAt DateTime @default(now())
+}
