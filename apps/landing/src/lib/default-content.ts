@@ -5,7 +5,7 @@ export const DEFAULT_LANDING_CONTENT: LandingContent = {
     brandName: "Kassa",
     domain: "kassa.biz.id",
     appUrl: "https://app.kassa.biz.id",
-    waNumber: "6281200000000",
+    waNumber: "62895388220777",
     waMessage:
       "Halo tim Kassa, saya ingin tanya soal Kassa POS untuk outlet saya.",
   },
@@ -200,6 +200,6 @@ export const DEFAULT_LANDING_CONTENT: LandingContent = {
 };
 
 export function buildWhatsAppUrl(waNumber: string, message: string): string {
-  const digits = waNumber.replace(/\D/g, "") || "6281200000000";
+  const digits = waNumber.replace(/\D/g, "") || "62895388220777";
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
