@@ -1,6 +1,6 @@
 /* Design tokens ported from Cadra template (light + dark + 5 accents) */
 :root {
-  --font: "Urbanist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: var(--font-urbanist), "Urbanist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --fs-2xs: 11px;
   --fs-xs: 12px;
   --fs-sm: 12.5px;

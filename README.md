@@ -41,3 +41,14 @@ pnpm dev
 | **POS Web** (`apps/web`) | `pnpm dev:web` | `http://localhost:3000` | `app.kassa.biz.id` |
 | **Landing Page** (`apps/landing`) | `pnpm dev:landing` | `http://localhost:3005` | `kassa.biz.id` |
 | **Back Office Web** (`apps/backoffice`) | `pnpm dev:backoffice` | `http://localhost:3006` | `admin.kassa.biz.id` |
+
+## PWA, Mode Offline & Auto Sync (`apps/web`)
+
+Aplikasi kasir POS (`apps/web`, fokus rute `/pos`) sudah mendukung **Progressive Web App (PWA)** dan operasional tanpa internet:
+
+- **Installable PWA:** Dilengkapi `manifest.json`, ikon standar & `maskable` (192px/512px/Apple Touch Icon), font `Urbanist` self-hosted (`next/font/google`), serta tombol **Install App** di top bar.
+- **Offline App Shell (`/pos`):** Service Worker (`public/sw.js`) meng-cache App Shell `/pos`, static chunks, dan gambar produk agar kasir tetap bisa me-refresh atau membuka `/pos` saat internet mati.
+- **Full Catalog Cache (IndexedDB / Dexie):** Menggunakan `GET /api/v1/sync/pull` untuk menyimpan katalog produk, kategori, daftar meja (`areas`), dan konfigurasi pajak/service charge (`settings`) secara lokal. Keranjang POS juga persisten di perangkat.
+- **Offline Cash Checkout & Auto Sync:** Pembayaran tunai saat offline (atau saat WiFi terhubung namun server tidak terjangkau) otomatis tersimpan di IndexedDB dengan nomor struk `OFF-xxxxxx`, lalu disinkronkan otomatis ke `POST /api/v1/sync/push` saat koneksi kembali (dengan concurrency lock, periodic retry 30 detik, Background Sync, *poison-pill* fallback per-item, dan modal inspeksi/sync manual di indikator status top bar).
+
+Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).

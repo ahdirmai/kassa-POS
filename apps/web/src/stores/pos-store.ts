@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { OrderType } from "@pos/shared";
 
 export interface CartModifier {
@@ -41,52 +42,62 @@ interface PosState {
   clearCart: () => void;
 }
 
-export const usePosStore = create<PosState>((set) => ({
-  orderType: "DINE_IN",
-  tableId: null,
-  tableLabel: null,
-  customerName: "",
-  discountType: null,
-  discountValue: 0,
-  activeOrderId: null,
-  items: [],
-  setOrderType: (orderType) =>
-    set((s) => ({
-      orderType,
-      tableId: orderType === "DINE_IN" ? s.tableId : null,
-      tableLabel: orderType === "DINE_IN" ? s.tableLabel : null,
-    })),
-  setTable: (tableId, tableLabel) => set({ tableId, tableLabel, orderType: tableId ? "DINE_IN" : "TAKEAWAY" }),
-  setCustomerName: (customerName) => set({ customerName }),
-  setDiscount: (discountType, discountValue) => set({ discountType, discountValue }),
-  setActiveOrderId: (activeOrderId) => set({ activeOrderId }),
-  addItem: (item) =>
-    set((s) => {
-      const modKey = item.modifiers.map((m) => m.id).sort().join(",");
-      const key = `${item.productId}:${item.variantId ?? 0}:${modKey}:${item.notes ?? ""}`;
-      const existing = s.items.find((x) => x.key === key);
-      if (existing) {
-        return {
-          items: s.items.map((x) => (x.key === key ? { ...x, quantity: x.quantity + item.quantity } : x)),
-        };
-      }
-      return { items: [...s.items, { ...item, key }] };
-    }),
-  updateQty: (key, delta) =>
-    set((s) => ({
-      items: s.items
-        .map((x) => (x.key === key ? { ...x, quantity: x.quantity + delta } : x))
-        .filter((x) => x.quantity > 0),
-    })),
-  removeItem: (key) => set((s) => ({ items: s.items.filter((x) => x.key !== key) })),
-  clearCart: () =>
-    set({
-      items: [],
+export const usePosStore = create<PosState>()(
+  persist(
+    (set) => ({
+      orderType: "DINE_IN",
       tableId: null,
       tableLabel: null,
       customerName: "",
       discountType: null,
       discountValue: 0,
       activeOrderId: null,
+      items: [],
+      setOrderType: (orderType) =>
+        set((s) => ({
+          orderType,
+          tableId: orderType === "DINE_IN" ? s.tableId : null,
+          tableLabel: orderType === "DINE_IN" ? s.tableLabel : null,
+        })),
+      setTable: (tableId, tableLabel) => set({ tableId, tableLabel, orderType: tableId ? "DINE_IN" : "TAKEAWAY" }),
+      setCustomerName: (customerName) => set({ customerName }),
+      setDiscount: (discountType, discountValue) => set({ discountType, discountValue }),
+      setActiveOrderId: (activeOrderId) => set({ activeOrderId }),
+      addItem: (item) =>
+        set((s) => {
+          const modKey = item.modifiers
+            .map((m) => m.id)
+            .sort()
+            .join(",");
+          const key = `${item.productId}:${item.variantId ?? 0}:${modKey}:${item.notes ?? ""}`;
+          const existing = s.items.find((x) => x.key === key);
+          if (existing) {
+            return {
+              items: s.items.map((x) => (x.key === key ? { ...x, quantity: x.quantity + item.quantity } : x)),
+            };
+          }
+          return { items: [...s.items, { ...item, key }] };
+        }),
+      updateQty: (key, delta) =>
+        set((s) => ({
+          items: s.items
+            .map((x) => (x.key === key ? { ...x, quantity: x.quantity + delta } : x))
+            .filter((x) => x.quantity > 0),
+        })),
+      removeItem: (key) => set((s) => ({ items: s.items.filter((x) => x.key !== key) })),
+      clearCart: () =>
+        set({
+          items: [],
+          tableId: null,
+          tableLabel: null,
+          customerName: "",
+          discountType: null,
+          discountValue: 0,
+          activeOrderId: null,
+        }),
     }),
-}));
+    {
+      name: "cadra_pos_cart",
+    },
+  ),
+);

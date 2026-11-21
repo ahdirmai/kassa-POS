@@ -5,9 +5,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ChefHat,
+  Download,
   LayoutDashboard,
   LogOut,
   Moon,
+  RefreshCw,
   Search,
   Settings,
   Store,
@@ -36,7 +38,19 @@ export function CadraShell({
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, setSession, hasPermission, hasFeature } = useAuthStore();
-  const { theme, toggleTheme, isOnline, pendingOffline, setFinderOpen, pushToast } = useUiStore();
+  const {
+    theme,
+    toggleTheme,
+    isOnline,
+    isSyncing,
+    pendingOffline,
+    failedOffline,
+    setOfflineDrawerOpen,
+    deferredInstallPrompt,
+    setDeferredInstallPrompt,
+    setFinderOpen,
+    pushToast,
+  } = useUiStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -238,11 +252,42 @@ export function CadraShell({
               </Link>
             )}
 
-            <span className={`spill ${isOnline ? "spill--good" : "spill--bad"}`}>
-              {isOnline ? <Wifi className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
-              {isOnline ? "Online" : "Offline"}
+            {mounted && deferredInstallPrompt && (
+              <button
+                type="button"
+                onClick={async () => {
+                  await deferredInstallPrompt.prompt();
+                  const choice = await deferredInstallPrompt.userChoice;
+                  if (choice.outcome === "accepted") {
+                    setDeferredInstallPrompt(null);
+                  }
+                }}
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[var(--rim)] bg-[var(--ink)] px-3 py-1.5 text-[11px] font-bold text-[var(--on-ink)] shadow-sm transition hover:opacity-90"
+                title="Install Kassa POS sebagai Aplikasi"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Install App
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setOfflineDrawerOpen(true)}
+              title="Klik untuk melihat antrean offline & sinkronisasi manual"
+              className={`spill cursor-pointer transition hover:opacity-85 ${
+                !isOnline ? "spill--bad" : failedOffline > 0 ? "spill--warn" : "spill--good"
+              }`}
+            >
+              {isSyncing ? (
+                <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+              ) : isOnline ? (
+                <Wifi className="h-3.5 w-3.5" />
+              ) : (
+                <WifiOff className="h-3.5 w-3.5" />
+              )}
+              {isSyncing ? "Sync..." : isOnline ? "Online" : "Offline"}
               {pendingOffline > 0 ? ` · ${pendingOffline}` : ""}
-            </span>
+            </button>
 
             {mounted && user && (
               <div className="hidden sm:flex items-center gap-2 rounded-full border border-[var(--rim)] bg-[var(--glass-2)] px-3 py-1.5">

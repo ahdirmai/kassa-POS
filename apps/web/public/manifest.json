@@ -1,9 +1,56 @@
 {
+  "id": "/pos",
   "name": "Kassa — POS Cafe & Rumah Makan",
-  "short_name": "Kassa",
+  "short_name": "Kassa POS",
   "start_url": "/pos",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
   "background_color": "#efefec",
-  "theme_color": "#111111",
-  "description": "Kassa (kassa.biz.id) — Sistem POS Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, stok fleksibel & kontrol HPP."
+  "theme_color": "#0B1013",
+  "lang": "id",
+  "categories": ["business", "finance", "food"],
+  "description": "Kassa (kassa.biz.id) — Sistem POS Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, stok fleksibel & kontrol HPP.",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kasir POS",
+      "short_name": "Kasir",
+      "description": "Buka layar kasir Point of Sale (mendukung mode offline)",
+      "url": "/pos",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
 }

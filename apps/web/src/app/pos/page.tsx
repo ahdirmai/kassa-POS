@@ -22,7 +22,15 @@ import { CadraShell } from "@/components/cadra-shell";
 import { ReceiptModal, type ReceiptData } from "@/components/receipt-modal";
 import { PinApprovalModal } from "@/components/pin-modal";
 import { apiFetch, ApiError } from "@/lib/api";
-import { catalogKey, getPendingOfflineCount, offlineDb } from "@/lib/offline-db";
+import {
+  catalogKey,
+  generateClientUuid,
+  getOfflineQueueCounts,
+  offlineDb,
+  parseTaxConfigFromSettings,
+  type CachedCatalog,
+} from "@/lib/offline-db";
+import { isNetworkError, pullCatalogToCache, registerBackgroundSync } from "@/lib/sync-engine";
 import { usePosStore } from "@/stores/pos-store";
 import { useUiStore } from "@/stores/ui-store";
 import { useAuthStore } from "@/stores/auth-store";
@@ -95,7 +103,7 @@ const TONE_CSS: Record<string, string> = {
 export default function PosPage() {
   const qc = useQueryClient();
   const user = useAuthStore((s) => s.user);
-  const { isOnline, pushToast, setPendingOffline } = useUiStore();
+  const { isOnline, setOnline, pushToast, setPendingOffline, setFailedOffline } = useUiStore();
   const pos = usePosStore();
 
   const [categoryId, setCategoryId] = useState<number | "ALL">("ALL");
@@ -119,34 +127,37 @@ export default function PosPage() {
   const [receipt, setReceipt] = useState<ReceiptData | null>(null);
   const [voidOrderId, setVoidOrderId] = useState<number | null>(null);
 
-  const { data: products = [], isLoading: productsLoading } = useQuery({
-    queryKey: ["products", user?.outletId],
+  const { data: catalogSnapshot, isLoading: productsLoading } = useQuery<CachedCatalog>({
+    queryKey: ["pos-catalog", user?.outletId],
     queryFn: async () => {
       const key = catalogKey(user?.outletId);
+      if (typeof navigator !== "undefined" && !navigator.onLine) {
+        const cached = await offlineDb.catalog.get(key);
+        if (cached) return cached;
+      }
       try {
-        const list = await apiFetch<Product[]>("/menu/products");
-        await offlineDb.catalog.put({
-          key,
-          syncedAt: new Date().toISOString(),
-          categories: [],
-          products: list,
-          areas: [],
-          settings: {},
-        });
-        return list;
+        return await pullCatalogToCache(user?.outletId);
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) throw err;
+        if (isNetworkError(err)) setOnline(false);
         const cached = await offlineDb.catalog.get(key);
-        return (cached?.products as Product[]) ?? [];
+        if (cached) return cached;
+        return { key, syncedAt: "", categories: [], products: [], areas: [], settings: {} };
       }
     },
   });
 
-  const { data: areas = [] } = useQuery({
-    queryKey: ["tables"],
+  const products = useMemo(() => (catalogSnapshot?.products as Product[]) ?? [], [catalogSnapshot]);
+  const cachedAreas = useMemo(() => (catalogSnapshot?.areas as AreaWithTables[]) ?? [], [catalogSnapshot]);
+  const taxConfig = useMemo(() => parseTaxConfigFromSettings(catalogSnapshot?.settings), [catalogSnapshot]);
+
+  const { data: liveAreas } = useQuery({
+    queryKey: ["tables", user?.outletId],
     queryFn: () => apiFetch<AreaWithTables[]>("/tables"),
     enabled: isOnline,
   });
+
+  const areas = isOnline && liveAreas ? liveAreas : cachedAreas;
 
   const { data: activeShift } = useQuery({
     queryKey: ["active-shift"],
@@ -162,14 +173,16 @@ export default function PosPage() {
 
   const categories = useMemo(() => {
     const map = new Map<number, string>();
-    products.forEach((p) => map.set(p.category.id, p.category.name));
+    products.forEach((p) => {
+      if (p.category) map.set(p.category.id, p.category.name);
+    });
     return [...map.entries()];
   }, [products]);
 
   const filteredProducts = useMemo(() => {
     const q = search.trim().toLowerCase();
     return products.filter((p) => {
-      const catOk = categoryId === "ALL" || p.category.id === categoryId;
+      const catOk = categoryId === "ALL" || p.category?.id === categoryId;
       const qOk = !q || p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q);
       return catOk && qOk;
     });
@@ -184,8 +197,9 @@ export default function PosPage() {
           quantity: it.quantity,
         })),
         pos.discountType && pos.discountValue > 0 ? { type: pos.discountType, value: pos.discountValue } : null,
+        taxConfig,
       ),
-    [pos.items, pos.discountType, pos.discountValue],
+    [pos.items, pos.discountType, pos.discountValue, taxConfig],
   );
 
   useEffect(() => {
@@ -298,6 +312,72 @@ export default function PosPage() {
     }
   };
 
+  const saveOfflineCashOrder = async (paidAmount: number, reasonNote?: string) => {
+    const clientUuid = generateClientUuid();
+    const offlineReceiptNo = `OFF-${Date.now().toString().slice(-6)}`;
+    const nowIso = new Date().toISOString();
+    await offlineDb.offlineOrders.add({
+      clientUuid,
+      outletId: user?.outletId,
+      offlineReceiptNo,
+      createdAt: nowIso,
+      orderType: pos.orderType,
+      tableId: pos.tableId,
+      tableName: pos.tableLabel,
+      customerName: pos.customerName || undefined,
+      discountType: pos.discountType,
+      discountValue: pos.discountValue,
+      items: pos.items.map((it) => ({
+        productId: it.productId,
+        variantId: it.variantId,
+        quantity: it.quantity,
+        notes: it.notes,
+        modifierIds: it.modifiers.map((m) => m.id),
+      })),
+      paidAmount,
+      grandTotal: totals.grandTotal,
+      synced: 0,
+      syncStatus: "PENDING",
+      retryCount: 0,
+      lastError: null,
+    });
+    const counts = await getOfflineQueueCounts(user?.outletId);
+    setPendingOffline(counts.pending);
+    setFailedOffline(counts.failed);
+    registerBackgroundSync();
+
+    setReceipt({
+      receiptNo: offlineReceiptNo,
+      orderNo: offlineReceiptNo,
+      createdAt: nowIso,
+      orderType: pos.orderType,
+      tableName: pos.tableLabel,
+      cashierName: user?.name,
+      items: pos.items.map((it) => ({
+        productName: it.name,
+        variantName: it.variantName,
+        quantity: it.quantity,
+        lineTotal: (it.unitPrice + it.modifiers.reduce((s, m) => s + m.price, 0)) * it.quantity,
+        modifiers: it.modifiers.map((m) => ({ modifierName: m.name, price: m.price })),
+      })),
+      subtotal: totals.subtotal,
+      discountAmount: totals.totalDiscount,
+      serviceChargeAmount: totals.serviceChargeAmount,
+      taxAmount: totals.taxAmount,
+      roundingAmount: totals.roundingAmount,
+      grandTotal: totals.grandTotal,
+      paidAmount,
+      changeAmt: calculateCashChange(totals.grandTotal, paidAmount),
+      paymentMethod: "CASH (OFFLINE)",
+    });
+    pos.clearCart();
+    setPayModalOpen(false);
+    pushToast(
+      reasonNote ?? `Disimpan offline (${offlineReceiptNo}). Akan otomatis sinkron saat online.`,
+      "warn",
+    );
+  };
+
   const handleCompletePayment = async () => {
     if (pos.items.length === 0) return;
     const paidAmount = payMethod === "CASH" ? Number(paidAmountInput) || totals.grandTotal : totals.grandTotal;
@@ -312,59 +392,7 @@ export default function PosPage() {
         pushToast("Mode offline hanya mendukung pembayaran Tunai", "warn");
         return;
       }
-      const clientUuid = crypto.randomUUID();
-      const offlineReceiptNo = `OFF-${Date.now().toString().slice(-6)}`;
-      const nowIso = new Date().toISOString();
-      await offlineDb.offlineOrders.add({
-        clientUuid,
-        outletId: user?.outletId,
-        offlineReceiptNo,
-        createdAt: nowIso,
-        orderType: pos.orderType,
-        tableId: pos.tableId,
-        customerName: pos.customerName || undefined,
-        discountType: pos.discountType,
-        discountValue: pos.discountValue,
-        items: pos.items.map((it) => ({
-          productId: it.productId,
-          variantId: it.variantId,
-          quantity: it.quantity,
-          notes: it.notes,
-          modifierIds: it.modifiers.map((m) => m.id),
-        })),
-        paidAmount,
-        grandTotal: totals.grandTotal,
-        synced: 0,
-      });
-      const pending = await getPendingOfflineCount(user?.outletId);
-      setPendingOffline(pending);
-      setReceipt({
-        receiptNo: offlineReceiptNo,
-        orderNo: offlineReceiptNo,
-        createdAt: nowIso,
-        orderType: pos.orderType,
-        tableName: pos.tableLabel,
-        cashierName: user?.name,
-        items: pos.items.map((it) => ({
-          productName: it.name,
-          variantName: it.variantName,
-          quantity: it.quantity,
-          lineTotal: (it.unitPrice + it.modifiers.reduce((s, m) => s + m.price, 0)) * it.quantity,
-          modifiers: it.modifiers.map((m) => ({ modifierName: m.name, price: m.price })),
-        })),
-        subtotal: totals.subtotal,
-        discountAmount: totals.totalDiscount,
-        serviceChargeAmount: totals.serviceChargeAmount,
-        taxAmount: totals.taxAmount,
-        roundingAmount: totals.roundingAmount,
-        grandTotal: totals.grandTotal,
-        paidAmount,
-        changeAmt: calculateCashChange(totals.grandTotal, paidAmount),
-        paymentMethod: "CASH (OFFLINE)",
-      });
-      pos.clearCart();
-      setPayModalOpen(false);
-      pushToast(`Disimpan offline (${offlineReceiptNo}). Akan otomatis sinkron saat online.`, "warn");
+      await saveOfflineCashOrder(paidAmount);
       return;
     }
 
@@ -429,6 +457,19 @@ export default function PosPage() {
       qc.invalidateQueries({ queryKey: ["active-shift"] });
       pushToast("Pembayaran berhasil & stok bahan otomatis terpotong!", "good");
     } catch (err) {
+      // Fallback otomatis ke offline jika WiFi tersambung tapi internet/server tidak terjangkau
+      if (isNetworkError(err)) {
+        setOnline(false);
+        if (payMethod === "CASH" && !pos.activeOrderId) {
+          await saveOfflineCashOrder(
+            paidAmount,
+            "Koneksi ke server terputus — transaksi tunai otomatis disimpan offline & akan sinkron saat online.",
+          );
+          return;
+        }
+        pushToast("Koneksi ke server terputus. Pembayaran non-tunai memerlukan internet.", "warn");
+        return;
+      }
       pushToast(err instanceof Error ? err.message : "Pembayaran gagal", "bad");
     }
   };
@@ -663,14 +704,18 @@ export default function PosPage() {
                 <span>-{formatIDR(totals.totalDiscount)}</span>
               </div>
             )}
-            <div className="flex justify-between text-[var(--muted)]">
-              <span>Service Charge (5%)</span>
-              <span>{formatIDR(totals.serviceChargeAmount)}</span>
-            </div>
-            <div className="flex justify-between text-[var(--muted)]">
-              <span>PB1 (10%)</span>
-              <span>{formatIDR(totals.taxAmount)}</span>
-            </div>
+            {taxConfig.serviceChargePercent > 0 && (
+              <div className="flex justify-between text-[var(--muted)]">
+                <span>Service Charge ({taxConfig.serviceChargePercent}%)</span>
+                <span>{formatIDR(totals.serviceChargeAmount)}</span>
+              </div>
+            )}
+            {taxConfig.taxRatePercent > 0 && (
+              <div className="flex justify-between text-[var(--muted)]">
+                <span>PB1 ({taxConfig.taxRatePercent}%)</span>
+                <span>{formatIDR(totals.taxAmount)}</span>
+              </div>
+            )}
             {totals.roundingAmount !== 0 && (
               <div className="flex justify-between text-[var(--muted)]">
                 <span>Pembulatan</span>
