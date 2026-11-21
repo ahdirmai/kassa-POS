@@ -89,6 +89,9 @@ export interface Lead {
   status: LeadStatus;
   notes: string;
   source: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
   createdAt: string;
   updatedAt: string;
 }

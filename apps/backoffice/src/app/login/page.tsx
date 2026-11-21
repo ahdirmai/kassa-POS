@@ -114,9 +114,11 @@ export default function BackOfficeLoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center font-mono-num text-[11px] text-[var(--faint)]">
-          Default dev: superadmin@kassa.biz.id / kassa-superadmin-2026
-        </p>
+        {process.env.NODE_ENV !== "production" && (
+          <p className="mt-6 text-center font-mono-num text-[11px] text-[var(--faint)]">
+            Dev mode: superadmin@kassa.biz.id / kassa-superadmin-2026
+          </p>
+        )}
       </div>
     </div>
   );

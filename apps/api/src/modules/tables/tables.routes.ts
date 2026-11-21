@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { z } from "zod";
 import { mergeTablesSchema, moveTableSchema } from "@pos/shared";
 import { prisma, serializeJson } from "../../lib/prisma.js";
+import { recalculateOrder } from "../orders/orders.service.js";
 import { emitTableUpdate } from "../../lib/socket.js";
 import { writeAuditLog } from "../../lib/audit.js";
 import { requireAuth, requirePermission } from "../../middleware/auth.js";
@@ -285,6 +286,7 @@ tablesRouter.post("/merge", requirePermission("order.create"), validateBody(merg
       return { targetOrderId: targetOrder.id, voidedOrderId: sourceOrder.id };
     });
 
+    await recalculateOrder(result.targetOrderId);
     emitTableUpdate(req.user!.outletId, { type: "MERGED", ...result });
     res.json(result);
   } catch (err) {

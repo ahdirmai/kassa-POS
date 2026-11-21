@@ -43,7 +43,7 @@ export function CadraShell({
     setMounted(true);
   }, []);
 
-  const plan = user?.plan ?? "PRO";
+  const plan = user?.plan ?? "FREE";
   const isFree = plan === "FREE";
 
   // Strict dynamic RBAC + Plan Route Guard

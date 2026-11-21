@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kassa POS — CEO & C-Suite Startup Audit Report</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 16mm 16mm 18mm 16mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      color: #121517;
+      background: #ffffff;
+      font-size: 9.5pt;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .cover {
+      page-break-after: always;
+      background: #0b1013;
+      color: #f4f2ec;
+      border-radius: 16px;
+      padding: 40px 38px;
+      min-height: 252mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(217, 169, 98, 0.16);
+      border: 1px solid rgba(217, 169, 98, 0.45);
+      color: #e5ba78;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .cover h1 {
+      font-size: 30pt;
+      line-height: 1.12;
+      margin: 22px 0 12px;
+      letter-spacing: -0.02em;
+    }
+    .cover h1 span { color: #e5ba78; font-style: italic; font-family: Georgia, serif; }
+    .cover p.lead {
+      font-size: 11.5pt;
+      color: rgba(244, 242, 236, 0.78);
+      max-width: 92%;
+      margin: 0;
+    }
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .score-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .score-card .role {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #e5ba78;
+      font-weight: 700;
+    }
+    .score-card .val {
+      font-size: 20pt;
+      font-weight: 800;
+      margin: 4px 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .score-card .desc {
+      font-size: 8pt;
+      color: rgba(244, 242, 236, 0.65);
+    }
+    .cover-meta {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      padding-top: 16px;
+      font-size: 8.5pt;
+      color: rgba(244, 242, 236, 0.65);
+    }
+    h2 {
+      font-size: 14.5pt;
+      color: #0b1013;
+      border-bottom: 2px solid #0f5257;
+      padding-bottom: 5px;
+      margin: 20px 0 10px;
+      page-break-after: avoid;
+    }
+    h2 .tag {
+      font-size: 8pt;
+      background: #0f5257;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      vertical-align: middle;
+      margin-left: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    h3 {
+      font-size: 10.5pt;
+      margin: 12px 0 4px;
+      color: #0f5257;
+    }
+    .exec-box {
+      background: #f6f4ef;
+      border-left: 4px solid #d9a962;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin: 10px 0 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 8.5pt;
+    }
+    th {
+      background: #0b1013;
+      color: #f4f2ec;
+      text-align: left;
+      padding: 7px 9px;
+      font-weight: 700;
+      font-size: 7.8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    td {
+      border-bottom: 1px solid #e2ddd2;
+      padding: 7px 9px;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #faf9f6; }
+    .sev {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 7.5pt;
+      white-space: nowrap;
+    }
+    .p0 { background: #fde8e8; color: #b91c1c; }
+    .p1 { background: #fef3c7; color: #92400e; }
+    .p2 { background: #e0f2fe; color: #075985; }
+    .ok { background: #dcfce7; color: #166534; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 7.8pt;
+      background: #f1eee7;
+      padding: 1px 4px;
+      border-radius: 4px;
+      color: #0f5257;
+    }
+    .page-break { page-break-before: always; }
+    ul { margin: 4px 0 10px; padding-left: 18px; }
+    li { margin-bottom: 4px; }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .kpi-item {
+      border: 1px solid #dcd7cc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #faf9f6;
+    }
+    .kpi-item .k { font-size: 7.5pt; text-transform: uppercase; color: #5a6068; font-weight: 700; }
+    .kpi-item .v { font-size: 16pt; font-weight: 800; color: #0b1013; margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <section class="cover">
+    <div>
+      <span class="badge">Executive Startup Audit · Confidential</span>
+      <h1>Kassa POS<br/><span>CEO &amp; C-Suite Audit Report</span></h1>
+      <p class="lead">
+        Audit menyeluruh kesiapan peluncuran komersial ekosistem <strong>Kassa POS</strong>
+        (<code>kassa.biz.id</code>, <code>app.kassa.biz.id</code>, <code>admin.kassa.biz.id</code>,
+        <code>app-api</code>, dan <code>admin-api</code>) oleh tim eksekutif lintas fungsi:
+        CEO, CTO, CPO, CMO, dan CFO.
+      </p>
+
+      <div class="score-grid">
+        <div class="score-card">
+          <div class="role">CTO · Tech &amp; Sec</div>
+          <div class="val">7.2/10</div>
+          <div class="desc">Multi-tenant kuat; butuh hardening billing, QRIS, XSS &amp; Docker.</div>
+        </div>
+        <div class="score-card">
+          <div class="role">CPO · Product &amp; UX</div>
+          <div class="val">7.5/10</div>
+          <div class="desc">UI modern; Hold Bill dine-in &amp; login demo default perlu diperbaiki.</div>
+        </div>
+        <div class="score-card">
+          <div class="role">CMO · Growth &amp; SEO</div>
+          <div class="val">6.8/10</div>
+          <div class="desc">Positioning tajam; CTA funnel, WA, UTM &amp; SEO Landing bocor.</div>
+        </div>
+        <div class="score-card">
+          <div class="role">CFO · Revenue &amp; Ops</div>
+          <div class="val">6.0/10</div>
+          <div class="desc">Celah free self-upgrade &amp; ketidaksinkronan unit pricing.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-meta">
+      <div><strong>Disusun Oleh:</strong> CEO Office &amp; Startup Leadership Team</div>
+      <div><strong>Produk:</strong> Kassa Cloud POS Multi-Tenant</div>
+      <div><strong>Tanggal:</strong> 21 November 2026</div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: CEO EXECUTIVE SUMMARY -->
+  <h2>1. Ringkasan Eksekutif CEO <span class="tag">Verdict</span></h2>
+  <div class="exec-box">
+    <strong>Keputusan CEO:</strong> Kassa POS memiliki fondasi produk yang sangat kompetitif untuk pasar F&amp;B Indonesia
+    (POS Offline-First, KDS Kanban Realtime, Auto-HPP/Resep BOM, Menu Digital SEO <code>/p/[slug]</code>, Multi-Outlet,
+    dan Back Office terpisah). Namun, sebelum menerima trafik iklan &amp; pelanggan berbayar massal,
+    <strong>12 temuan P0 lintas CTO/CPO/CMO/CFO wajib ditutup hari ini</strong> karena berdampak langsung pada
+    kebocoran pendapatan (<em>revenue leakage</em>), kehilangan prospek (<em>silent lead drop</em>), dan keamanan produksi.
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-item">
+      <div class="k">Total Temuan Kritis (P0)</div>
+      <div class="v" style="color:#b91c1c;">12 Isu</div>
+    </div>
+    <div class="kpi-item">
+      <div class="k">Temuan Prioritas Tinggi (P1)</div>
+      <div class="v" style="color:#92400e;">16 Isu</div>
+    </div>
+    <div class="kpi-item">
+      <div class="k">Target Perbaikan Sprint Ini</div>
+      <div class="v" style="color:#0f5257;">100% P0 + Top P1</div>
+    </div>
+  </div>
+
+  <h3>Kekuatan Utama Produk (Competitive Moat)</h3>
+  <ul>
+    <li><strong>Isolasi Multi-Tenant &amp; API Terpisah:</strong> <code>app-api</code> (POS) dan <code>admin-api</code> (Back Office) sudah terpisah penuh; seluruh query POS di-scope oleh <code>tenantId</code> / <code>outletId</code> live dari DB.</li>
+    <li><strong>Fitur Lengkap di Harga Rp49.000/bln:</strong> POS Kasir, KDS Dapur Realtime (Socket.IO), Stok &amp; HPP Otomatis, RBAC Custom, Multi-Outlet, dan Menu Digital SEO (<code>kassa.biz.id/p/[slug]</code>).</li>
+    <li><strong>Back Office Terpadu:</strong> Manajemen Tenant, Invoice/Billing, Landing CMS, Leads CRM dengan <em>1-Click Convert Lead → Tenant</em>, dan Marketing Hub dalam satu pintu.</li>
+  </ul>
+
+  <!-- SECTION 2: CTO AUDIT -->
+  <h2>2. Audit CTO — Keamanan, Arsitektur &amp; Infrastruktur <span class="tag">CTO</span></h2>
+  <table>
+    <thead>
+      <tr><th style="width:8%;">Sev</th><th style="width:28%;">Temuan</th><th style="width:28%;">Lokasi</th><th style="width:36%;">Rekomendasi Perbaikan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Billing Bypass: Free Self-Upgrade ke PRO/ENTERPRISE</strong></td>
+        <td><code>apps/api/.../outlets.routes.ts</code></td>
+        <td>Kunci <code>POST /outlets/plan</code> di produksi; upgrade paket hanya boleh via Back Office approval atau webhook payment gateway.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>QRIS Fraud &amp; Webhook Validation</strong></td>
+        <td><code>payments.routes.ts</code>, <code>payment-gateway.ts</code></td>
+        <td>Matikan <code>/simulate-settle</code> di production, verifikasi <code>gross_amount === payment.amount</code>, gunakan <code>crypto.timingSafeEqual</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Stored XSS pada JSON-LD Menu Digital</strong></td>
+        <td><code>apps/landing/src/app/p/[slug]/page.tsx</code></td>
+        <td>Escape karakter <code>&lt;</code> menjadi <code>\u003c</code> pada <code>JSON.stringify</code> di dalam tag <code>&lt;script type="application/ld+json"&gt;</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Hardcoded Secret Fallback &amp; Docker/Nginx Parity</strong></td>
+        <td><code>env.ts</code>, <code>docker-compose.prod.yml</code></td>
+        <td>Fail-fast jika JWT secret default di prod; tambahkan Dockerfile &amp; service <code>admin-api</code>, <code>backoffice</code>, <code>landing</code> di Compose prod.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Missing <code>trust proxy</code> &amp; Bug Merge Meja</strong></td>
+        <td><code>app.ts</code>, <code>tables.routes.ts</code></td>
+        <td>Set <code>app.set("trust proxy", 1)</code> agar rate limiter akurat di balik Nginx; panggil ulang kalkulasi pajak/service saat merge meja.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Missing Graceful Shutdown &amp; Next.js Tracing Root</strong></td>
+        <td><code>admin-api/src/index.ts</code>, <code>next.config.mjs</code></td>
+        <td>Tambah handler <code>SIGINT/SIGTERM</code> + <code>prisma.$disconnect()</code>; set <code>outputFileTracingRoot</code> di 3 <code>next.config.mjs</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 3: CPO AUDIT -->
+  <div class="page-break"></div>
+  <h2>3. Audit CPO — Pengalaman Produk &amp; UX <span class="tag">CPO</span></h2>
+  <table>
+    <thead>
+      <tr><th style="width:8%;">Sev</th><th style="width:28%;">Temuan</th><th style="width:28%;">Lokasi</th><th style="width:36%;">Rekomendasi Perbaikan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Kode Outlet Demo Salah (<code>SENJA-01</code> vs <code>OUT-01</code>)</strong></td>
+        <td><code>apps/web/src/app/login/page.tsx</code></td>
+        <td>Ubah default kode outlet ke <code>OUT-01</code>; tombol PIN Demo harus mengirim <code>OUT-01</code> secara eksplisit agar demo instan berhasil.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Hold Bill / Order Aktif Tidak Bisa Dibayar</strong></td>
+        <td><code>apps/web/src/app/pos/page.tsx</code></td>
+        <td>Tambah tombol <strong>Bayar / Muat ke Kasir</strong> di modal Order Aktif agar alur makan dulu bayar belakangan (dine-in) berfungsi utuh.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Class <code>glass-card</code> Tidak Terdefinisi</strong></td>
+        <td><code>register/page.tsx</code>, <code>admin/outlets/page.tsx</code></td>
+        <td>Ganti <code>glass-card</code> menjadi <code>cadra-card</code> agar form Registrasi dan halaman Outlets memiliki background &amp; border rapi.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Double-Submit Guard di POS &amp; Mobile Logout Back Office</strong></td>
+        <td><code>pos/page.tsx</code>, <code>BackOfficeShell.tsx</code></td>
+        <td>Tambah state loading <code>isPaying</code>/<code>isSubmittingOrder</code> di POS; tambah tombol Logout di mobile nav &amp; ikon error toast di Back Office.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>1-Click Convert Lead Kurang Kode Outlet &amp; Salin Kredensial</strong></td>
+        <td><code>backoffice/.../LandingSection.tsx</code></td>
+        <td>Tampilkan <code>outletCode</code> + tombol 1-klik <em>Salin Kredensial</em> &amp; <em>Kirim ke WhatsApp</em> setelah konversi lead ke tenant.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 4: CMO AUDIT -->
+  <h2>4. Audit CMO — Growth, Marketing, SEO &amp; Konversi <span class="tag">CMO</span></h2>
+  <table>
+    <thead>
+      <tr><th style="width:8%;">Sev</th><th style="width:28%;">Temuan</th><th style="width:28%;">Lokasi</th><th style="width:36%;">Rekomendasi Perbaikan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Silent Lead Drop ke Back Office CRM</strong></td>
+        <td><code>landing/api/leads/route.ts</code>, <code>admin-api</code></td>
+        <td>Jika Nama Usaha dikosongkan, kirim <code>"Belum diisi"</code> (bukan <code>"-"</code> yang ditolak validasi <code>min(2)</code> di <code>admin-api</code>).</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>CTA Akuisisi Mengarah ke <code>/login</code> &amp; WA Placeholder</strong></td>
+        <td><code>LandingClient.tsx</code>, <code>default-content.ts</code></td>
+        <td>Arahkan semua CTA <em>Coba Gratis / Pro</em> ke <code>/register</code> (bukan <code>/login</code>); gunakan env <code>NEXT_PUBLIC_WA_NUMBER</code> untuk WA resmi.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>UTM Putus dari Landing ke Lead Form</strong></td>
+        <td><code>LandingClient.tsx</code>, <code>LeadModal.tsx</code>, <code>storage.ts</code></td>
+        <td>Simpan <code>utm_source/medium/campaign</code> di <code>sessionStorage</code> dan teruskan ke payload Lead → <code>admin-api</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>SEO Landing Utama Belum Lengkap &amp; Fitur Flagship Absen</strong></td>
+        <td><code>landing/layout.tsx</code>, <code>page.tsx</code>, <code>default-content.ts</code></td>
+        <td>Tambah OG Image, Twitter Card, Canonical, Favicon SVG, JSON-LD <code>SoftwareApplication</code> + <code>FAQPage</code>; promosikan <strong>Menu Digital SEO</strong> &amp; <strong>Multi-Outlet</strong>.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p2">P2</span></td>
+        <td><strong>Leftover Brand "Cadra", Referrer Threads, Link <code>/admin</code> Publik</strong></td>
+        <td><code>settings/page.tsx</code>, <code>track/route.ts</code>, <code>LandingClient.tsx</code></td>
+        <td>Ganti <em>Tampilan Cadra UI</em> → <em>Tampilan &amp; Tema Kassa</em>; kenali referrer <code>threads.net</code>; hapus link <code>/admin</code> di footer publik; tambah UTM PLG di footer Menu Digital.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 5: CFO AUDIT -->
+  <h2>5. Audit CFO — Monetisasi, Billing &amp; Unit Economics <span class="tag">CFO</span></h2>
+  <table>
+    <thead>
+      <tr><th style="width:8%;">Sev</th><th style="width:28%;">Temuan</th><th style="width:28%;">Lokasi</th><th style="width:36%;">Rekomendasi Perbaikan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Kebocoran Pendapatan &amp; Tombol "Simulasikan Mode Free"</strong></td>
+        <td><code>outlets.routes.ts</code>, <code>admin/outlets/page.tsx</code></td>
+        <td>Hapus upgrade gratis instan &amp; tombol simulasi mode Free dari UI produksi; arahkan upgrade ke alur invoice / konfirmasi pembayaran resmi.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><strong>Inkonsistensi Unit Harga (Per-Outlet vs Flat)</strong></td>
+        <td><code>default-content.ts</code>, <code>plans.ts</code></td>
+        <td>Seragamkan penawaran resmi: <strong>Flat Rp49.000 / bulan</strong> (hingga 20 outlet &amp; 200 akun) agar tidak memicu sengketa tagihan dengan klien.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Bypass Kuota Outlet pada Tenant PRO Expired</strong></td>
+        <td><code>apps/api/.../outlets.routes.ts</code></td>
+        <td>Gunakan <code>req.user.plan</code> &amp; <code>req.user.maxOutlets</code> (bukan raw DB) saat buat/aktifkan outlet; tambah <code>requireFeature("reports")</code> di <code>/shifts</code> &amp; <code>/audit-logs</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><strong>Fail-Open Plan Default di Frontend</strong></td>
+        <td><code>cadra-shell.tsx</code>, <code>apps/web/src/lib/rbac.ts</code></td>
+        <td>Ubah fallback default plan dari <code>"PRO"</code> menjadi <code>"FREE"</code> agar sistem selalu fail-closed.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 6: ACTION PLAN -->
+  <h2>6. Rencana Eksekusi Perbaikan (Immediate Sprint) <span class="tag">Action Plan</span></h2>
+  <div class="exec-box">
+    Seluruh temuan <strong>P0 &amp; Top P1</strong> di atas langsung dieksekusi pada sprint perbaikan setelah laporan ini diterbitkan,
+    meliputi: (1) Hardening keamanan billing, QRIS, webhook, XSS, &amp; RBAC/feature gating, (2) Perbaikan alur POS Hold Bill,
+    Login Demo <code>OUT-01</code>, &amp; styling <code>cadra-card</code>, serta (3) Optimasi funnel Landing → Register, UTM pass-through,
+    perbaikan silent lead drop, SEO lengkap (OG/JSON-LD/Favicon), dan sinkronisasi copywriting harga &amp; fitur Pro.
+  </div>
+
+</body>
+</html>

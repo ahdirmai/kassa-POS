@@ -46,7 +46,7 @@ export default function AdminRbacPage() {
   const [userModalOpen, setUserModalOpen] = useState(false);
 
   const [newRole, setNewRole] = useState({ code: "", name: "", description: "" });
-  const [newUser, setNewUser] = useState({ name: "", email: "", password: "password123", pin: "", roleId: "" });
+  const [newUser, setNewUser] = useState({ name: "", email: "", password: "", pin: "", roleId: "" });
   const [editUser, setEditUser] = useState<{
     id: number;
     name: string;

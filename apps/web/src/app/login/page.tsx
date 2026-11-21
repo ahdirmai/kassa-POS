@@ -10,6 +10,8 @@ import { useUiStore } from "@/stores/ui-store";
 import { getDefaultHomePath } from "@/lib/rbac";
 
 const OUTLET_CODE_STORAGE_KEY = "kassa_outlet_code";
+const SHOW_DEMO_HINTS =
+  process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,10 +19,10 @@ export default function LoginPage() {
   const pushToast = useUiStore((s) => s.pushToast);
 
   const [mode, setMode] = useState<"pin" | "email">("pin");
-  const [outletCode, setOutletCode] = useState("SENJA-01");
+  const [outletCode, setOutletCode] = useState(SHOW_DEMO_HINTS ? "OUT-01" : "");
   const [pin, setPin] = useState("");
-  const [email, setEmail] = useState("owner@senja.id");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState(SHOW_DEMO_HINTS ? "owner@senja.id" : "");
+  const [password, setPassword] = useState(SHOW_DEMO_HINTS ? "password123" : "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -38,12 +40,13 @@ export default function LoginPage() {
     router.push(getDefaultHomePath(can, user.plan));
   };
 
-  const handlePinLogin = async (pinValue: string) => {
-    const cleanCode = outletCode.trim().toUpperCase();
+  const handlePinLogin = async (pinValue: string, overrideOutletCode?: string) => {
+    const cleanCode = (overrideOutletCode ?? outletCode).trim().toUpperCase();
     if (!cleanCode) {
       setError("Masukkan Kode Outlet terlebih dahulu");
       return;
     }
+    if (overrideOutletCode) setOutletCode(cleanCode);
     setError("");
     setLoading(true);
     try {
@@ -175,15 +178,17 @@ export default function LoginPage() {
               {loading ? "Memverifikasi PIN..." : `Masuk dengan PIN (${pin.length}/4–6 digit)`}
             </button>
 
-            <div className="rounded-2xl bg-[var(--well)] p-3 text-xs text-[var(--muted)] space-y-1">
-              <div className="font-bold text-[var(--text)]">PIN Demo Cepat:</div>
-              <div className="flex flex-wrap gap-2">
-                <button type="button" onClick={() => handlePinLogin("1234")} className="chip">Kasir: 1234</button>
-                <button type="button" onClick={() => handlePinLogin("2222")} className="chip">Manager: 2222</button>
-                <button type="button" onClick={() => handlePinLogin("1111")} className="chip">Owner: 1111</button>
-                <button type="button" onClick={() => handlePinLogin("5678")} className="chip">Dapur: 5678</button>
+            {SHOW_DEMO_HINTS && (
+              <div className="rounded-2xl bg-[var(--well)] p-3 text-xs text-[var(--muted)] space-y-1">
+                <div className="font-bold text-[var(--text)]">PIN Demo Cepat (Outlet OUT-01):</div>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={() => handlePinLogin("1234", "OUT-01")} className="chip">Kasir: 1234</button>
+                  <button type="button" onClick={() => handlePinLogin("2222", "OUT-01")} className="chip">Manager: 2222</button>
+                  <button type="button" onClick={() => handlePinLogin("1111", "OUT-01")} className="chip">Owner: 1111</button>
+                  <button type="button" onClick={() => handlePinLogin("5678", "OUT-01")} className="chip">Dapur: 5678</button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ) : (
           <form onSubmit={handleEmailLogin} className="space-y-3.5">

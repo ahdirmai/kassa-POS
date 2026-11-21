@@ -12,6 +12,9 @@ export async function POST(req: Request) {
       planInterest?: string;
       message?: string;
       source?: string;
+      utmSource?: string;
+      utmMedium?: string;
+      utmCampaign?: string;
     };
 
     if (!body.name?.trim() || !body.whatsapp?.trim()) {
@@ -23,13 +26,16 @@ export async function POST(req: Request) {
 
     const lead = await createLead({
       name: body.name,
-      businessName: body.businessName || "-",
+      businessName: body.businessName?.trim() || "Belum diisi",
       whatsapp: body.whatsapp,
       email: body.email || "",
       outletCount: body.outletCount || "1 outlet",
       planInterest: body.planInterest || "Pro",
       message: body.message || "",
       source: body.source || "landing-modal",
+      utmSource: body.utmSource,
+      utmMedium: body.utmMedium,
+      utmCampaign: body.utmCampaign,
     });
 
     return NextResponse.json({ ok: true, lead }, { status: 201 });

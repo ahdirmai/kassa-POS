@@ -250,6 +250,9 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
         <button className="dock-btn" onClick={toggleTheme} aria-label="Ganti Tema">
           {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </button>
+        <button className="dock-btn" onClick={handleLogout} aria-label="Keluar">
+          <LogOut className="h-5 w-5" />
+        </button>
       </nav>
 
       {/* Main App Container (Cadra Shell) */}

@@ -11,6 +11,7 @@ import { adminLandingRouter, publicLandingRouter } from "./modules/landing/landi
 
 export function createAdminApp() {
   const app = express();
+  app.set("trust proxy", 1);
 
   app.use(helmet());
   app.use(

@@ -78,13 +78,15 @@ outletsRouter.post("/", requireOwner, validateBody(createOutletSchema), async (r
     if (!tenant) throw new AppError(404, "TENANT_NOT_FOUND", "Tenant tidak ditemukan");
 
     const activeOutlets = await prisma.outlet.count({ where: { tenantId, isActive: true } });
-    if (tenant.plan === "FREE" || activeOutlets >= tenant.maxOutlets) {
+    const effectivePlan = req.user!.plan;
+    const effectiveMaxOutlets = req.user!.maxOutlets;
+    if (effectivePlan === "FREE" || activeOutlets >= effectiveMaxOutlets) {
       throw new AppError(
         403,
         "PLAN_LIMIT_REACHED",
-        tenant.plan === "FREE"
-          ? "Paket Free hanya mendukung 1 outlet. Upgrade ke Kassa Pro (Rp49.000/bln) untuk menambah banyak cabang."
-          : `Batas maksimal ${tenant.maxOutlets} outlet telah tercapai.`,
+        effectivePlan === "FREE"
+          ? "Paket Free (atau langganan Pro yang sudah berakhir) hanya mendukung 1 outlet. Perpanjang/upgrade ke Kassa Pro (Rp49.000/bln) untuk menambah banyak cabang."
+          : `Batas maksimal ${effectiveMaxOutlets} outlet telah tercapai.`,
       );
     }
 
@@ -152,10 +154,9 @@ outletsRouter.patch("/:id", requireOwner, validateBody(updateOutletSchema), asyn
     }
 
     if (req.body.isActive === true && !existing.isActive) {
-      const tenant = await prisma.tenant.findUnique({ where: { id: tenantId } });
       const activeCount = await prisma.outlet.count({ where: { tenantId, isActive: true } });
-      if (tenant && activeCount >= tenant.maxOutlets) {
-        throw new AppError(403, "PLAN_LIMIT_REACHED", `Batas maksimal ${tenant.maxOutlets} outlet aktif telah tercapai.`);
+      if (activeCount >= req.user!.maxOutlets) {
+        throw new AppError(403, "PLAN_LIMIT_REACHED", `Batas maksimal ${req.user!.maxOutlets} outlet aktif telah tercapai.`);
       }
     }
 
@@ -208,6 +209,7 @@ outletsRouter.post("/switch", requireOwner, requireFeature("multiOutlet"), valid
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.json(result);
@@ -216,10 +218,17 @@ outletsRouter.post("/switch", requireOwner, requireFeature("multiOutlet"), valid
   }
 });
 
-// Upgrade / ubah paket tenant (Demo / Self-Service Billing)
+// Upgrade / ubah paket tenant (hanya untuk simulasi dev; di produksi wajib via billing Back Office / payment gateway)
 outletsRouter.post("/plan", requireOwner, validateBody(updatePlanSchema), async (req, res, next) => {
   try {
     const { plan } = req.body as { plan: "FREE" | "PRO" | "ENTERPRISE" };
+    if (process.env.NODE_ENV === "production" && plan !== "FREE") {
+      throw new AppError(
+        403,
+        "BILLING_VERIFICATION_REQUIRED",
+        "Upgrade paket berbayar wajib melalui konfirmasi pembayaran resmi atau hubungi admin Kassa.",
+      );
+    }
     const policy = PLAN_POLICIES[plan];
     const tenantId = req.user!.tenantId;
 
@@ -268,6 +277,7 @@ outletsRouter.post("/plan", requireOwner, validateBody(updatePlanSchema), async 
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.json(result);

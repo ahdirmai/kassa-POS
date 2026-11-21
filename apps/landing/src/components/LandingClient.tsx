@@ -225,8 +225,8 @@ export default function LandingClient({ content }: LandingClientProps) {
               Masuk
             </a>
             <a
-              href={appUrl}
-              onClick={() => trackEvent("click", "Navbar: Coba Gratis", appUrl)}
+              href={`${appUrl}/register`}
+              onClick={() => trackEvent("click", "Navbar: Coba Gratis", `${appUrl}/register`)}
               className="inline-flex items-center gap-1 rounded-lg bg-[var(--mint)] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--mint-hover)]"
             >
               Coba Gratis
@@ -250,8 +250,8 @@ export default function LandingClient({ content }: LandingClientProps) {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href={appUrl}
-              onClick={() => trackEvent("click", "Hero: Coba Gratis", appUrl)}
+              href={`${appUrl}/register`}
+              onClick={() => trackEvent("click", "Hero: Coba Gratis", `${appUrl}/register`)}
               className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-[14px] font-semibold text-white shadow-md shadow-indigo-500/20 transition-all hover:bg-[var(--accent-hover)]"
             >
               {content.hero.primaryCta}
@@ -819,8 +819,8 @@ export default function LandingClient({ content }: LandingClientProps) {
             </h2>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <a
-                href={appUrl}
-                onClick={() => trackEvent("click", "Footer: Mulai Gratis", appUrl)}
+                href={`${appUrl}/register`}
+                onClick={() => trackEvent("click", "Footer: Mulai Gratis", `${appUrl}/register`)}
                 className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-6 py-3.5 text-[14px] font-semibold text-white shadow-md shadow-indigo-500/20 hover:bg-[var(--accent-hover)]"
               >
                 {content.footerCta.primaryCta}
@@ -867,9 +867,6 @@ export default function LandingClient({ content }: LandingClientProps) {
               </a>
               <a href="#harga" className="hover:text-[var(--ink)]">
                 Harga
-              </a>
-              <a href="/admin" className="hover:text-[var(--ink)]">
-                Admin
               </a>
               <a href={appUrl} className="font-mono-num text-[var(--accent)] hover:underline">
                 {appUrl.replace(/^https?:\/\//, "")}

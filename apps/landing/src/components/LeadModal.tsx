@@ -54,6 +54,17 @@ export default function LeadModal({
     }
     setSubmitting(true);
     try {
+      let utm: { utmSource?: string; utmMedium?: string; utmCampaign?: string } = {};
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const saved = JSON.parse(sessionStorage.getItem("kassa_utm") || "{}") as typeof utm;
+        utm = {
+          utmSource: params.get("utm_source") || saved.utmSource,
+          utmMedium: params.get("utm_medium") || saved.utmMedium,
+          utmCampaign: params.get("utm_campaign") || saved.utmCampaign,
+        };
+      } catch {}
+
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,6 +76,7 @@ export default function LeadModal({
           planInterest,
           message,
           source,
+          ...utm,
         }),
       });
       const data = (await res.json()) as { error?: string };

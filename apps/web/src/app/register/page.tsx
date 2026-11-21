@@ -51,7 +51,7 @@ export default function RegisterPage() {
 
   return (
     <div className="grid min-h-dvh place-items-center p-5">
-      <div className="glass-card w-full max-w-md space-y-5 p-6">
+      <div className="cadra-card w-full max-w-md space-y-5 p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="cadra-brand__mark">K</span>

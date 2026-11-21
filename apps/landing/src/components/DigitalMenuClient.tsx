@@ -504,7 +504,7 @@ export function DigitalMenuClient({ data }: { data: PublicDigitalMenuData }) {
           <div>
             Menu Digital oleh{" "}
             <Link
-              href="/"
+              href={`/?utm_source=digital_menu&utm_medium=powered_by&utm_campaign=${encodeURIComponent(data.slug)}`}
               className="font-semibold text-indigo-600 underline-offset-2 hover:underline"
             >
               Kassa POS

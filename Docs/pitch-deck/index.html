@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kassa POS — Client Pitch Deck</title>
+  <style>
+    @page {
+      size: 1280px 720px;
+      margin: 0;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      background: #0b1013;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      padding: 54px 68px;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .slide:last-child { page-break-after: auto; }
+    .dark { background: #0b1013; color: #f4f2ec; }
+    .light { background: #f6f4ef; color: #121517; }
+    .petrol { background: #0f5257; color: #f4f2ec; }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .dark .top-bar, .petrol .top-bar { color: rgba(244, 242, 236, 0.55); }
+    .light .top-bar { color: #5a6068; }
+    .brand-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .dark .brand-mark { background: #d9a962; color: #0b1013; }
+    .light .brand-mark { background: #0b1013; color: #d9a962; }
+    .petrol .brand-mark { background: #f4f2ec; color: #0f5257; }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .dark .eyebrow { background: rgba(217,169,98,0.16); color: #e5ba78; border: 1px solid rgba(217,169,98,0.35); }
+    .light .eyebrow { background: rgba(15,82,87,0.1); color: #0f5257; border: 1px solid rgba(15,82,87,0.22); }
+    .petrol .eyebrow { background: rgba(255,255,255,0.14); color: #e5ba78; }
+
+    h1 {
+      font-size: 56px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+      font-weight: 800;
+    }
+    h2 {
+      font-size: 40px;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin: 0 0 14px;
+      font-weight: 800;
+    }
+    .serif { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 700; }
+    .gold { color: #e5ba78; }
+    .teal { color: #0f5257; }
+    p.sub {
+      font-size: 19px;
+      line-height: 1.5;
+      margin: 0;
+      max-width: 780px;
+    }
+    .dark p.sub, .petrol p.sub { color: rgba(244,242,236,0.78); }
+    .light p.sub { color: #4c5259; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+    .grid-2-wide { display: grid; grid-template-columns: 0.88fr 1.12fr; gap: 36px; align-items: center; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+    .card-dark {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 24px;
+    }
+    .card-light {
+      background: #ffffff;
+      border: 1px solid #dcd7cc;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 28px -18px rgba(11,16,19,0.22);
+    }
+    .card-title { font-size: 18px; font-weight: 800; margin: 0 0 8px; }
+    .card-body { font-size: 14.5px; line-height: 1.5; margin: 0; }
+    .dark .card-body { color: rgba(244,242,236,0.72); }
+    .light .card-body { color: #4c5259; }
+
+    .num-pill {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .dark .num-pill { background: rgba(217,169,98,0.18); color: #e5ba78; }
+    .light .num-pill { background: #0f5257; color: #f4f2ec; }
+
+    .shot-frame {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 24px 50px -20px rgba(0,0,0,0.55);
+      background: #141a1f;
+    }
+    .light .shot-frame {
+      border: 1px solid #d5cfc2;
+      box-shadow: 0 24px 50px -24px rgba(11,16,19,0.3);
+    }
+    .shot-frame img {
+      display: block;
+      width: 100%;
+      height: 410px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    ul.check {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: grid;
+      gap: 11px;
+    }
+    ul.check li {
+      font-size: 15.5px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    ul.check li::before {
+      content: "✓";
+      font-weight: 900;
+      color: #d9a962;
+      flex: none;
+    }
+    .light ul.check li::before { color: #0f5257; }
+
+    table.cmp {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid #dcd7cc;
+      font-size: 15px;
+    }
+    table.cmp th {
+      background: #0b1013;
+      color: #f4f2ec;
+      padding: 15px 18px;
+      text-align: left;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    table.cmp th.hi { background: #0f5257; color: #e5ba78; }
+    table.cmp td {
+      padding: 13px 18px;
+      border-bottom: 1px solid #e6e1d7;
+      color: #121517;
+    }
+    table.cmp td.hi {
+      background: rgba(15, 82, 87, 0.07);
+      font-weight: 700;
+      color: #0f5257;
+    }
+
+    .price-card {
+      border-radius: 22px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .price-card.featured {
+      background: #0f5257;
+      color: #f4f2ec;
+      border: 2px solid #d9a962;
+      box-shadow: 0 24px 48px -22px rgba(15,82,87,0.55);
+    }
+    .price-val {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 10px 0 4px;
+    }
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      opacity: 0.6;
+      border-top: 1px solid currentColor;
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: COVER -->
+  <section class="slide dark">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>KASSA POS</span></div>
+      <span>Client Proposal · 2026</span>
+    </div>
+    <div class="grid-2-wide">
+      <div>
+        <span class="eyebrow">All-In Cloud POS · Cafe &amp; Rumah Makan</span>
+        <h1>Kasir Cepat, Dapur <span class="serif gold">Realtime</span>, Margin Terjaga.</h1>
+        <p class="sub">
+          Satu sistem operasional modern untuk mengelola Kasir Offline-Ready, Layar Dapur (KDS),
+          Stok &amp; HPP Otomatis, Multi-Outlet, hingga Menu Digital SEO — mulai dari <strong>Rp0 hingga Rp49.000/bulan flat</strong>.
+        </p>
+        <div style="margin-top:28px; display:flex; gap:14px;">
+          <div class="card-dark" style="padding:14px 20px;">
+            <div style="font-size:24px; font-weight:800; color:#e5ba78;">Rp49.000</div>
+            <div style="font-size:12px; opacity:0.7;">Flat / bulan · hingga 20 cabang</div>
+          </div>
+          <div class="card-dark" style="padding:14px 20px;">
+            <div style="font-size:24px; font-weight:800; color:#e5ba78;">100%</div>
+            <div style="font-size:12px; opacity:0.7;">Offline-Ready saat Wi-Fi padam</div>
+          </div>
+          <div class="card-dark" style="padding:14px 20px;">
+            <div style="font-size:24px; font-weight:800; color:#e5ba78;">5 Menit</div>
+            <div style="font-size:12px; opacity:0.7;">Siap jualan tanpa beli hardware mahal</div>
+          </div>
+        </div>
+      </div>
+      <div class="shot-frame">
+        <img src="../manual-book/screenshots/04-dashboard.png" alt="Dashboard Kassa POS" />
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>kassa.biz.id · app.kassa.biz.id</span>
+      <span>Slide 01 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <section class="slide light">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Tantangan Operasional F&amp;B</span></div>
+      <span>02 · Problem</span>
+    </div>
+    <div>
+      <span class="eyebrow">Kenapa Omzet Ramai Tapi Profit Sering Bocor?</span>
+      <h2>4 Kebocoran Terbesar di Cafe &amp; Rumah Makan</h2>
+      <p class="sub" style="margin-bottom:26px;">
+        Mayoritas pemilik usaha F&amp;B kehilangan 8%–15% margin setiap bulan bukan karena sepi pembeli, melainkan sistem operasional yang terputus.
+      </p>
+      <div class="grid-4">
+        <div class="card-light">
+          <div class="num-pill">01</div>
+          <h3 class="card-title">Wi-Fi Mati = Antrean Macet</h3>
+          <p class="card-body">POS cloud biasa langsung lumpuh saat internet gangguan di jam makan siang, membuat kasir panik dan catat manual di kertas.</p>
+        </div>
+        <div class="card-light">
+          <div class="num-pill">02</div>
+          <h3 class="card-title">Order Dapur Tercecer</h3>
+          <p class="card-body">Struk kertas dapur mudah hilang atau salah baca catatan (<em>less sugar / pisah sambal</em>), memicu komplain dan makanan terbuang.</p>
+        </div>
+        <div class="card-light">
+          <div class="num-pill">03</div>
+          <h3 class="card-title">HPP &amp; Stok Hanya Kira-Kira</h3>
+          <p class="card-body">Tidak tahu bahan baku mana yang boros atau dicuri karena stok tidak otomatis terpotong berdasarkan resep per porsi terjual.</p>
+        </div>
+        <div class="card-light">
+          <div class="num-pill">04</div>
+          <h3 class="card-title">Void &amp; Diskon Liar</h3>
+          <p class="card-body">Pembatalan struk atau diskon manual tanpa persetujuan manager dan tanpa jejak audit membuka celah kebocoran kas harian.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Kassa POS · Solusi Operasional F&amp;B Indonesia</span>
+      <span>Slide 02 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: THE SOLUTION -->
+  <section class="slide dark">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Ekosistem Kassa</span></div>
+      <span>03 · Solution</span>
+    </div>
+    <div>
+      <span class="eyebrow">1 Sistem Terpadu · Tanpa Biaya Add-On Tersembunyi</span>
+      <h2>Semua Modul Inti F&amp;B dalam <span class="serif gold">Satu Harga Flat</span></h2>
+      <div class="grid-3" style="margin-top:26px;">
+        <div class="card-dark">
+          <div class="num-pill">1</div>
+          <h3 class="card-title">Kasir POS Offline-First</h3>
+          <p class="card-body">Transaksi cepat di HP, tablet, atau laptop. Hold bill meja, pindah/gabung meja, cetak struk thermal 58/80mm, tetap jalan saat offline.</p>
+        </div>
+        <div class="card-dark">
+          <div class="num-pill">2</div>
+          <h3 class="card-title">Layar Dapur KDS Realtime</h3>
+          <p class="card-body">Order otomatis terpecah ke stasiun Bar, Dapur Panas, dan Pastry lengkap dengan timer SLA dan status Masak → Siap Saji.</p>
+        </div>
+        <div class="card-dark">
+          <div class="num-pill">3</div>
+          <h3 class="card-title">Stok, Resep BOM &amp; Auto-HPP</h3>
+          <p class="card-body">Setiap menu terjual otomatis memotong gramasi bahan baku, menghitung margin kotor real-time, plus fitur Opname &amp; Waste.</p>
+        </div>
+        <div class="card-dark">
+          <div class="num-pill">4</div>
+          <h3 class="card-title">RBAC &amp; PIN Anti-Curang</h3>
+          <p class="card-body">Void order, refund, dan diskon besar wajib PIN Manager. Seluruh aktivitas kasir dan tutup shift terekam rapi di Audit Log.</p>
+        </div>
+        <div class="card-dark">
+          <div class="num-pill">5</div>
+          <h3 class="card-title">Menu Digital QR &amp; SEO</h3>
+          <p class="card-body">Halaman menu online gratis di <code>kassa.biz.id/p/namacafe</code> yang langsung terindeks Google untuk mendatangkan pelanggan baru.</p>
+        </div>
+        <div class="card-dark">
+          <div class="num-pill">6</div>
+          <h3 class="card-title">Kontrol Multi-Outlet</h3>
+          <p class="card-body">Kelola hingga 20 cabang &amp; 200 akun staf dari 1 dashboard Owner, berpindah cabang dalam 1 klik dengan laporan terpisah &amp; konsolidasi.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>kassa.biz.id · All-In Cloud POS</span>
+      <span>Slide 03 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: SHOWCASE POS -->
+  <section class="slide light">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Modul 01 · Kasir POS</span></div>
+      <span>04 · Point of Sale</span>
+    </div>
+    <div class="grid-2-wide">
+      <div>
+        <span class="eyebrow">Cepat di Jam Sibuk</span>
+        <h2>Kasir Responsif + <span class="serif teal">Hold Bill</span> &amp; Mode Offline</h2>
+        <p class="sub">Dirancang untuk kasir baru agar bisa langsung paham dalam 5 menit tanpa training panjang.</p>
+        <ul class="check">
+          <li><strong>Varian &amp; Modifier Fleksibel:</strong> Regular/Large, level gula, level es, hingga tambahan topping.</li>
+          <li><strong>Manajemen Meja &amp; Hold Bill:</strong> Simpan pesanan dine-in, kirim ke dapur, dan bayar belakangan saat pelanggan selesai makan.</li>
+          <li><strong>Offline Auto-Sync:</strong> Internet mati? Transaksi tunai tetap jalan &amp; tersinkronisasi otomatis begitu sinyal kembali.</li>
+          <li><strong>Buka/Tutup Shift Kasir:</strong> Rekap uang tunai vs sistem otomatis meminimalkan selisih kas.</li>
+        </ul>
+      </div>
+      <div class="shot-frame">
+        <img src="../manual-book/screenshots/02-pos.png" alt="Layar Kasir POS Kassa" />
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Berjalan mulus di Tablet, Laptop, maupun HP Android/iOS</span>
+      <span>Slide 04 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: SHOWCASE KDS -->
+  <section class="slide dark">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Modul 02 · Kitchen Display System</span></div>
+      <span>05 · Dapur Realtime</span>
+    </div>
+    <div class="grid-2-wide">
+      <div>
+        <span class="eyebrow">Tanpa Kertas · Tanpa Teriak</span>
+        <h2>Layar Dapur <span class="serif gold">Kanban Realtime</span></h2>
+        <p class="sub">Begitu kasir menekan tombol kirim, tiket langsung muncul di layar Bar &amp; Dapur dalam hitungan milidetik.</p>
+        <ul class="check">
+          <li><strong>Routing per Stasiun:</strong> Minuman otomatis masuk layar Bar, makanan masuk Dapur Panas, kue masuk Pastry.</li>
+          <li><strong>Alur Visual 3 Kolom:</strong> Pesanan Baru → Sedang Dimasak → Siap Saji dengan indikator waktu tunggu (SLA).</li>
+          <li><strong>Catatan Pelanggan Jelas:</strong> Modifikasi <em>less ice / no sugar / pedas</em> tampil menonjol agar bebas salah saji.</li>
+          <li><strong>Hemat Kertas &amp; Printer Dapur:</strong> Cukup pakai tablet atau monitor bekas di dapur.</li>
+        </ul>
+      </div>
+      <div class="shot-frame">
+        <img src="../manual-book/screenshots/03-kds.png" alt="Layar Dapur KDS Kassa" />
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Ditenagai WebSocket Realtime · Instant Update</span>
+      <span>Slide 05 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: SHOWCASE STOCK & HPP -->
+  <section class="slide light">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Modul 03 · Inventori &amp; HPP</span></div>
+      <span>06 · Stok &amp; Margin</span>
+    </div>
+    <div class="grid-2-wide">
+      <div>
+        <span class="eyebrow">Kendali Profit Akurat</span>
+        <h2>Resep (BOM) &amp; <span class="serif teal">HPP Otomatis</span></h2>
+        <p class="sub">Tahu persis berapa modal setiap gelas kopi atau piring makanan dan pantau sisa bahan baku secara akurat.</p>
+        <ul class="check">
+          <li><strong>Konversi Satuan Otomatis:</strong> Beli dalam kg/liter/pack, terpotong otomatis dalam gram/ml/pcs per transaksi.</li>
+          <li><strong>Peringatan Stok Menipis:</strong> Notifikasi dini sebelum bahan utama habis di tengah jam ramai.</li>
+          <li><strong>Stock Opname &amp; Catat Waste:</strong> Catat bahan rusak/tumpah agar selisih stok selalu transparan.</li>
+          <li><strong>Laporan Laba Kotor Real-Time:</strong> Bandingkan omzet vs HPP per menu &amp; per hari.</li>
+        </ul>
+      </div>
+      <div class="shot-frame">
+        <img src="../manual-book/screenshots/07-stock.png" alt="Stok Bahan Baku & HPP Kassa" />
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Deteksi kebocoran bahan baku sejak hari pertama</span>
+      <span>Slide 06 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: RBAC & DIGITAL MENU -->
+  <section class="slide dark">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Modul 04 · Keamanan &amp; Akuisisi Pelanggan</span></div>
+      <span>07 · RBAC &amp; Menu Digital</span>
+    </div>
+    <div class="grid-2-wide">
+      <div>
+        <span class="eyebrow">Aman di Dalam · Ditemukan di Google</span>
+        <h2>Kunci Akses Staf + <span class="serif gold">Menu Digital SEO</span></h2>
+        <p class="sub">Owner bisa memantau bisnis dari mana saja dengan tenang, sambil mendatangkan trafik organik ke cafe Anda.</p>
+        <ul class="check">
+          <li><strong>Role &amp; Permission Granular:</strong> Atur hak akses Kasir, Manager, Dapur, hingga role kustom sesuka hati.</li>
+          <li><strong>Approval PIN Manager:</strong> Void order &amp; refund tidak bisa dilakukan kasir tanpa PIN atasan.</li>
+          <li><strong>Audit Log Lengkap:</strong> Setiap perubahan harga, stok, dan pembatalan tercatat siapa &amp; kapan melakukannya.</li>
+          <li><strong>Menu Digital QR (<code>kassa.biz.id/p/namacafe</code>):</strong> Pelanggan scan QR di meja atau temukan menu Anda langsung di Google Search.</li>
+        </ul>
+      </div>
+      <div class="shot-frame">
+        <img src="../manual-book/screenshots/08-rbac.png" alt="RBAC & Hak Akses Kassa" />
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Keamanan tingkat enterprise untuk bisnis F&amp;B berkembang</span>
+      <span>Slide 07 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: COMPARISON -->
+  <section class="slide light">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Perbandingan Nilai</span></div>
+      <span>08 · Why Kassa?</span>
+    </div>
+    <div>
+      <span class="eyebrow">Mengapa Owner Cafe Beralih ke Kassa</span>
+      <h2>Fitur Lengkap Tanpa Tagihan <span class="serif teal">Add-On Berlipat</span></h2>
+      <table class="cmp" style="margin-top:20px;">
+        <thead>
+          <tr>
+            <th style="width:28%;">Aspek Operasional</th>
+            <th class="hi" style="width:36%;">Kassa POS (Pro)</th>
+            <th style="width:36%;">POS Konvensional / Kompetitor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Biaya Langganan</strong></td>
+            <td class="hi">Rp49.000 / bulan flat (hingga 20 outlet)</td>
+            <td>Rp250.000 – Rp600.000 / outlet / bulan</td>
+          </tr>
+          <tr>
+            <td><strong>Layar Dapur (KDS)</strong></td>
+            <td class="hi">Sudah termasuk gratis di paket Pro</td>
+            <td>Add-on berbayar tambahan tiap bulan</td>
+          </tr>
+          <tr>
+            <td><strong>Resep (BOM) &amp; Auto-HPP</strong></td>
+            <td class="hi">Sudah termasuk + Opname &amp; Waste</td>
+            <td>Hanya di paket tertinggi / Enterprise</td>
+          </tr>
+          <tr>
+            <td><strong>Mode Offline (Wi-Fi Mati)</strong></td>
+            <td class="hi">Offline-First + Auto-Sync saat online</td>
+            <td>Sering gagal transaksi / harus input ulang</td>
+          </tr>
+          <tr>
+            <td><strong>Menu Digital QR &amp; SEO</strong></td>
+            <td class="hi">Termasuk (kassa.biz.id/p/namacafe)</td>
+            <td>Perlu langganan website/platform terpisah</td>
+          </tr>
+          <tr>
+            <td><strong>Hardware Khusus</strong></td>
+            <td class="hi">Bebas — pakai HP, tablet, atau laptop yang ada</td>
+            <td>Sering mengikat beli perangkat bundling mahal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-bar">
+      <span>Hemat hingga 80% biaya software POS tiap tahun</span>
+      <span>Slide 08 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: PRICING -->
+  <section class="slide dark">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Paket &amp; Investasi</span></div>
+      <span>09 · Pricing</span>
+    </div>
+    <div>
+      <span class="eyebrow">Transparan · Tanpa Biaya Tersembunyi</span>
+      <h2>Mulai <span class="serif gold">Gratis</span>, Upgrade Saat Bisnis Tumbuh</h2>
+      <div class="grid-3" style="margin-top:24px;">
+        <div class="price-card card-dark">
+          <div>
+            <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:#e5ba78; font-weight:700;">Starter · Gratis Selamanya</div>
+            <div class="price-val">Rp0</div>
+            <div style="font-size:13px; opacity:0.7;">1 outlet · total 3 akun (1 Owner + 2 Staf)</div>
+            <ul class="check">
+              <li>Kasir POS &amp; Hold Bill</li>
+              <li>Mode offline tunai otomatis</li>
+              <li>Struk thermal 58/80mm</li>
+              <li>Tutup shift kasir harian</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="price-card featured">
+          <div>
+            <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:#e5ba78; font-weight:700;">★ Kassa Pro · Paling Dipilih</div>
+            <div class="price-val">Rp49.000</div>
+            <div style="font-size:13px; opacity:0.85;">flat / bulan · hingga 20 outlet &amp; 200 akun</div>
+            <ul class="check">
+              <li>Semua fitur Starter + Multi-Outlet</li>
+              <li>Layar Dapur (KDS) Kanban realtime</li>
+              <li>Stok bahan baku, Resep BOM &amp; HPP</li>
+              <li>Menu Digital QR &amp; SEO Google</li>
+              <li>RBAC Custom, Laporan CSV &amp; Audit Log</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="price-card card-dark">
+          <div>
+            <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:#e5ba78; font-weight:700;">Enterprise · Custom</div>
+            <div class="price-val">Custom</div>
+            <div style="font-size:13px; opacity:0.7;">Server &amp; domain milik brand Anda sendiri</div>
+            <ul class="check">
+              <li>Dedicated server &amp; kepemilikan penuh DB</li>
+              <li>Kustomisasi alur sesuai SOP brand</li>
+              <li>Migrasi menu &amp; training tim on-site</li>
+              <li>SLA prioritas &amp; integrasi ERP/Akuntansi</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Hanya ~Rp1.600/hari untuk kendali penuh cafe &amp; rumah makan Anda</span>
+      <span>Slide 09 / 10</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: CTA & ONBOARDING -->
+  <section class="slide petrol">
+    <div class="top-bar">
+      <div class="brand-chip"><span class="brand-mark">K</span><span>Mulai Hari Ini</span></div>
+      <span>10 · Next Steps</span>
+    </div>
+    <div class="grid-2">
+      <div>
+        <span class="eyebrow">Siap Jalan Dalam 5 Menit</span>
+        <h1>Mari Rapikan Operasional <span class="serif gold">Outlet Anda</span> Hari Ini.</h1>
+        <p class="sub">
+          Tidak perlu menunggu ganti perangkat. Daftar gratis, pilih template menu cafe/resto, dan langsung coba transaksi pertama Anda.
+        </p>
+        <div style="margin-top:28px; display:grid; gap:12px;">
+          <div style="background:rgba(11,16,19,0.35); border:1px solid rgba(255,255,255,0.18); border-radius:14px; padding:14px 18px;">
+            <div style="font-size:12px; color:#e5ba78; font-weight:700; text-transform:uppercase;">Website &amp; Daftar Gratis</div>
+            <div style="font-size:20px; font-weight:800; margin-top:2px;">https://kassa.biz.id &nbsp;·&nbsp; app.kassa.biz.id/register</div>
+          </div>
+          <div style="background:rgba(11,16,19,0.35); border:1px solid rgba(255,255,255,0.18); border-radius:14px; padding:14px 18px;">
+            <div style="font-size:12px; color:#e5ba78; font-weight:700; text-transform:uppercase;">Demo Instan (Tanpa Daftar)</div>
+            <div style="font-size:15px; margin-top:4px;">Kode Outlet: <strong>OUT-01</strong> &nbsp;·&nbsp; PIN Owner: <strong>1111</strong> &nbsp;·&nbsp; Kasir: <strong>1234</strong> &nbsp;·&nbsp; Dapur: <strong>5678</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-dark" style="background:rgba(11,16,19,0.45); padding:32px;">
+        <h3 style="font-size:22px; margin:0 0 16px; color:#e5ba78;">Alur Onboarding 3 Langkah</h3>
+        <ul class="check" style="margin-top:0; gap:16px;">
+          <li><strong>Langkah 1 (2 Menit):</strong> Buat akun di <code>app.kassa.biz.id/register</code> &amp; atur PIN Owner.</li>
+          <li><strong>Langkah 2 (2 Menit):</strong> Pilih jenis usaha (Coffee Shop / Resto) — sistem menyiapkan kategori, meja, &amp; stasiun dapur otomatis.</li>
+          <li><strong>Langkah 3 (1 Menit):</strong> Sambungkan printer thermal Bluetooth/USB &amp; mulai terima pesanan pertama Anda!</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>Terima Kasih · Tim Kassa POS (kassa.biz.id)</span>
+      <span>Slide 10 / 10</span>
+    </div>
+  </section>
+
+</body>
+</html>

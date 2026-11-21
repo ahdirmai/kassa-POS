@@ -23,6 +23,7 @@ function normalizeSource(referrer: string, utmSource?: string): string {
     const host = url.hostname.replace(/^www\./, "");
     if (host.includes("google.")) return "Google";
     if (host.includes("instagram.")) return "Instagram";
+    if (host.includes("threads.")) return "Threads";
     if (host.includes("facebook.") || host.includes("fb.")) return "Facebook";
     if (host.includes("tiktok.")) return "TikTok";
     if (host.includes("youtube.") || host.includes("youtu.be")) return "YouTube";

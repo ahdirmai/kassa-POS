@@ -167,6 +167,9 @@ export async function createLead(
     status: input.status || "new",
     notes: input.notes?.trim() || "",
     source: input.source || "landing-form",
+    utmSource: input.utmSource,
+    utmMedium: input.utmMedium,
+    utmCampaign: input.utmCampaign,
     createdAt: now,
     updatedAt: now,
   };
@@ -187,6 +190,9 @@ export async function createLead(
         planInterest: lead.planInterest,
         message: lead.message || undefined,
         source: lead.source,
+        utmSource: lead.utmSource || undefined,
+        utmMedium: lead.utmMedium || undefined,
+        utmCampaign: lead.utmCampaign || undefined,
       }),
       signal: AbortSignal.timeout(2000),
     });

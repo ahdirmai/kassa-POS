@@ -1,0 +1,31 @@
+# Production multi-stage Dockerfile for kassa-landing (Next.js 15 — kassa.biz.id)
+FROM node:20-alpine AS builder
+RUN corepack enable && corepack prepare pnpm@10.32.0 --activate
+WORKDIR /app
+
+ARG NEXT_PUBLIC_SITE_URL=https://kassa.biz.id
+ARG NEXT_PUBLIC_ADMIN_API_URL=https://admin-api.kassa.biz.id/api/v1
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_ADMIN_API_URL=$NEXT_PUBLIC_ADMIN_API_URL
+
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml tsconfig.base.json ./
+COPY apps/landing/package.json ./apps/landing/
+
+RUN pnpm install --frozen-lockfile
+
+COPY apps/landing ./apps/landing
+
+RUN pnpm --filter kassa-landing build
+
+FROM node:20-alpine AS runner
+RUN corepack enable && corepack prepare pnpm@10.32.0 --activate
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=builder /app/package.json /app/pnpm-workspace.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/landing ./apps/landing
+
+WORKDIR /app/apps/landing
+EXPOSE 3005
+CMD ["pnpm", "start"]

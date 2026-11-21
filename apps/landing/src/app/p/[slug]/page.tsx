@@ -90,11 +90,11 @@ export default async function PublicDigitalMenuPage({ params, searchParams }: Pa
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(cafeSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(cafeSchema).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
       <DigitalMenuClient data={data} />
     </>

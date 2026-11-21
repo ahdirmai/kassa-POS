@@ -136,6 +136,7 @@ authRouter.post("/register", validateBody(registerSchema), async (req, res, next
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.status(201).json(result);
@@ -169,6 +170,7 @@ authRouter.post("/login", validateBody(loginSchema), async (req, res, next) => {
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.json(result);
@@ -222,6 +224,7 @@ authRouter.post("/pin-login", validateBody(pinLoginSchema), async (req, res, nex
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.json(result);
@@ -250,6 +253,7 @@ authRouter.post("/refresh", validateBody(refreshSchema), async (req, res, next) 
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
     res.json(result);

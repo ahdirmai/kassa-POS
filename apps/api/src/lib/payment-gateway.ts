@@ -86,14 +86,17 @@ class MidtransQrisAdapter implements PaymentGatewayAdapter {
     gross_amount: string;
     signature_key: string;
   }): boolean {
-    if (env.MIDTRANS_MODE === "mock" && payload.signature_key === "MOCK_VALID") {
+    if (process.env.NODE_ENV !== "production" && env.MIDTRANS_MODE === "mock" && payload.signature_key === "MOCK_VALID") {
       return true;
     }
     const expected = crypto
       .createHash("sha512")
       .update(`${payload.order_id}${payload.status_code}${payload.gross_amount}${env.MIDTRANS_SERVER_KEY}`)
       .digest("hex");
-    return expected === payload.signature_key;
+    const a = Buffer.from(expected, "utf8");
+    const b = Buffer.from(payload.signature_key || "", "utf8");
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
   }
 }
 

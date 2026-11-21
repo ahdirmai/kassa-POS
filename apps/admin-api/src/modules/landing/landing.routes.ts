@@ -62,7 +62,7 @@ publicLandingRouter.get("/content", async (_req, res, next) => {
 
 const publicLeadSchema = z.object({
   name: z.string().min(2).max(120),
-  businessName: z.string().min(2).max(150),
+  businessName: z.string().max(150).optional().default("Belum diisi"),
   whatsapp: z.string().min(6).max(40),
   email: z.string().email().optional().or(z.literal("")),
   outletCount: z.string().max(40).optional(),
@@ -575,6 +575,7 @@ adminLandingRouter.post(
 
       res.status(201).json({
         ...result,
+        outletCode: result.outlet.code,
         defaultPin: pinCode,
       });
     } catch (err) {

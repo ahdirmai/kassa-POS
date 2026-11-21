@@ -969,12 +969,43 @@ export default function PosPage() {
                       {o.items.length} item · Status: <b>{o.status}</b> · {formatIDR(o.grandTotal)}
                     </div>
                   </div>
-                  <button
-                    onClick={() => { setOpenOrdersModal(false); setVoidOrderId(o.id); }}
-                    className="btn-cadra btn-cadra--danger !min-h-8 !px-3 !text-xs"
-                  >
-                    Void
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={async () => {
+                        try {
+                          const payRes = await apiFetch<{ order: ReceiptData & { id: number } }>(`/orders/${o.id}/payments`, {
+                            method: "POST",
+                            body: JSON.stringify({
+                              payments: [{ method: "CASH", amount: o.grandTotal, paidAmount: o.grandTotal }],
+                            }),
+                          });
+                          setReceipt({
+                            ...payRes.order,
+                            tableName: o.table?.name ?? null,
+                            cashierName: user?.name,
+                            paidAmount: o.grandTotal,
+                            changeAmt: 0,
+                            paymentMethod: "CASH",
+                          });
+                          setOpenOrdersModal(false);
+                          qc.invalidateQueries({ queryKey: ["orders-open"] });
+                          qc.invalidateQueries({ queryKey: ["tables"] });
+                          pushToast(`Order ${o.orderNo} berhasil dibayar & lunas!`, "good");
+                        } catch (err) {
+                          pushToast(err instanceof Error ? err.message : "Gagal memproses pembayaran", "bad");
+                        }
+                      }}
+                      className="btn-cadra btn-cadra--primary !min-h-8 !px-3 !text-xs"
+                    >
+                      Bayar Lunas
+                    </button>
+                    <button
+                      onClick={() => { setOpenOrdersModal(false); setVoidOrderId(o.id); }}
+                      className="btn-cadra btn-cadra--danger !min-h-8 !px-3 !text-xs"
+                    >
+                      Void
+                    </button>
+                  </div>
                 </div>
               ))
             )}

@@ -108,12 +108,12 @@ export default function OutletsAndPlanPage() {
   return (
     <CadraShell title="Outlet & Paket Langganan" crumb="Multi-Tenant">
       {isLoading || !tenant ? (
-        <div className="glass-card p-6 text-sm text-[var(--muted)]">Memuat data tenant &amp; outlet...</div>
+        <div className="cadra-card p-6 text-sm text-[var(--muted)]">Memuat data tenant &amp; outlet...</div>
       ) : (
         <div className="space-y-6">
           {/* Plan & Quota Overview */}
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="glass-card p-5">
+            <div className="cadra-card p-5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Paket Aktif</span>
                 <Crown className={`h-4 w-4 ${isFree ? "text-[var(--muted)]" : "text-amber-500"}`} />
@@ -124,22 +124,27 @@ export default function OutletsAndPlanPage() {
               <p className="mt-1 text-xs text-[var(--muted)]">
                 {isFree
                   ? "Khusus Kasir POS · 1 Outlet · Total 3 Akun"
-                  : "All-In: Multi-Outlet, KDS, Stok/HPP, Laporan & Menu Digital SEO"}
+                  : "All-In: Multi-Outlet (20 cabang), KDS, Stok/HPP, Laporan & Menu Digital SEO"}
               </p>
               <div className="mt-4">
                 {isFree ? (
-                  <button onClick={() => handleChangePlan("PRO")} className="btn-cadra btn-cadra--primary w-full text-xs">
+                  <a
+                    href="https://kassa.biz.id/#harga"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-cadra btn-cadra--primary w-full text-xs"
+                  >
                     Upgrade ke Pro · Rp49.000/bln
-                  </button>
+                  </a>
                 ) : (
-                  <button onClick={() => handleChangePlan("FREE")} className="btn-cadra w-full text-xs">
-                    Simulasikan Mode Free
-                  </button>
+                  <span className="inline-flex w-full items-center justify-center rounded-full bg-emerald-500/15 py-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                    Paket Pro Aktif
+                  </span>
                 )}
               </div>
             </div>
 
-            <div className="glass-card p-5">
+            <div className="cadra-card p-5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Kuota Outlet</span>
                 <Building2 className="h-4 w-4 text-[var(--muted)]" />
@@ -152,7 +157,7 @@ export default function OutletsAndPlanPage() {
               </p>
             </div>
 
-            <div className="glass-card p-5">
+            <div className="cadra-card p-5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Kuota Akun (Owner + Staf)</span>
                 <Users className="h-4 w-4 text-[var(--muted)]" />

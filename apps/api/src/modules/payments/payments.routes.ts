@@ -59,6 +59,10 @@ paymentsRouter.post("/webhooks/payment/:provider", async (req, res, next) => {
     if (body.transaction_status === "settlement" || body.transaction_status === "capture") {
       const payment = await prisma.payment.findFirst({ where: { referenceNo: body.order_id } });
       if (payment && payment.status !== "SETTLED") {
+        const grossAmount = Math.round(Number(body.gross_amount ?? 0));
+        if (grossAmount !== Number(payment.amount)) {
+          throw new AppError(400, "AMOUNT_MISMATCH", "Nominal webhook tidak sesuai dengan tagihan pembayaran");
+        }
         await prisma.payment.update({
           where: { id: payment.id },
           data: { status: "SETTLED", settledAt: new Date() },
@@ -187,7 +191,7 @@ paymentsRouter.post("/orders/:id/payments", requirePermission("order.create"), v
  */
 paymentsRouter.post("/payments/:id/simulate-settle", requirePermission("order.create"), async (req, res, next) => {
   try {
-    if (process.env.NODE_ENV === "production" && env.MIDTRANS_MODE !== "mock") {
+    if (process.env.NODE_ENV === "production") {
       throw new AppError(403, "FORBIDDEN", "Simulasi pembayaran dinonaktifkan di mode produksi");
     }
     const id = Number(req.params.id);

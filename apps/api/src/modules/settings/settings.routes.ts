@@ -4,7 +4,7 @@ import { prisma, serializeJson } from "../../lib/prisma.js";
 import { getOutletSettingsMap } from "../../lib/settings.js";
 import { invalidateRbacCache } from "../../lib/rbac-cache.js";
 import { writeAuditLog } from "../../lib/audit.js";
-import { requireAuth, requirePermission } from "../../middleware/auth.js";
+import { requireAuth, requireFeature, requirePermission } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
 
 export const settingsRouter = Router();
@@ -88,7 +88,7 @@ settingsRouter.patch(
   },
 );
 
-settingsRouter.get("/audit-logs", requirePermission("report.view"), async (req, res, next) => {
+settingsRouter.get("/audit-logs", requireFeature("reports"), requirePermission("report.view"), async (req, res, next) => {
   try {
     const logs = await prisma.auditLog.findMany({
       where: { outletId: req.user!.outletId },

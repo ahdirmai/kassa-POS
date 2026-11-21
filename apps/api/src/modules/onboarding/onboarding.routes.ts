@@ -267,6 +267,17 @@ onboardingRouter.post("/reset-sample", requireOwner, async (req, res, next) => {
     const outletId = req.user!.outletId;
     const userId = req.user!.id;
 
+    const sampleSetting = await prisma.setting.findUnique({
+      where: { outletId_key: { outletId, key: "sampleDataActive" } },
+    });
+    if (sampleSetting?.value !== "true") {
+      throw new AppError(
+        400,
+        "NO_SAMPLE_DATA",
+        "Outlet ini tidak sedang menggunakan data contoh, sehingga reset dibatalkan untuk melindungi data transaksi asli.",
+      );
+    }
+
     await clearOutletOperationalData(outletId);
 
     // Sisakan 1 kategori kosong default agar kasir / admin langsung bisa tambah menu asli

@@ -118,7 +118,10 @@ backofficeRouter.get("/overview", requirePlatformAuth, async (_req, res, next) =
   try {
     const now = new Date();
     const in7Days = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const days14Ago = new Date(now.getTime() - 13 * 24 * 60 * 60 * 1000);
+    days14Ago.setHours(0, 0, 0, 0);
     const days30Ago = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const months6Ago = new Date(now.getFullYear(), now.getMonth() - 5, 1);
 
     const [
       tenants,
@@ -127,6 +130,9 @@ backofficeRouter.get("/overview", requirePlatformAuth, async (_req, res, next) =
       recentAuditLogs,
       totalOutlets,
       totalUsers,
+      paidOrders30d,
+      paidInvoices6m,
+      leadGroups,
     ] = await Promise.all([
       prisma.tenant.findMany({
         orderBy: { createdAt: "desc" },
@@ -147,6 +153,25 @@ backofficeRouter.get("/overview", requirePlatformAuth, async (_req, res, next) =
       }),
       prisma.outlet.count(),
       prisma.user.count({ where: { deletedAt: null } }),
+      prisma.order.findMany({
+        where: {
+          status: { in: ["PAID", "CLOSED"] },
+          createdAt: { gte: days30Ago },
+        },
+        select: {
+          grandTotal: true,
+          createdAt: true,
+          outlet: { select: { tenantId: true } },
+        },
+      }),
+      prisma.subscriptionInvoice.findMany({
+        where: { status: "PAID", paidAt: { gte: months6Ago } },
+        select: { amount: true, paidAt: true },
+      }),
+      prisma.landingLead.groupBy({
+        by: ["status"],
+        _count: { _all: true },
+      }),
     ]);
 
     const planBreakdown = { FREE: 0, PRO: 0, ENTERPRISE: 0 };
@@ -178,6 +203,92 @@ backofficeRouter.get("/overview", requirePlatformAuth, async (_req, res, next) =
       }
     }
 
+    // 1. Daily GMV & Orders (14 hari terakhir)
+    const dailyMap = new Map<string, { date: string; label: string; gmv: number; orders: number }>();
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      const key = d.toISOString().slice(0, 10);
+      const label = d.toLocaleDateString("id-ID", { day: "2-digit", month: "short" });
+      dailyMap.set(key, { date: key, label, gmv: 0, orders: 0 });
+    }
+
+    // Aggregate 30d orders per tenant + 14d daily series
+    const tenantGmvMap = new Map<number, { gmv: number; orders: number }>();
+    for (const ord of paidOrders30d) {
+      const amt = Number(ord.grandTotal ?? 0n);
+      const tid = ord.outlet?.tenantId;
+      if (tid) {
+        const curr = tenantGmvMap.get(tid) ?? { gmv: 0, orders: 0 };
+        curr.gmv += amt;
+        curr.orders += 1;
+        tenantGmvMap.set(tid, curr);
+      }
+      const key = ord.createdAt.toISOString().slice(0, 10);
+      const dayBucket = dailyMap.get(key);
+      if (dayBucket) {
+        dayBucket.gmv += amt;
+        dayBucket.orders += 1;
+      }
+    }
+    const dailyGmv14d = Array.from(dailyMap.values());
+
+    // 2. Monthly Subscription Revenue & Tenant Growth (6 bulan terakhir)
+    const monthlyMap = new Map<
+      string,
+      { month: string; label: string; revenue: number; newTenants: number; paidInvoices: number }
+    >();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const label = d.toLocaleDateString("id-ID", { month: "short", year: "2-digit" });
+      monthlyMap.set(key, { month: key, label, revenue: 0, newTenants: 0, paidInvoices: 0 });
+    }
+    for (const t of tenants) {
+      const d = t.createdAt;
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const bucket = monthlyMap.get(key);
+      if (bucket) bucket.newTenants += 1;
+    }
+    for (const inv of paidInvoices6m) {
+      if (!inv.paidAt) continue;
+      const d = inv.paidAt;
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const bucket = monthlyMap.get(key);
+      if (bucket) {
+        bucket.revenue += Number(inv.amount ?? 0n);
+        bucket.paidInvoices += 1;
+      }
+    }
+    const monthlyGrowth6m = Array.from(monthlyMap.values());
+
+    // 3. Top Tenants by GMV (30 hari)
+    const topTenants30d = tenants
+      .map((t) => {
+        const stats = tenantGmvMap.get(t.id) ?? { gmv: 0, orders: 0 };
+        return {
+          id: t.id,
+          name: t.name,
+          plan: normalizePlanTier(t.plan),
+          gmv: stats.gmv,
+          orders: stats.orders,
+        };
+      })
+      .sort((a, b) => b.gmv - a.gmv || b.orders - a.orders)
+      .slice(0, 5);
+
+    // 4. Landing Lead Funnel
+    const leadCountMap = new Map<string, number>();
+    for (const g of leadGroups) {
+      leadCountMap.set(g.status, g._count._all);
+    }
+    const leadFunnel = [
+      { status: "new", label: "Baru", count: leadCountMap.get("new") ?? 0 },
+      { status: "contacted", label: "Dihubungi", count: leadCountMap.get("contacted") ?? 0 },
+      { status: "demo", label: "Demo", count: leadCountMap.get("demo") ?? 0 },
+      { status: "won", label: "Won", count: leadCountMap.get("won") ?? 0 },
+      { status: "lost", label: "Lost", count: leadCountMap.get("lost") ?? 0 },
+    ];
+
     res.json(
       serializeBigInt({
         kpis: {
@@ -192,6 +303,12 @@ backofficeRouter.get("/overview", requirePlatformAuth, async (_req, res, next) =
           pendingInvoicesCount,
           paidRevenue30d: paidInvoices30d._sum.amount ?? 0n,
           paidInvoices30dCount: paidInvoices30d._count._all,
+        },
+        charts: {
+          dailyGmv14d,
+          monthlyGrowth6m,
+          topTenants30d,
+          leadFunnel,
         },
         recentTenants: tenants.slice(0, 6),
         expiringTenants,

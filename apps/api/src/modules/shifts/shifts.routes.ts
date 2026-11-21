@@ -2,7 +2,7 @@ import { Router } from "express";
 import { cashMovementSchema, closeShiftSchema, openShiftSchema } from "@pos/shared";
 import { prisma, serializeJson } from "../../lib/prisma.js";
 import { writeAuditLog } from "../../lib/audit.js";
-import { requireAuth, requirePermission } from "../../middleware/auth.js";
+import { requireAuth, requireFeature, requirePermission } from "../../middleware/auth.js";
 import { validateBody } from "../../middleware/validate.js";
 import { AppError } from "../../middleware/error.js";
 
@@ -74,7 +74,7 @@ shiftsRouter.get("/active", async (req, res, next) => {
   }
 });
 
-shiftsRouter.get("/", requirePermission("report.view"), async (req, res, next) => {
+shiftsRouter.get("/", requireFeature("reports"), requirePermission("report.view"), async (req, res, next) => {
   try {
     const shifts = await prisma.shift.findMany({
       where: { outletId: req.user!.outletId },
