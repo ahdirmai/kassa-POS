@@ -60,6 +60,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       NODE_ENV: production
       ADMIN_API_PORT: 4001
@@ -67,6 +69,8 @@ services:
       ADMIN_CORS_ORIGIN: ${ADMIN_CORS_ORIGIN:-https://admin.kassa.biz.id,https://kassa.biz.id}
       PLATFORM_JWT_ACCESS_SECRET: ${PLATFORM_JWT_ACCESS_SECRET:?PLATFORM_JWT_ACCESS_SECRET is required}
       PLATFORM_JWT_EXPIRES: ${PLATFORM_JWT_EXPIRES:-8h}
+      DEPLOY_AGENT_URL: ${DEPLOY_AGENT_URL:-http://host.docker.internal:9000}
+      DEPLOY_INTERNAL_TOKEN: ${DEPLOY_INTERNAL_TOKEN:-}
 
   web:
     build:

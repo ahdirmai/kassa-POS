@@ -7,6 +7,7 @@ import { pinoHttp } from "pino-http";
 import { env } from "./config/env.js";
 import { errorHandler } from "./middleware/error.js";
 import { backofficeRouter } from "./modules/backoffice/backoffice.routes.js";
+import { deploymentsRouter } from "./modules/backoffice/deployments.routes.js";
 import { adminLandingRouter, publicLandingRouter } from "./modules/landing/landing.routes.js";
 
 export function createAdminApp() {
@@ -49,6 +50,7 @@ export function createAdminApp() {
   app.use("/api/v1/public/landing", publicLimiter, publicLandingRouter);
   app.use("/api/v1/auth", authLimiter);
   app.use("/api/v1/landing", adminLandingRouter);
+  app.use("/api/v1/backoffice/deployments", deploymentsRouter);
   app.use("/api/v1", backofficeRouter);
 
   app.use(errorHandler);

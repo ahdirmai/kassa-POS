@@ -10,6 +10,8 @@ const envSchema = z
     ADMIN_CORS_ORIGIN: z.string().default("http://localhost:3005,http://localhost:3006"),
     PLATFORM_JWT_ACCESS_SECRET: z.string().min(16).default(DEV_PLATFORM_DEFAULT),
     PLATFORM_JWT_EXPIRES: z.string().default("8h"),
+    DEPLOY_AGENT_URL: z.string().url().optional().or(z.literal("")),
+    DEPLOY_INTERNAL_TOKEN: z.string().optional().default(""),
   })
   .superRefine((data, ctx) => {
     if (process.env.NODE_ENV === "production") {

@@ -20,6 +20,7 @@ import {
   LogOut,
   Megaphone,
   Moon,
+  Rocket,
   ShieldCheck,
   Sun,
   Wifi,
@@ -34,6 +35,7 @@ export interface NavItem {
   shortLabel: string;
   icon: typeof LayoutDashboard;
   match: (pathname: string) => boolean;
+  superadminOnly?: boolean;
 }
 
 export const NAV_ITEMS: NavItem[] = [
@@ -76,6 +78,15 @@ export const NAV_ITEMS: NavItem[] = [
     shortLabel: "Marketing",
     icon: Megaphone,
     match: (p) => p.startsWith("/marketing"),
+  },
+  {
+    id: "deployments",
+    href: "/deployments",
+    label: "Deployments",
+    shortLabel: "Deploy",
+    icon: Rocket,
+    match: (p) => p.startsWith("/deployments"),
+    superadminOnly: true,
   },
   {
     id: "audit",
@@ -180,7 +191,10 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
     );
   }
 
-  const activeNav = NAV_ITEMS.find((n) => n.match(pathname)) ?? NAV_ITEMS[0];
+  const visibleNavItems = NAV_ITEMS.filter(
+    (item) => !item.superadminOnly || admin.role === "SUPERADMIN",
+  );
+  const activeNav = visibleNavItems.find((n) => n.match(pathname)) ?? visibleNavItems[0];
   const initials = admin.name
     .split(" ")
     .map((s) => s[0])
@@ -199,7 +213,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
 
       {/* Floating Left Dock (Desktop & Tablet Landscape) */}
       <nav className="cadra-dock" aria-label="Navigasi Back Office">
-        {NAV_ITEMS.map((item) => {
+        {visibleNavItems.map((item) => {
           const Icon = item.icon;
           const active = item.match(pathname);
           return (
@@ -276,7 +290,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
 
           <div className="cadra-top__nav">
             <nav className="ttabs-track" aria-label="Menu Utama Back Office">
-              {NAV_ITEMS.map((item) => {
+              {visibleNavItems.map((item) => {
                 const active = item.match(pathname);
                 return (
                   <Link

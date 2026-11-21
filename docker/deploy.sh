@@ -20,6 +20,8 @@ git pull --ff-only origin main
 NEW_SHA=$(git rev-parse HEAD)
 
 echo "==> Deploy commit: ${OLD_SHA:0:7} -> ${NEW_SHA:0:7}"
+echo "KASSA_DEPLOY_FROM_SHA=${OLD_SHA:0:7}"
+echo "KASSA_DEPLOY_TO_SHA=${NEW_SHA:0:7}"
 
 CHANGED_FILES=""
 if [ "$OLD_SHA" != "$NEW_SHA" ]; then
@@ -55,8 +57,10 @@ else
 fi
 
 if [ ${#SERVICES_TO_BUILD[@]} -eq 0 ]; then
+  echo "KASSA_DEPLOY_SERVICES=none"
   echo "==> No app Dockerfiles or source files changed; skipping image builds."
 else
+  IFS=, ; echo "KASSA_DEPLOY_SERVICES=${SERVICES_TO_BUILD[*]}" ; unset IFS
   for svc in "${SERVICES_TO_BUILD[@]}"; do
     build_service "$svc"
   done
