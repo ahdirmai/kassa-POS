@@ -53,6 +53,7 @@ export function createApp() {
   });
 
   app.use("/api/v1/auth", authLimiter, authRouter);
+  app.use("/api/v1/public/digital-menu", publicDigitalMenuRouter);
   app.use("/api/v1/menu", menuRouter);
   app.use("/api/v1/tables", tablesRouter);
   app.use("/api/v1/orders", ordersRouter);
@@ -67,7 +68,6 @@ export function createApp() {
   app.use("/api/v1/outlets", outletsRouter);
   app.use("/api/v1/onboarding", onboardingRouter);
   app.use("/api/v1/digital-menu", digitalMenuRouter);
-  app.use("/api/v1/public/digital-menu", publicDigitalMenuRouter);
 
   app.use(errorHandler);
   return app;
