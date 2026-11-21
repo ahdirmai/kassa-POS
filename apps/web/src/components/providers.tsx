@@ -43,12 +43,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const updateStatus = async () => {
       const online = navigator.onLine;
       setOnline(online);
-      const count = await getPendingOfflineCount();
+      const activeOutletId = useAuthStore.getState().user?.outletId;
+      const count = await getPendingOfflineCount(activeOutletId);
       setPendingOffline(count);
 
-      if (online && count > 0) {
+      if (online && count > 0 && activeOutletId) {
         try {
-          const pending = await offlineDb.offlineOrders.where("synced").equals(0).toArray();
+          const allPending = await offlineDb.offlineOrders.where("synced").equals(0).toArray();
+          const pending = allPending.filter((p) => p.outletId === undefined || p.outletId === activeOutletId);
           if (pending.length) {
             await apiFetch("/sync/push", {
               method: "POST",
@@ -70,7 +72,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             for (const p of pending) {
               await offlineDb.offlineOrders.update(p.clientUuid, { synced: 1 });
             }
-            setPendingOffline(0);
+            const remaining = await getPendingOfflineCount(activeOutletId);
+            setPendingOffline(remaining);
             pushToast(`${pending.length} transaksi offline berhasil disinkronkan`, "good");
           }
         } catch {

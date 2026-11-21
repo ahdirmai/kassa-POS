@@ -11,6 +11,7 @@ export interface CachedCatalog {
 
 export interface OfflineTransaction {
   clientUuid: string;
+  outletId?: number;
   offlineReceiptNo: string;
   createdAt: string;
   orderType: "DINE_IN" | "TAKEAWAY" | "DELIVERY";
@@ -45,6 +46,12 @@ class CadraOfflineDB extends Dexie {
 
 export const offlineDb = new CadraOfflineDB();
 
-export async function getPendingOfflineCount(): Promise<number> {
-  return offlineDb.offlineOrders.where("synced").equals(0).count();
+export function catalogKey(outletId?: number): string {
+  return `catalog:${outletId ?? "default"}`;
+}
+
+export async function getPendingOfflineCount(outletId?: number): Promise<number> {
+  const pending = await offlineDb.offlineOrders.where("synced").equals(0).toArray();
+  if (outletId === undefined) return pending.length;
+  return pending.filter((p) => p.outletId === undefined || p.outletId === outletId).length;
 }

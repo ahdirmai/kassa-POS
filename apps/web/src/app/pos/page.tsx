@@ -22,7 +22,7 @@ import { CadraShell } from "@/components/cadra-shell";
 import { ReceiptModal, type ReceiptData } from "@/components/receipt-modal";
 import { PinApprovalModal } from "@/components/pin-modal";
 import { apiFetch, ApiError } from "@/lib/api";
-import { offlineDb } from "@/lib/offline-db";
+import { catalogKey, getPendingOfflineCount, offlineDb } from "@/lib/offline-db";
 import { usePosStore } from "@/stores/pos-store";
 import { useUiStore } from "@/stores/ui-store";
 import { useAuthStore } from "@/stores/auth-store";
@@ -120,12 +120,13 @@ export default function PosPage() {
   const [voidOrderId, setVoidOrderId] = useState<number | null>(null);
 
   const { data: products = [], isLoading: productsLoading } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", user?.outletId],
     queryFn: async () => {
+      const key = catalogKey(user?.outletId);
       try {
         const list = await apiFetch<Product[]>("/menu/products");
         await offlineDb.catalog.put({
-          key: "catalog",
+          key,
           syncedAt: new Date().toISOString(),
           categories: [],
           products: list,
@@ -135,7 +136,7 @@ export default function PosPage() {
         return list;
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) throw err;
-        const cached = await offlineDb.catalog.get("catalog");
+        const cached = await offlineDb.catalog.get(key);
         return (cached?.products as Product[]) ?? [];
       }
     },
@@ -316,6 +317,7 @@ export default function PosPage() {
       const nowIso = new Date().toISOString();
       await offlineDb.offlineOrders.add({
         clientUuid,
+        outletId: user?.outletId,
         offlineReceiptNo,
         createdAt: nowIso,
         orderType: pos.orderType,
@@ -334,7 +336,7 @@ export default function PosPage() {
         grandTotal: totals.grandTotal,
         synced: 0,
       });
-      const pending = await offlineDb.offlineOrders.where("synced").equals(0).count();
+      const pending = await getPendingOfflineCount(user?.outletId);
       setPendingOffline(pending);
       setReceipt({
         receiptNo: offlineReceiptNo,

@@ -214,7 +214,7 @@ export function CadraShell({
           </div>
 
           <div className="flex items-center justify-end gap-2">
-            {mounted && user && user.roleCode === "OWNER" && (user.outlets?.length ?? 0) > 1 && (
+            {mounted && user && user.roleCode === "OWNER" && !isFree && (user.outlets?.length ?? 0) > 1 && (
               <select
                 aria-label="Pilih Outlet Aktif"
                 value={user.outletId}
@@ -229,7 +229,7 @@ export function CadraShell({
               </select>
             )}
 
-            {mounted && user && isFree && (
+            {mounted && user && user.roleCode === "OWNER" && isFree && (
               <Link
                 href="/admin/outlets"
                 className="hidden sm:inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/15 px-3 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-300"

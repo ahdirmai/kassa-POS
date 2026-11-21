@@ -18,7 +18,7 @@ export default function RegisterPage() {
   const [ownerName, setOwnerName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [pin, setPin] = useState("1111");
+  const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +35,7 @@ export default function RegisterPage() {
           ownerName,
           email,
           password,
-          pin: pin || "1111",
+          pin: pin.trim() || undefined,
         }),
       });
       setSession(res.user, res.accessToken);

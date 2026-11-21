@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { KeyRound, Lock, Mail } from "lucide-react";
 import { apiFetch } from "@/lib/api";
@@ -8,31 +9,47 @@ import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { getDefaultHomePath } from "@/lib/rbac";
 
+const OUTLET_CODE_STORAGE_KEY = "kassa_outlet_code";
+
 export default function LoginPage() {
   const router = useRouter();
   const setSession = useAuthStore((s) => s.setSession);
   const pushToast = useUiStore((s) => s.pushToast);
 
   const [mode, setMode] = useState<"pin" | "email">("pin");
+  const [outletCode, setOutletCode] = useState("SENJA-01");
   const [pin, setPin] = useState("");
   const [email, setEmail] = useState("owner@senja.id");
   const [password, setPassword] = useState("password123");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const saved = window.localStorage.getItem(OUTLET_CODE_STORAGE_KEY);
+    if (saved) setOutletCode(saved);
+  }, []);
+
   const routeAfterLogin = (user: UserSession) => {
+    if (user.outletCode) {
+      window.localStorage.setItem(OUTLET_CODE_STORAGE_KEY, user.outletCode);
+    }
     pushToast(`Selamat datang, ${user.name}`, "good");
     const can = (p: string) => user.roleCode === "OWNER" || user.permissions.includes(p);
     router.push(getDefaultHomePath(can, user.plan));
   };
 
   const handlePinLogin = async (pinValue: string) => {
+    const cleanCode = outletCode.trim().toUpperCase();
+    if (!cleanCode) {
+      setError("Masukkan Kode Outlet terlebih dahulu");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
       const data = await apiFetch<{ user: UserSession; accessToken: string }>("/auth/pin-login", {
         method: "POST",
-        body: JSON.stringify({ pin: pinValue }),
+        body: JSON.stringify({ pin: pinValue, outletCode: cleanCode }),
       });
       setSession(data.user, data.accessToken);
       routeAfterLogin(data.user);
@@ -74,7 +91,7 @@ export default function LoginPage() {
           <div className="cadra-brand__mark">K</div>
           <div>
             <h1 className="text-xl font-bold tracking-tight">Kassa</h1>
-            <p className="text-xs font-semibold text-[var(--muted)]">Kopi &amp; Dapur Senja · app.kassa.biz.id</p>
+            <p className="text-xs font-semibold text-[var(--muted)]">Cloud POS Multi-Outlet · app.kassa.biz.id</p>
           </div>
         </div>
 
@@ -104,6 +121,17 @@ export default function LoginPage() {
 
         {mode === "pin" ? (
           <div className="space-y-4">
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Kode Outlet</label>
+              <input
+                type="text"
+                className="cadra-input uppercase tracking-wider font-mono text-sm"
+                placeholder="Contoh: SENJA-01 atau KSA-XXXX"
+                value={outletCode}
+                onChange={(e) => setOutletCode(e.target.value.toUpperCase())}
+              />
+            </div>
+
             <div className="flex justify-center gap-3 py-2">
               {[0, 1, 2, 3, 4, 5].map((idx) => (
                 <div
@@ -194,9 +222,9 @@ export default function LoginPage() {
 
         <div className="border-t border-[var(--rim)] pt-3 text-center text-xs text-[var(--muted)]">
           Pemilik bisnis baru?{" "}
-          <a href="/register" className="font-semibold text-[var(--primary-ink)] hover:underline">
+          <Link href="/register" className="font-semibold text-[var(--primary-ink)] hover:underline">
             Daftar Gratis (1 Outlet · 3 Akun)
-          </a>
+          </Link>
         </div>
       </div>
     </div>
