@@ -37,9 +37,13 @@ async function main() {
   });
 
   // 1b. Landing Page / Digital Menu Tenant PRO (kassa.biz.id/p/kopi-senja)
+  const heroBannerUrl =
+    "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1400&q=80";
   await prisma.tenantDigitalMenu.upsert({
     where: { tenantId: tenantPro.id },
-    update: {},
+    update: {
+      heroImageUrl: heroBannerUrl,
+    },
     create: {
       tenantId: tenantPro.id,
       defaultOutletId: outlet.id,
@@ -53,6 +57,7 @@ async function main() {
       openingHours: "Setiap hari, 07.30 – 22.00 WIB",
       whatsapp: "628127194820",
       instagram: "kopisenja.kemang",
+      heroImageUrl: heroBannerUrl,
       themeAccent: "amber",
       showPrices: true,
       showUnavailable: true,

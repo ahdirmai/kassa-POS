@@ -164,6 +164,7 @@ onboardingRouter.post(
                 tone: p.tone,
                 price: BigInt(p.price),
                 cost: BigInt(p.cost),
+                imageUrl: p.imageUrl ?? null,
                 isAvailable: true,
                 variants: p.variants?.length
                   ? {

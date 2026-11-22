@@ -18,6 +18,12 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
   - Akun seed (`apps/api/prisma/seed.ts`) dan akun staf yang dibuat Owner (`apps/api/src/modules/rbac/rbac.routes.ts`) otomatis terverifikasi.
   - Menambahkan konfigurasi env email (`APP_WEB_URL`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `RESEND_API_KEY`, `SMTP_*`) pada `.env.example`, `apps/api/src/config/env.ts`, dan `docker/docker-compose.prod.yml`.
 
+### Changed
+- **Onboarding & Demo Seeder Photos (`@pos/shared`, `apps/api`):**
+  - Menambahkan foto produk (`imageUrl`) ke seluruh 19 template menu di `packages/shared/src/onboarding.ts` dan menyimpannya saat dynamic onboarding seeder berjalan (`apps/api/src/modules/onboarding/onboarding.routes.ts`), serta menambahkan `heroImageUrl` untuk Digital Menu demo `kopi-senja` di `apps/api/prisma/seed.ts`.
+- **Direct WhatsApp Upgrade CTA (`apps/web/src/app/admin/outlets/page.tsx`):**
+  - Mengarahkan tombol aktivasi/upgrade Kassa Pro langsung ke WhatsApp resmi Kassa (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi nama bisnis, slug tenant, email owner, dan jumlah outlet.
+
 ## [1.3.0] - 2026-11-22
 
 ### Added

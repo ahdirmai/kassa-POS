@@ -139,6 +139,7 @@ export interface SeedProductSpec {
   tone: string;
   price: number;
   cost: number;
+  imageUrl?: string;
   variants?: Array<{ name: string; priceDelta: number; isDefault?: boolean }>;
   modifierGroupNames?: string[];
 }
@@ -188,6 +189,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "iris",
         price: 24000,
         cost: 8500,
+        imageUrl: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Regular", priceDelta: 0, isDefault: true },
           { name: "Large", priceDelta: 5000 },
@@ -202,6 +204,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "iris",
         price: 20000,
         cost: 5500,
+        imageUrl: "https://images.unsplash.com/photo-1551030173-122aabc4489c?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Hot", priceDelta: 0, isDefault: true },
           { name: "Iced", priceDelta: 2000 },
@@ -216,6 +219,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "iris",
         price: 28000,
         cost: 9500,
+        imageUrl: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Hot", priceDelta: 0, isDefault: true },
           { name: "Iced", priceDelta: 2000 },
@@ -241,6 +245,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "sage",
         price: 28000,
         cost: 10000,
+        imageUrl: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Iced", priceDelta: 0, isDefault: true },
           { name: "Hot", priceDelta: 0 },
@@ -255,6 +260,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "sage",
         price: 26000,
         cost: 9000,
+        imageUrl: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Iced", priceDelta: 0, isDefault: true },
           { name: "Hot", priceDelta: 0 },
@@ -269,6 +275,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "sage",
         price: 22000,
         cost: 6500,
+        imageUrl: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Gula", "Level Es"],
       },
     ],
@@ -289,6 +296,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 27000,
         cost: 9500,
+        imageUrl: "https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Regular", priceDelta: 0, isDefault: true },
           { name: "Large", priceDelta: 5000 },
@@ -303,6 +311,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 25000,
         cost: 8500,
+        imageUrl: "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Gula", "Level Es", "Extra Minuman"],
       },
       {
@@ -313,6 +322,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 24000,
         cost: 8000,
+        imageUrl: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Gula", "Level Es"],
       },
     ],
@@ -332,6 +342,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "coral",
         price: 34000,
         cost: 13500,
+        imageUrl: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas", "Tambahan Lauk"],
       },
       {
@@ -342,6 +353,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "coral",
         price: 32000,
         cost: 12500,
+        imageUrl: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas", "Tambahan Lauk"],
       },
       {
@@ -352,6 +364,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "coral",
         price: 30000,
         cost: 11000,
+        imageUrl: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas", "Tambahan Lauk"],
       },
     ],
@@ -372,6 +385,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "coral",
         price: 42000,
         cost: 17500,
+        imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80",
         variants: [
           { name: "Single Patty", priceDelta: 0, isDefault: true },
           { name: "Double Patty", priceDelta: 15000 },
@@ -386,6 +400,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "coral",
         price: 38000,
         cost: 14000,
+        imageUrl: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas"],
       },
     ],
@@ -405,6 +420,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 26000,
         cost: 10500,
+        imageUrl: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
       },
       {
         stationCode: "KITCHEN",
@@ -414,6 +430,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 29000,
         cost: 11500,
+        imageUrl: "https://images.unsplash.com/photo-1623334044303-241021148842?auto=format&fit=crop&w=600&q=80",
       },
       {
         stationCode: "KITCHEN",
@@ -423,6 +440,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "amber",
         price: 38000,
         cost: 15000,
+        imageUrl: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80",
       },
     ],
     ingredients: [
@@ -441,6 +459,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "sage",
         price: 24000,
         cost: 8000,
+        imageUrl: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas"],
       },
       {
@@ -451,6 +470,7 @@ const CATALOG_BY_FOOD: Record<
         tone: "sage",
         price: 36000,
         cost: 14000,
+        imageUrl: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=600&q=80",
         modifierGroupNames: ["Level Pedas"],
       },
     ],

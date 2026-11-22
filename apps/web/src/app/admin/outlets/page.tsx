@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Building2, Check, Crown, Lock, Plus, Users } from "lucide-react";
+import { Building2, Check, Crown, Lock, MessageCircle, Plus, Users } from "lucide-react";
 import { CadraShell } from "@/components/cadra-shell";
 import { apiFetch } from "@/lib/api";
 import { useAuthStore, type UserSession } from "@/stores/auth-store";
@@ -34,9 +34,12 @@ interface OutletsResponse {
   outlets: OutletItem[];
 }
 
+const KASSA_SUPPORT_WA =
+  (process.env.NEXT_PUBLIC_SUPPORT_WA || "62895388220777").replace(/\D/g, "") || "62895388220777";
+
 export default function OutletsAndPlanPage() {
   const qc = useQueryClient();
-  const { setSession } = useAuthStore();
+  const { user, setSession } = useAuthStore();
   const pushToast = useUiStore((s) => s.pushToast);
 
   const [name, setName] = useState("");
@@ -83,27 +86,20 @@ export default function OutletsAndPlanPage() {
     }
   };
 
-  const handleChangePlan = async (plan: "FREE" | "PRO") => {
-    try {
-      const res = await apiFetch<{ accessToken: string; user: UserSession }>("/outlets/plan", {
-        method: "POST",
-        body: JSON.stringify({ plan }),
-      });
-      setSession(res.user, res.accessToken);
-      pushToast(
-        plan === "PRO"
-          ? "Berhasil upgrade ke Kassa Pro! Multi-outlet, KDS, Stok & Laporan kini terbuka."
-          : "Paket diubah ke Free (1 Outlet, maks 3 akun, khusus POS).",
-        "good",
-      );
-      window.location.reload();
-    } catch (err) {
-      pushToast(err instanceof Error ? err.message : "Gagal mengubah paket", "bad");
-    }
-  };
-
   const tenant = data?.tenant;
   const isFree = tenant?.plan === "FREE";
+
+  const upgradeWaUrl = tenant
+    ? `https://wa.me/${KASSA_SUPPORT_WA}?text=${encodeURIComponent(
+        `Halo Tim Kassa, saya ingin mengaktifkan paket Kassa Pro (Rp49.000/bulan).\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}\nJumlah Outlet: ${tenant.usedOutlets}`,
+      )}`
+    : `https://wa.me/${KASSA_SUPPORT_WA}`;
+
+  const supportWaUrl = tenant
+    ? `https://wa.me/${KASSA_SUPPORT_WA}?text=${encodeURIComponent(
+        `Halo Tim Kassa, saya butuh bantuan terkait langganan Kassa Pro.\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}`,
+      )}`
+    : `https://wa.me/${KASSA_SUPPORT_WA}`;
 
   return (
     <CadraShell title="Outlet & Paket Langganan" crumb="Multi-Tenant">
@@ -129,17 +125,24 @@ export default function OutletsAndPlanPage() {
               <div className="mt-4">
                 {isFree ? (
                   <a
-                    href="https://kassa.biz.id/#harga"
+                    href={upgradeWaUrl}
                     target="_blank"
-                    rel="noreferrer"
-                    className="btn-cadra btn-cadra--primary w-full text-xs"
+                    rel="noopener noreferrer"
+                    className="btn-cadra btn-cadra--primary w-full justify-center text-xs"
                   >
-                    Upgrade ke Pro · Rp49.000/bln
+                    <MessageCircle className="h-3.5 w-3.5" />
+                    Upgrade ke Pro via WhatsApp · Rp49rb/bln
                   </a>
                 ) : (
-                  <span className="inline-flex w-full items-center justify-center rounded-full bg-emerald-500/15 py-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                    Paket Pro Aktif
-                  </span>
+                  <a
+                    href={supportWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-cadra w-full justify-center text-xs"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" />
+                    Paket Pro Aktif · Hubungi CS via WA
+                  </a>
                 )}
               </div>
             </div>
@@ -226,12 +229,15 @@ export default function OutletsAndPlanPage() {
                     Paket Free dibatasi 1 Outlet, total 3 akun (1 Owner + 2 Staf), dan khusus layar Kasir POS.
                     Upgrade ke <b>Kassa Pro (Rp49.000/bulan)</b> untuk menambah outlet serta membuka KDS, Stok/HPP, Laporan, dan Landing Page Menu Digital (SEO Google).
                   </p>
-                  <button
-                    onClick={() => handleChangePlan("PRO")}
-                    className="btn-cadra btn-cadra--primary mt-3 w-full text-xs"
+                  <a
+                    href={upgradeWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-cadra btn-cadra--primary mt-3 w-full justify-center text-xs"
                   >
-                    Aktifkan Kassa Pro Sekarang
-                  </button>
+                    <MessageCircle className="h-3.5 w-3.5" />
+                    Aktifkan Kassa Pro via WhatsApp
+                  </a>
                 </div>
               ) : (
                 <form onSubmit={handleCreateOutlet} className="space-y-3">
