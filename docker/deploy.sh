@@ -34,8 +34,21 @@ fi
 
 build_service() {
   local svc="$1"
-  echo "==> Building & restarting ${svc}..."
-  sudo docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --build --no-deps "$svc"
+  local attempt=1
+  local max_attempts=3
+  while [ "$attempt" -le "$max_attempts" ]; do
+    echo "==> Building & restarting ${svc} (attempt ${attempt}/${max_attempts})..."
+    if sudo docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --build --no-deps "$svc"; then
+      return 0
+    fi
+    if [ "$attempt" -lt "$max_attempts" ]; then
+      echo "==> Build for ${svc} failed (attempt ${attempt}), retrying in 3s..."
+      sleep 3
+    fi
+    attempt=$((attempt + 1))
+  done
+  echo "==> Build for ${svc} failed after ${max_attempts} attempts."
+  return 1
 }
 
 NEED_ALL=false
