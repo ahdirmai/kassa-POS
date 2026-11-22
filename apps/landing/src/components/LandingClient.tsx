@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,9 +22,12 @@ import {
   WifiOff,
 } from "lucide-react";
 import ScrollExpandShowcase from "@/components/ScrollExpandShowcase";
-import LeadModal from "@/components/LeadModal";
 import { buildWhatsAppUrl } from "@/lib/default-content";
 import type { LandingContent } from "@/lib/types";
+
+const LeadModal = dynamic(() => import("@/components/LeadModal"), {
+  ssr: false,
+});
 
 const FEATURE_PILLS_ROW_1 = [
   "Kasir 1-Tap",
@@ -156,10 +161,12 @@ export default function LandingClient({ content }: LandingClientProps) {
 
   useEffect(() => {
     const sessionKey = "kassa_pv_tracked";
-    if (!sessionStorage.getItem(sessionKey)) {
-      sessionStorage.setItem(sessionKey, "1");
+    if (sessionStorage.getItem(sessionKey)) return;
+    sessionStorage.setItem(sessionKey, "1");
+    const timer = window.setTimeout(() => {
       trackEvent("pageview");
-    }
+    }, 1500);
+    return () => window.clearTimeout(timer);
   }, [trackEvent]);
 
   const toggleTheme = () => {
@@ -223,14 +230,14 @@ export default function LandingClient({ content }: LandingClientProps) {
             <a
               href={`${appUrl}/login`}
               onClick={() => trackEvent("click", "Navbar: Masuk", `${appUrl}/login`)}
-              className="hidden rounded-lg bg-[var(--mint-soft)] px-4 py-2 text-[13px] font-semibold text-[#0b8c66] transition-colors hover:opacity-85 dark:text-[#34d399] sm:inline-flex"
+              className="hidden rounded-lg bg-[var(--mint-soft)] px-4 py-2 text-[13px] font-semibold text-[#067a57] transition-colors hover:opacity-85 dark:text-[#34d399] sm:inline-flex"
             >
               Masuk
             </a>
             <a
               href={`${appUrl}/register`}
               onClick={() => trackEvent("click", "Navbar: Coba Gratis", `${appUrl}/register`)}
-              className="inline-flex items-center gap-1 rounded-lg bg-[var(--mint)] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--mint-hover)]"
+              className="inline-flex items-center gap-1 rounded-lg bg-[var(--mint-btn)] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-[var(--mint-btn-hover)]"
             >
               Coba Gratis
             </a>
@@ -238,6 +245,7 @@ export default function LandingClient({ content }: LandingClientProps) {
         </div>
       </header>
 
+      <main>
       {/* Hero Section with Soft Pastel Aura & Overlapping KPI Dashboard */}
       <section className="pastel-aura-hero relative overflow-hidden pb-16 pt-14 sm:pb-24 sm:pt-20">
         <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
@@ -429,9 +437,14 @@ export default function LandingClient({ content }: LandingClientProps) {
           <div className="lg:col-span-7">
             <div className="feature-backdrop-mint overflow-hidden rounded-3xl p-5 pb-0 pr-0 sm:p-8 sm:pb-0 sm:pr-0">
               <div className="relative overflow-hidden rounded-tl-2xl border-l border-t border-white/70 bg-white shadow-2xl">
-                <img
+                <Image
                   src={content.showcaseTabs[0]?.img || "/screenshots/02-pos.png"}
                   alt="Tampilan Kasir POS Kassa"
+                  width={1440}
+                  height={900}
+                  loading="lazy"
+                  sizes="(max-width: 1024px) calc(100vw - 40px), 640px"
+                  quality={75}
                   className="aspect-[16/10] w-full object-cover object-top"
                 />
                 <div
@@ -473,7 +486,7 @@ export default function LandingClient({ content }: LandingClientProps) {
                           className={`rounded-xl border p-3 transition-all ${
                             active
                               ? "border-[var(--accent)] bg-[var(--surface-subtle)] shadow-sm"
-                              : "border-[var(--border)] opacity-50"
+                              : "border-[var(--border)] bg-[var(--surface)]"
                           }`}
                         >
                           <div className="font-mono-num text-[10px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
@@ -507,7 +520,7 @@ export default function LandingClient({ content }: LandingClientProps) {
                       <Package className="h-4 w-4 text-[var(--mint)]" />
                       Resep: Es Kopi Susu Aren
                     </span>
-                    <span className="rounded-full bg-[var(--mint-soft)] px-2.5 py-0.5 font-mono-num text-[11px] font-bold text-[#0b8c66] dark:text-[#34d399]">
+                    <span className="rounded-full bg-[var(--mint-soft)] px-2.5 py-0.5 font-mono-num text-[11px] font-bold text-[#067a57] dark:text-[#34d399]">
                       Margin 73%
                     </span>
                   </div>
@@ -531,7 +544,7 @@ export default function LandingClient({ content }: LandingClientProps) {
           </div>
 
           <div className="order-1 lg:order-2 lg:col-span-5">
-            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#0b8c66] dark:text-[#34d399]">
+            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#067a57] dark:text-[#34d399]">
               Dapur KDS &amp; Auto HPP
             </span>
             <h3 className="font-display mt-4 text-[2rem] font-extrabold leading-[1.12] tracking-[-0.03em] text-[var(--ink)] sm:text-[2.45rem]">
@@ -599,7 +612,7 @@ export default function LandingClient({ content }: LandingClientProps) {
                     className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-[12.5px] ${
                       m.allowed
                         ? "border-[var(--mint)]/40 bg-[var(--surface)] font-semibold text-[var(--ink)]"
-                        : "border-[var(--border)] bg-transparent text-[var(--ink-muted)] opacity-60"
+                        : "border-[var(--border)] bg-transparent text-[var(--ink-muted)]"
                     }`}
                   >
                     <span>{m.name}</span>
@@ -628,9 +641,14 @@ export default function LandingClient({ content }: LandingClientProps) {
           <div className="lg:col-span-6">
             <div className="feature-backdrop-mint flex justify-center rounded-3xl px-6 py-10">
               <div className="relative w-[248px] overflow-hidden rounded-[32px] border-[7px] border-[#131a2e] bg-[#131a2e] shadow-[0_28px_60px_-20px_rgba(19,26,46,0.35)]">
-                <img
+                <Image
                   src={content.mobileCard.screenshot}
                   alt="Tampilan Kassa Mobile POS"
+                  width={248}
+                  height={537}
+                  loading="lazy"
+                  sizes="248px"
+                  quality={75}
                   className="block h-auto w-full"
                 />
                 {/* Clean production storefront icon over bottom-left dev badge */}
@@ -651,7 +669,7 @@ export default function LandingClient({ content }: LandingClientProps) {
       <section id="harga" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--surface-subtle)] py-20 lg:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#0b8c66] dark:text-[#34d399]">
+            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#067a57] dark:text-[#34d399]">
               Harga Transparan
             </span>
             <h2 className="font-display mt-3 text-[2rem] font-extrabold tracking-[-0.03em] sm:text-[2.6rem]">
@@ -786,6 +804,8 @@ export default function LandingClient({ content }: LandingClientProps) {
               return (
                 <div key={item.id} className="py-5">
                   <button
+                    type="button"
+                    aria-expanded={open}
                     onClick={() => setOpenFaq(open ? null : i)}
                     className="flex w-full items-center justify-between gap-4 text-left"
                   >
@@ -809,12 +829,13 @@ export default function LandingClient({ content }: LandingClientProps) {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Airy Final CTA Banner & Minimal Footer */}
       <footer className="border-t border-[var(--border)] bg-[var(--surface-subtle)] pt-16 pb-12">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="pastel-aura-hero overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)] px-6 py-12 text-center shadow-sm sm:px-12 sm:py-16">
-            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#0b8c66] dark:text-[#34d399]">
+            <span className="inline-block rounded-md bg-[var(--mint-soft)] px-3 py-1 text-[12px] font-semibold text-[#067a57] dark:text-[#34d399]">
               {content.footerCta.eyebrow}
             </span>
             <h2 className="font-display mx-auto mt-4 max-w-2xl text-[2rem] font-extrabold leading-[1.12] tracking-[-0.03em] text-[var(--ink)] sm:text-[2.7rem]">
@@ -832,7 +853,7 @@ export default function LandingClient({ content }: LandingClientProps) {
               <button
                 type="button"
                 onClick={() => openLeadModal("Enterprise", "footer-demo")}
-                className="rounded-xl bg-[var(--mint)] px-5 py-3.5 text-[14px] font-semibold text-white hover:bg-[var(--mint-hover)]"
+                className="rounded-xl bg-[var(--mint-btn)] px-5 py-3.5 text-[14px] font-semibold text-white hover:bg-[var(--mint-btn-hover)]"
               >
                 Konsultasi &amp; Demo
               </button>
@@ -883,16 +904,18 @@ export default function LandingClient({ content }: LandingClientProps) {
         </div>
       </footer>
 
-      <LeadModal
-        open={leadModalOpen}
-        onClose={() => setLeadModalOpen(false)}
-        defaultPlan={leadDefaultPlan}
-        source={leadSource}
-        waUrl={waUrl}
-        onSubmitted={() =>
-          trackEvent("click", `Lead Submitted (${leadDefaultPlan})`, leadSource)
-        }
-      />
+      {leadModalOpen && (
+        <LeadModal
+          open={leadModalOpen}
+          onClose={() => setLeadModalOpen(false)}
+          defaultPlan={leadDefaultPlan}
+          source={leadSource}
+          waUrl={waUrl}
+          onSubmitted={() =>
+            trackEvent("click", `Lead Submitted (${leadDefaultPlan})`, leadSource)
+          }
+        />
+      )}
     </div>
   );
 }

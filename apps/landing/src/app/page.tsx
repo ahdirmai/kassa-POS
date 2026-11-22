@@ -1,7 +1,7 @@
 import LandingClient from "@/components/LandingClient";
 import { getLandingContent } from "@/lib/storage";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function HomePage() {
   const content = await getLandingContent();

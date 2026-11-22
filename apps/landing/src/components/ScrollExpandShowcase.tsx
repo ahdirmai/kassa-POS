@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
 
 export interface ShowcaseTab {
@@ -32,6 +33,7 @@ export default function ScrollExpandShowcase({
   onModuleOpen,
 }: ScrollExpandShowcaseProps) {
   const [activeTab, setActiveTab] = useState(tabs[0]?.id ?? "pos");
+  const [visitedTabs, setVisitedTabs] = useState<string[]>([tabs[0]?.id ?? "pos"]);
   const currentTab = tabs.find((t) => t.id === activeTab) ?? tabs[0];
 
   return (
@@ -104,25 +106,33 @@ export default function ScrollExpandShowcase({
 
             <a
               href={`${appUrl}${currentTab.route}`}
+              aria-label={`Buka modul ${currentTab.label}`}
               onClick={() => onModuleOpen?.(currentTab)}
               className="inline-flex items-center gap-1 text-[12px] font-semibold text-[var(--accent)] hover:underline"
             >
               <span className="hidden sm:inline">Buka</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
           </div>
 
-          {/* Stacked Preloaded 16:10 Screenshots */}
+          {/* 16:10 Dashboard Screenshot (only active & visited tabs mounted) */}
           <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#f7f8fc]">
-            {tabs.map((tab) => {
+            {tabs.map((tab, idx) => {
               const isActive = tab.id === currentTab.id;
+              if (!isActive && !visitedTabs.includes(tab.id)) return null;
+              const isFirst = idx === 0;
               return (
-                <img
+                <Image
                   key={tab.id}
                   src={tab.img}
                   alt={tab.title}
-                  loading="eager"
-                  decoding="async"
+                  width={1440}
+                  height={900}
+                  sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(100vw - 64px), 896px"
+                  quality={70}
+                  priority={isFirst}
+                  fetchPriority={isFirst ? "high" : "auto"}
+                  decoding={isFirst ? "sync" : "async"}
                   aria-hidden={!isActive}
                   className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-300 ${
                     isActive
@@ -151,6 +161,7 @@ export default function ScrollExpandShowcase({
               type="button"
               onClick={() => {
                 setActiveTab(tab.id);
+                setVisitedTabs((prev) => (prev.includes(tab.id) ? prev : [...prev, tab.id]));
                 onTabChange?.(tab);
               }}
               className={`rounded-xl border px-3.5 py-2 text-[12.5px] font-semibold transition-all ${

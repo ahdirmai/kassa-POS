@@ -49,7 +49,7 @@ export async function getLandingContent(): Promise<LandingContent> {
   // Prioritas 1: Ambil dari admin-api (MySQL Single Source of Truth)
   try {
     const res = await fetch(`${ADMIN_API_URL}/public/landing/content`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
       signal: AbortSignal.timeout(1500),
     });
     if (res.ok) {
