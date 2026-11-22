@@ -18,6 +18,9 @@ export interface ContentPost {
   videoPrompt?: string;
   brief: string[];
   caption: string;
+  defaultStatus?: PostStatus;
+  assetPath?: string;
+  slideCount?: number;
 }
 
 export interface BrandColor {
@@ -85,7 +88,24 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 5: Screenshot asli /screenshots/07-stock.png (auto potong stok & HPP).",
       "Slide 6 (Dark CTA): Pro Rp49.000/bln · Trial Gratis 14 Hari · Komen HPP.",
     ],
-    caption: `Banyak cafe yang sebenarnya laris, tapi untungnya bocor halus di dapur dan bar.\n\nGeser buat lihat contoh hitungan HPP Es Kopi Susu Aren (Rp7.450 / margin 73%) dan cara biar stok otomatis terpotong tiap transaksi lunas.\n\nSimpan postingan ini buat evaluasi outlet minggu ini 📌\nKomen "HPP" atau klik link di bio (kassa.biz.id).\n\n#hppkuliner #bisniskopi #ownercoffee #manajemenresto #aplikasikasir`,
+    caption: `Omzet 3 juta sehari, tapi akhir bulan kas outlet kok tetap tipis?
+
+Banyak coffee shop yang sebenarnya laris manis, tapi untungnya bocor halus di bar dan dapur—bukan karena sepi, melainkan karena HPP & stok cuma dikira-kira.
+
+Geser buat lihat:
+• Breakdown nyata HPP 1 cup Es Kopi Susu Aren (Rp7.450 · Margin 73%)
+• 2 celah utama yang bikin uang belanja bahan terus membengkak
+• Cara biar stok otomatis terpotong setiap transaksi kasir lunas
+
+Simpan postingan ini buat bahan evaluasi outlet minggu ini 📌
+
+Mau lihat contoh setup resep & HPP otomatis di Kassa?
+Komen "HPP" biar kami kirim link demonya ke DM, atau langsung coba gratis di kassa.biz.id.
+
+#hppkuliner #bisniskopi #ownercoffee #manajemenresto #aplikasikasir #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H02-hpp-kopi-susu",
+    slideCount: 6,
   },
   {
     id: "ig-d3", day: 3, dayLabel: "Rabu", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "12:00 WIB",
@@ -116,7 +136,23 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: CELAH 03 Kasir bisa intip omzet & stok → visual RBAC + /screenshots/08-rbac.png.",
       "Slide 5 (Dark CTA): Sistem rapi bikin staf nyaman, owner tenang · Komen AMAN.",
     ],
-    caption: `Bisnis F&B yang sehat nggak bisa cuma mengandalkan "rasa percaya". Harus ada sistem yang bikin kasir nyaman kerja, dan owner tenang ninggalin outlet.\n\nDi Kassa, Kasir hanya melihat layar Kasir POS, Dapur hanya melihat KDS, dan void wajib PIN Manager.\n\nKomen "AMAN" kalau mau lihat demo kontrol staf di Kassa.\n\n#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto`,
+    caption: `Hal paling nggak enak jadi owner cafe itu bukan pas lagi sepi—tapi pas harus curiga sama tim sendiri gara-gara uang laci sering selisih Rp50rb–Rp100rb.
+
+Bisnis F&B yang sehat nggak bisa cuma mengandalkan "rasa percaya". Harus ada sistem yang melindungi owner sekaligus bikin staf yang jujur kerja lebih tenang.
+
+Geser buat cek 3 celah kasir yang paling sering luput:
+1. Void / hapus pesanan tanpa izin Manager
+2. 1 akun kasir dipakai ramai-ramai lintas shift
+3. Kasir bisa intip omzet harian & edit data stok
+
+Di Kassa, tiap staf login pakai PIN personal dan akses layarnya terkunci sesuai peran.
+
+Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung coba di kassa.biz.id.
+
+#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H04-anti-bocor-kasir",
+    slideCount: 5,
   },
   {
     id: "ig-d5", day: 5, dayLabel: "Jumat", platform: "Instagram", format: "Carousel (4:5 · 3 Slide)", theme: "dark", time: "12:00 WIB",
@@ -129,7 +165,23 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 2: 5 checklist All-In tanpa biaya add-on (POS Offline, KDS, Stok/HPP, Multi-Outlet, Struk Bluetooth).",
       "Slide 3: Perbandingan Starter Rp0 (1 Outlet, total 3 akun, khusus POS) vs Pro Rp49rb (All-In Multi-Outlet).",
     ],
-    caption: `Banyak owner cafe menunda pakai sistem stok & layar dapur karena biasanya kena biaya add-on Rp150rb–Rp300rb lagi per bulan.\n\nDi Kassa Pro, semuanya sudah jadi satu: Rp49.000/outlet/bulan (~Rp1.600/hari). Rp0 komisi transaksi.\n\nAtau mulai gratis pakai Starter (1 outlet, total 3 akun khusus POS) di kassa.biz.id.\n\n#aplikasikasirmurah #posindonesia #umkmkuliner #bisniskopi #kassa`,
+    caption: `Banyak owner cafe menunda pakai sistem stok & layar dapur karena di aplikasi lain biasanya kena biaya add-on Rp150rb–Rp300rb lagi per bulan.
+
+Padahal jualan kopi Rp25 ribuan, masa marginnya habis cuma buat bayar langganan aplikasi?
+
+Di Kassa Pro, semuanya sudah jadi satu:
+• Rp49.000 / outlet / bulan (~Rp1.600 / hari)
+• Rp0 komisi transaksi
+• Sudah termasuk POS Offline, Layar Dapur (KDS), Auto Stok & HPP, Kontrol Staf, dan Multi-Outlet
+
+Mau coba tanpa keluar uang dulu? Ada paket Starter Rp0 selamanya (1 outlet, 3 akun, khusus POS).
+
+Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
+
+#aplikasikasirmurah #posindonesia #umkmkuliner #bisniskopi #poscafe #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H05-harga-pro-49rb",
+    slideCount: 3,
   },
   {
     id: "ig-d6", day: 6, dayLabel: "Sabtu", platform: "Instagram", format: "Reels (9:16 · 16s)", theme: "dark", time: "17:30 WIB",
@@ -160,7 +212,22 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Setup 5 menit + foto /screenshots/10-pos-mobile.png.",
       "Slide 5 (Dark CTA): Mulai gratis hari ini di kassa.biz.id.",
     ],
-    caption: `Besok sudah Senin lagi. Saatnya pindah dari bon kertas & Excel manual ke alur kasir, dapur, dan stok yang rapi.\n\nStarter Gratis (1 outlet, 3 akun khusus POS) atau Trial Pro Rp49.000/bulan (all-in & multi-outlet).\n\nAda pertanyaan soal printer Bluetooth atau PB1? Tulis di komentar atau chat WA di kassa.biz.id.\n\n#bisniskuliner #poscafe #posresto #manajemenoutlet #kassa`,
+    caption: `Besok sudah Senin lagi. Saatnya pindah dari bon kertas yang sering hilang & rekap Excel manual ke satu alur operasional yang rapi dari depan sampai belakang.
+
+4 langkah sederhana di Kassa:
+01. Kasir 1-tap (tetap jalan saat Wi-Fi mati)
+02. Tiket otomatis muncul di Layar Dapur (KDS)
+03. Stok bahan baku & HPP terpotong otomatis
+04. Dashboard Owner & Z-Report tutup shift dalam 30 detik
+
+Setup awalnya cuma butuh 5 menit—cukup masukkan 5 menu terlaris dulu buat tes langsung dari HP atau tablet kamu.
+
+Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daftar gratis di kassa.biz.id.
+
+#bisniskuliner #poscafe #posresto #manajemenoutlet #operasionalcafe #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H07-recap-4-langkah",
+    slideCount: 5,
   },
 
   // === THREADS (21 POSTS) ===
@@ -215,7 +282,22 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: 03 Install Kassa Starter Gratis (Rp0 selamanya, 1 outlet, 3 akun).",
       "Slide 5 (Dark CTA): Hemat modal Rp4,5 juta di bulan pertama → kassa.biz.id.",
     ],
-    caption: `Buat yang baru mau buka coffee shop atau warung makan: jangan buru-buru habis Rp4–6 juta buat beli mesin kasir.\n\nCukup pakai HP/tablet yang sudah ada + printer Bluetooth 58mm Rp250 ribuan + Kassa Starter (Gratis selamanya).\n\nSimpan carousel ini buat persiapan buka outlet 📌\n\n#bukacafe #modalusaha #printerbluetooth #posumkm #kassa`,
+    caption: `Buat yang baru mau buka coffee shop, kedai minuman, atau rumah makan bulan ini: jangan buru-buru habis Rp4–6 juta cuma buat beli mesin kasir khusus.
+
+Modal setup kasir yang rapi sebenarnya cukup Rp250 ribuan:
+• HP Android / iPad bekas yang sudah ada: Rp0
+• Printer Thermal Bluetooth 58mm + kertas: ~Rp250.000
+• Kassa Starter (1 outlet, 3 akun, offline POS): Rp0 selamanya
+
+Sisa modal Rp4,5 juta lebih baik dipakai buat beli biji kopi, bahan baku berkualitas, dan promosi pembukaan.
+
+Simpan carousel ini buat checklist buka outlet kamu 📌
+Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim rekomendasinya ke DM!
+
+#bukacafe #modalusaha #printerbluetooth #posumkm #tipsbisniskopi #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H09-setup-kasir-250rb",
+    slideCount: 5,
   },
   {
     id: "ig-d10", day: 10, dayLabel: "Rabu", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "12:00 WIB",
@@ -245,7 +327,23 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Mode inklusif vs eksklusif sesuai kebutuhan outlet.",
       "Slide 5 (Dark CTA): Gak perlu hitung manual lagi · kassa.biz.id.",
     ],
-    caption: `Masih bingung bedain PB1 10% dan service charge, atau kasir sering lupa tambahin pajak di struk?\n\nDi Kassa, cukup atur sekali di Pengaturan Outlet—setiap transaksi otomatis terhitung rapi di struk maupun laporan bulanan.\n\nSimpan buat panduan kasir kamu 📌\n\n#pajakresto #pb1 #bisniscafe #aplikasikasir #kassa`,
+    caption: `Masih sering salah hitung PB1 10% dan service charge di struk, atau kasir suka lupa tambahin pajak pas jam ramai?
+
+Banyak owner cafe & resto baru yang masih bingung bedain PB1 dan Service Charge—apalagi cara urut hitungannya biar nggak salah setor di akhir bulan.
+
+Geser buat simpan panduan ringkasnya:
+• Beda PB1 10% (Pajak Daerah) vs Service Charge 5%
+• Contoh urutan hitungan struk yang benar (Subtotal → Service → PB1 10%)
+• Kapan pakai harga Inklusif vs Eksklusif
+• Cara setting otomatis sekali klik di Pengaturan Outlet Kassa
+
+Simpan biar kasir nggak perlu pencet kalkulator manual lagi 📌
+Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
+
+#pajakresto #pb1 #bisniscafe #operasionalresto #aplikasikasir #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H11-pb1-service-charge",
+    slideCount: 5,
   },
   {
     id: "ig-d12", day: 12, dayLabel: "Jumat", platform: "Instagram", format: "Reels (9:16 · 15s)", theme: "dark", time: "12:00 WIB",
@@ -276,7 +374,22 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 5: 04 Tidak ada kunci akses kasir & log void.",
       "Slide 6 (Dark CTA): Kassa Pro Rp49rb/bln All-In tanpa biaya tersembunyi · kassa.biz.id.",
     ],
-    caption: `Banyak owner baru menyesal setelah 3 bulan pakai POS karena baru sadar fitur stok, resep, dan layar dapur ternyata kena biaya tambahan lagi.\n\nCek 5 hal ini sebelum langganan aplikasi kasir apa pun. Simpan biar nggak salah pilih 📌\n\n#tipsbisnisfnb #poscafe #ownercoffee #kassa`,
+    caption: `Banyak owner baru menyesal setelah 3 bulan langganan aplikasi kasir—baru sadar fitur stok, resep, dan layar dapur ternyata kena biaya add-on mahal lagi.
+
+Sebelum keluar uang langganan tahunan atau beli hardware jutaan, cek dulu 5 kesalahan paling sering ini:
+01. Terjebak harga awal murah, tapi fitur penting kena add-on
+02. Lupa cek apakah kasir tetap jalan saat Wi-Fi mati
+03. Beli mesin kasir khusus jutaan yang terkunci 1 aplikasi
+04. Tidak ada kunci akses kasir & log pembatalan (void)
+05. Kena potongan komisi per transaksi yang menggerus margin
+
+Simpan carousel ini sebelum kamu memilih POS untuk outlet kamu 📌
+Mau bandingkan langsung? Komen "DEMO" atau cek kassa.biz.id.
+
+#tipsbisnisfnb #poscafe #ownercoffee #aplikasikasir #bisniskuliner #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H13-5-kesalahan-pilih-pos",
+    slideCount: 6,
   },
   {
     id: "ig-d14", day: 14, dayLabel: "Minggu", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "18:30 WIB",
@@ -321,7 +434,21 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Dampak: Waktu tunggu turun, komplain salah menu jadi 0 (/screenshots/03-kds.png).",
       "Slide 5 (Dark CTA): Trial Pro 14 Hari gratis di kassa.biz.id.",
     ],
-    caption: `Bukan cuma coffee shop—rumah makan dengan jam makan siang padat justru yang paling terasa bedanya saat pindah dari bon kertas ke Layar Dapur (KDS).\n\nGeser buat lihat alurnya. Komen "KDS" kalau mau coba di resto kamu.\n\n#rumahmakan #posresto #kitchendisplay #kassa`,
+    caption: `Banyak yang mengira Layar Dapur (KDS) cuma buat coffee shop modern. Padahal rumah makan dengan 15+ meja saat jam makan siang justru yang paling terasa bedanya!
+
+Satu kertas bon nyelip di bawah piring = 1 keluarga nunggu 35 menit lalu kasih ulasan bintang 1.
+
+Geser buat lihat perbandingan nyata sebelum vs sesudah rumah makan beralih ke Layar Dapur (KDS) Kassa:
+• Pramusaji catat order langsung dari HP di meja tamu
+• Tiket otomatis muncul di tablet dapur lengkap timer SLA
+• Salah menu turun drastis & hemat 40 menit/hari di jam puncak
+
+Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung di kassa.biz.id.
+
+#rumahmakan #posresto #kitchendisplay #operasionalresto #bisniskuliner #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H16-studi-kasus-rumah-makan",
+    slideCount: 5,
   },
   {
     id: "ig-d17", day: 17, dayLabel: "Rabu", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "12:00 WIB",
@@ -351,7 +478,20 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Biaya tetap terjangkau: Rp49.000 / outlet / bulan.",
       "Slide 5 (Dark CTA): Konsultasi setup multi-outlet via WA di kassa.biz.id.",
     ],
-    caption: `Punya lebih dari 1 outlet tapi masih rekap laporan dari masing-masing cabang secara terpisah?\n\nDi Kassa Pro, semua cabang terpantau dari 1 akun Owner—tetap cuma Rp49.000/outlet/bulan tanpa komisi transaksi.\n\nKomen "CABANG" buat info setup multi-outlet.\n\n#multioutlet #ekspansibisnis #poscafe #kassa`,
+    caption: `Buka cabang ke-2 seharusnya bikin bisnis makin tumbuh—bukan malah bikin owner pusing rekap 3 file laporan terpisah tiap malam.
+
+Di Kassa Pro, semua cabang terpantau rapi dari 1 akun Owner:
+• Bandingkan omzet, transaksi, & margin antar cabang dalam 1 layar
+• Master menu & resep tersinkron, tapi harga jual tetap bisa disesuaikan per lokasi
+• Biaya tetap masuk akal: Rp49.000 / outlet / bulan, Rp0 komisi transaksi
+
+Punya 2 cabang atau sedang persiapan ekspansi tahun ini?
+Komen "CABANG" biar tim kami bantu konsultasi setup multi-outlet, atau cek langsung di kassa.biz.id.
+
+#multioutlet #ekspansibisnis #poscafe #ownercafe #manajemenbisnis #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H18-multi-outlet-dashboard",
+    slideCount: 5,
   },
   {
     id: "ig-d19", day: 19, dayLabel: "Jumat", platform: "Instagram", format: "Reels (9:16 · 16s)", theme: "dark", time: "12:00 WIB",
@@ -381,7 +521,23 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: SOP Closing (Hitung fisik laci, cocokkan Z-Report, export laporan).",
       "Slide 5 (Dark CTA): Semua checklist ini otomatis tercatat di Kassa · kassa.biz.id.",
     ],
-    caption: `SOP yang baik itu bukan yang tebal 50 halaman, tapi yang simpel dan benar-benar dijalankan staf tiap hari.\n\nSimpan checklist Opening & Closing ini dan kirim ke tim kasir/barista kamu 📌\n\n#sopcafe #operasionalfnb #baristaindonesia #kassa`,
+    caption: `SOP yang bagus itu bukan dokumen 50 halaman yang cuma disimpan di laci—tapi checklist 5 menit yang simpel dan benar-benar dijalankan tim setiap hari.
+
+Simpan carousel ini dan kirim langsung ke grup WA staf kasir & barista kamu 📌
+
+Ringkasan 3 fase operasional harian:
+• Opening (08:00): Input modal kas awal, cek kertas thermal, cek stok bahan kritis
+• Operasional: Login PIN personal, routing KDS, catat setiap kas keluar
+• Closing (22:00): Hitung fisik uang laci, cocokkan Z-Report, export laporan harian
+
+Di Kassa, seluruh alur buka-tutup shift dan Z-Report sudah tercatat otomatis dalam 30 detik.
+
+Komen "SOP" kalau mau versi checklist praktisnya, atau coba langsung di kassa.biz.id.
+
+#sopcafe #operasionalfnb #baristaindonesia #manajemencafe #kasircafe #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H20-sop-opening-closing",
+    slideCount: 5,
   },
   {
     id: "ig-d21", day: 21, dayLabel: "Minggu", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "18:30 WIB",
@@ -425,7 +581,20 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 3: Pilih Pro (Rp49rb/bln) jika butuh KDS dapur, potong stok/HPP otomatis, atau multi-outlet.",
       "Slide 4 (Dark CTA): Bisa mulai dari Starter dulu, upgrade kapan saja → kassa.biz.id.",
     ],
-    caption: `Kami nggak maksa kamu langsung bayar. Kalau outlet baru jalan dan cuma butuh kasir cepat + struk Bluetooth + mode offline, paket Starter Rp0 sudah sangat cukup.\n\nBaru saat butuh Layar Dapur, Stok & HPP otomatis, atau cabang ke-2, tinggal upgrade ke Pro Rp49.000/bulan.\n\nCek detailnya di kassa.biz.id.\n\n#aplikasikasirgratis #poscafe #umkmindonesia #kassa`,
+    caption: `Kami nggak maksa kamu langsung bayar. Transparan sejak hari pertama:
+
+• Pilih STARTER (Rp0 / Gratis selamanya) kalau kedai kamu baru buka, 1 outlet, maksimal 3 akun (1 Owner + 2 Staf), dan fokus butuh kasir cepat + mode offline + struk Bluetooth 58/80mm.
+
+• Pilih PRO (Rp49.000/outlet/bulan) begitu outlet makin ramai dan butuh Layar Dapur (KDS), auto potong stok & HPP, staf tanpa batas, laporan CSV, atau mulai buka cabang ke-2.
+
+Nggak ada jebakan kontrak tahunan, dan Rp0 komisi transaksi di kedua paket.
+
+Komen "STARTER" untuk link daftar gratis 2 menit, atau langsung buka kassa.biz.id.
+
+#aplikasikasirgratis #poscafe #umkmindonesia #bisniskuliner #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H23-starter-vs-pro",
+    slideCount: 4,
   },
   {
     id: "ig-d24", day: 24, dayLabel: "Rabu", platform: "Instagram", format: "Reels (9:16 · 17s)", theme: "dark", time: "12:00 WIB",
@@ -455,7 +624,23 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: 03 Jam puncak transaksi (atur jadwal shift staf biar efisien).",
       "Slide 5 (Dark CTA): Semua grafik ini otomatis tersedia di Kassa Pro · kassa.biz.id.",
     ],
-    caption: `Sebelum masuk bulan baru, luangkan 15 menit cek 4 data ini di outlet kamu. Banyak cafe naik margin 10–15% cuma dari memangkas menu yang bahan bakunya sering terbuang.\n\nSimpan buat agenda evaluasi akhir bulan 📌\n\n#evaluasibisnis #marginfnb #ownercafe #kassa`,
+    caption: `Evaluasi akhir bulan nggak perlu ribet bikin rumus rumit—luangkan 15 menit saja buat cek 4 data inti ini.
+
+Banyak coffee shop & rumah makan bisa menaikkan margin bersih 10–15% bukan dari menaikkan harga, tapi dari memangkas menu yang bahan bakunya sering terbuang dan merapikan jadwal shift.
+
+4 data wajib cek sebelum tanggal 1:
+01. Top 5 Menu terlaris vs Bottom 5 Menu (pangkas beban stok)
+02. Persentase HPP rata-rata (target sehat 28%–35%)
+03. Jam puncak transaksi (atur jadwal shift staf biar efisien)
+04. Selisih kas & void bulanan (deteksi kebocoran lebih awal)
+
+Simpan buat agenda evaluasi akhir bulan outlet kamu 📌
+Komen "MARGIN" atau lihat dashboard otomatisnya di kassa.biz.id.
+
+#evaluasibisnis #marginfnb #ownercafe #bisniskuliner #dashboardpos #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H25-4-data-akhir-bulan",
+    slideCount: 5,
   },
   {
     id: "ig-d26", day: 26, dayLabel: "Jumat", platform: "Instagram", format: "Reels (9:16 · 22s)", theme: "dark", time: "12:00 WIB",
@@ -485,7 +670,22 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Dapur langsung tahu mana yang pakai piring, mana yang pakai kemasan bungkus.",
       "Slide 5 (Dark CTA): Kurangi salah bungkus pas weekend rush · kassa.biz.id.",
     ],
-    caption: `Salah satu komplain paling sering pas akhir pekan: pesanan makan di tempat malah dibungkus, atau sebaliknya.\n\nDi Kassa, label Dine-In / Takeaway langsung tampil jelas di tiket Layar Dapur.\n\nCoba di kassa.biz.id.\n\n#operasionalresto #dinein #takeaway #kassa`,
+    caption: `Salah satu komplain paling sering pas weekend ramai: pesanan tamu makan di tempat malah dibungkus plastik, atau pesanan ojol malah ditaruh di piring!
+
+Solusinya bukan cuma nyuruh dapur "lebih teliti", tapi memastikan jenis order sudah terpisah jelas sejak dari layar kasir.
+
+Di Kassa:
+• Dine-In otomatis terhubung ke nomor meja & bisa pindah meja / split bill
+• Takeaway & Delivery (Ojol) langsung tampil dengan badge khusus di Layar Dapur (KDS)
+• Tim dapur langsung tahu mana yang pakai piring, mana yang pakai kemasan bungkus
+
+Kurangi salah bungkus pas malam Minggu nanti!
+Komen "RESTO" atau langsung coba alur mejanya di kassa.biz.id.
+
+#operasionalresto #dinein #takeaway #posresto #bisniscafe #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H27-dinein-takeaway-delivery",
+    slideCount: 5,
   },
   {
     id: "ig-d28", day: 28, dayLabel: "Minggu", platform: "Instagram", format: "Reels (9:16 · 20s)", theme: "dark", time: "18:30 WIB",
@@ -515,7 +715,26 @@ export const INITIAL_POSTS: ContentPost[] = [
       "Slide 4: Q3 — Ada komisi per transaksi? Rp0 komisi, flat Rp49rb/outlet/bulan untuk Pro.",
       "Slide 5 (Dark CTA): Masih ada pertanyaan lain? Tulis di komentar atau WA di kassa.biz.id.",
     ],
-    caption: `Masih ragu sebelum coba Kassa? Kami rangkum 4 pertanyaan paling sering ditanyakan owner cafe & rumah makan.\n\nKalau ada pertanyaan lain soal setup outlet kamu, drop di komentar ya 👇\n\n#faqkassa #aplikasikasir #bisniskuliner #kassa`,
+    caption: `Masih ada keraguan sebelum mulai pakai Kassa? Kami rangkum 4 pertanyaan yang paling sering masuk ke DM dari owner coffee shop & rumah makan:
+
+Q1: Benar tetap jalan kalau Wi-Fi mati?
+→ Ya! Transaksi tunai & cetak struk tetap jalan offline, lalu otomatis sinkron saat internet balik.
+
+Q2: Harus beli mesin kasir khusus?
+→ Tidak perlu. Jalan di HP Android, iPhone, iPad, & laptop + printer thermal Bluetooth/USB 58mm & 80mm.
+
+Q3: Ada potongan komisi per transaksi?
+→ Rp0 komisi. Starter gratis selamanya (1 outlet, 3 akun), Pro flat Rp49.000/outlet/bulan all-in.
+
+Q4: Bagaimana keamanan data & akses staf?
+→ Tiap staf punya PIN personal, akses menu terkunci per peran (RBAC), dan data tersimpan aman di cloud.
+
+Masih ada pertanyaan lain soal outlet kamu? Drop di kolom komentar atau komen "KASSA" biar kami bantu langsung di DM 👇
+
+#faqkassa #aplikasikasir #bisniskuliner #poscafe #posresto #kassa`,
+    defaultStatus: "siap",
+    assetPath: "docs/marketing/carousels/H29-faq-lengkap-kassa",
+    slideCount: 5,
   },
   {
     id: "ig-d30", day: 30, dayLabel: "Selasa", platform: "Instagram", format: "Reels (9:16 · 18s)", theme: "dark", time: "12:00 WIB",

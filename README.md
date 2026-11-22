@@ -61,4 +61,11 @@ Seluruh aplikasi (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`) 
 - **Web & PWA:** Setiap aplikasi Next.js menyertakan `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikon PWA, `brand-tokens.css`, serta salinan SVG di `public/branding/`.
 - **Mobile (Flutter):** Ikon launcher Android (`mipmap-*`), iOS (`AppIcon.appiconset`), splash screen (`launch_background.xml` / `LaunchScreen.storyboard`), dan aset UI/struk thermal di `apps/mobile/assets/branding/`.
 
+## Marketing Hub & Konten Carousel Siap Post (`docs/marketing`)
+
+Seluruh strategi pemasaran 30 hari, brief produksi, dan aset konten Instagram siap tayang tersedia di [`docs/marketing/`](./docs/marketing/) dan terintegrasi dengan **Back Office → Marketing**:
+
+- **14 Deck Instagram Carousel (69 Slide PNG `1080×1350`):** Tersimpan di [`docs/marketing/carousels/`](./docs/marketing/carousels/) (`H02`–`H29`) lengkap dengan `caption.txt` siap salin (caption, CTA + keyword DM, hashtag, first comment, & ide IG Story) serta panduan master di [`docs/marketing/07-Ready-To-Post-Carousels.md`](./docs/marketing/07-Ready-To-Post-Carousels.md).
+- **Kanban & Carousel Studio (`apps/backoffice`):** Seluruh 14 konten Carousel otomatis berstatus **Siap Upload** pada papan Kanban, dapat dipreview dalam mode *Swipe IG* maupun *Semua Slide*, dan diunduh langsung per slide PNG dari tab *Carousel Studio*.
+
 Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).

@@ -48,7 +48,11 @@ export default function MarketingSection({
     );
   };
 
-  const getStatus = (id: string): PostStatus => statuses[id] ?? "draft";
+  const defaultStatusMap = new Map<string, PostStatus>(
+    INITIAL_POSTS.filter((p) => p.defaultStatus).map((p) => [p.id, p.defaultStatus!]),
+  );
+  const getStatus = (id: string): PostStatus =>
+    statuses[id] ?? defaultStatusMap.get(id) ?? "draft";
   const getCaption = (p: ContentPost) => customCaptions[p.id] ?? p.caption;
 
   const updateStatus = (id: string, val: PostStatus) => {

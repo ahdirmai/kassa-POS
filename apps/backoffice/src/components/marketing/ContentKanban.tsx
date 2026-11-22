@@ -8,6 +8,7 @@ import {
   Eye,
   Film,
   Flame,
+  FolderCheck,
   GripVertical,
   RotateCcw,
   Send,
@@ -222,6 +223,12 @@ export default function ContentKanban({
                                       {p.videoEngine}
                                     </div>
                                   )}
+                                  {p.assetPath && (
+                                    <div className="mt-1 inline-flex items-center gap-1 rounded-md bg-[#059669]/12 px-1.5 py-0.5 font-mono-num text-[9.5px] font-bold text-[#059669]">
+                                      <FolderCheck className="h-2.5 w-2.5" />
+                                      Siap Post{p.slideCount ? ` · ${p.slideCount} Slide PNG` : ""}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <span className="spill spill--iris font-mono-num shrink-0">
@@ -391,6 +398,26 @@ export default function ContentKanban({
                     </li>
                   ))}
                 </ul>
+                {selectedPost.assetPath && (
+                  <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-[#059669]/25 bg-[#059669]/8 px-3 py-2">
+                    <div className="min-w-0">
+                      <div className="font-mono-num text-[9.5px] font-bold uppercase tracking-wider text-[#059669]">
+                        Aset PNG Siap Upload{selectedPost.slideCount ? ` · ${selectedPost.slideCount} Slide (1080×1350)` : ""}
+                      </div>
+                      <div className="truncate font-mono-num text-[11px] text-[var(--ink)]">
+                        {selectedPost.assetPath}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onCopy(selectedPost.assetPath!, "Path aset tersalin!")}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#059669] px-2 py-1 font-mono-num text-[10px] font-semibold text-white hover:opacity-90"
+                    >
+                      <Copy className="h-3 w-3" />
+                      Path
+                    </button>
+                  </div>
+                )}
                 {selectedPost.screenshot && (
                   <img
                     src={selectedPost.screenshot}

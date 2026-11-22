@@ -6,6 +6,18 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-22
+
+### Added
+- **14 Ready-to-Post Instagram Carousels (`docs/marketing/carousels/`, 69 Slide PNG `1080×1350`):**
+  - Menghasilkan seluruh 14 deck Carousel Instagram dari rencana konten 30 hari Kassa (`H2`, `H4`, `H5`, `H7`, `H9`, `H11`, `H13`, `H16`, `H18`, `H20`, `H23`, `H25`, `H27`, `H29`) dalam format PNG `1080×1350` (4:5) sesuai panduan visual *Editorial Hospitality-Tech* lengkap dengan screenshot produk asli dan logo Kassa.
+  - Menyertakan `caption.txt` siap salin di setiap folder (caption final, CTA + keyword DM, hashtag, first comment, jadwal tayang WIB, dan ide IG Story pendamping) serta skrip generator di `docs/marketing/carousels/_generator/` untuk kebutuhan re-render cepat.
+  - Menambahkan panduan master & checklist publikasi di `docs/marketing/07-Ready-To-Post-Carousels.md` dan memperbarui `docs/marketing/README.md`.
+- **Back Office Marketing Kanban & Carousel Studio (`apps/backoffice`):**
+  - Menambahkan field `defaultStatus`, `assetPath`, dan `slideCount` pada `ContentPost` (`apps/backoffice/src/data/marketing-data.ts`) dengan seluruh 14 konten Carousel otomatis berstatus `siap` (**Siap Upload**) dan caption tersinkronisasi.
+  - Memperbarui `MarketingSection.tsx` agar `getStatus` menghormati `defaultStatus` dan `ContentKanban.tsx` dengan badge `Siap Post · N Slide PNG` serta tombol 1-klik salin path aset di modal detail.
+  - Memperluas `CarouselStudio.tsx` dari 4 deck menjadi seluruh **14 deck (`H2`–`H29`)** menggunakan PNG `1080×1350` di `apps/backoffice/public/carousels/` lengkap dengan tombol **Download PNG** per slide.
+
 ## [1.2.0] - 2026-11-22
 
 ### Changed
