@@ -6,6 +6,18 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-22
+
+### Added
+- **Strict Email Confirmation & Multi-Provider Mailer (`apps/api`, `apps/web`, `@pos/shared`):**
+  - Menambahkan kolom `User.emailVerifiedAt` dan tabel `EmailVerificationToken` (SHA-256 token hash, masa berlaku 24 jam, sekali pakai) pada `apps/api/prisma/schema.prisma`.
+  - Menambahkan adapter email multi-provider di `apps/api/src/lib/mailer.ts` yang mendukung **Resend API** (dengan `Idempotency-Key` dan retry exponential backoff untuk error jaringan/`429`/`5xx`), **SMTP (`nodemailer`)**, serta **Console Mode** otomatis untuk pengembangan lokal.
+  - Menambahkan endpoint `POST /api/v1/auth/verify-email` (validasi token & langsung menerbitkan sesi login untuk lanjut ke `/onboarding`) dan `POST /api/v1/auth/resend-verification` (dengan proteksi cooldown 60 detik / `429 RESEND_COOLDOWN`).
+  - Memperbarui `POST /api/v1/auth/register` agar mewajibkan konfirmasi email (`requiresEmailVerification: true`) dan `POST /api/v1/auth/login` agar menolak akun yang belum terverifikasi (`403 EMAIL_NOT_VERIFIED`).
+  - Menambahkan halaman `apps/web/src/app/verify-email/page.tsx`, layar "Cek Kotak Masuk Email Anda" dengan tombol kirim ulang di `apps/web/src/app/register/page.tsx`, serta tombol kirim ulang cepat saat error `EMAIL_NOT_VERIFIED` di `apps/web/src/app/login/page.tsx`.
+  - Akun seed (`apps/api/prisma/seed.ts`) dan akun staf yang dibuat Owner (`apps/api/src/modules/rbac/rbac.routes.ts`) otomatis terverifikasi.
+  - Menambahkan konfigurasi env email (`APP_WEB_URL`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `RESEND_API_KEY`, `SMTP_*`) pada `.env.example`, `apps/api/src/config/env.ts`, dan `docker/docker-compose.prod.yml`.
+
 ## [1.3.0] - 2026-11-22
 
 ### Added

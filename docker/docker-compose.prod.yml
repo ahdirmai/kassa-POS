@@ -50,6 +50,15 @@ services:
       MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:-}
       MIDTRANS_API_URL: ${MIDTRANS_API_URL:-https://api.midtrans.com}
       PUBLIC_LANDING_URL: ${PUBLIC_LANDING_URL:-https://kassa.biz.id}
+      APP_WEB_URL: ${APP_WEB_URL:-https://app.kassa.biz.id}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-auto}
+      EMAIL_FROM: ${EMAIL_FROM:-Kassa POS <noreply@kassa.biz.id>}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
 
   admin-api:
     build:

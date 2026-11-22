@@ -19,6 +19,18 @@ const envSchema = z
     MIDTRANS_SERVER_KEY: z.string().default("SB-Mid-server-mock-key"),
     MIDTRANS_API_URL: z.string().default("https://api.sandbox.midtrans.com"),
     PUBLIC_LANDING_URL: z.string().default("https://kassa.biz.id"),
+    APP_WEB_URL: z.string().default("http://localhost:3000"),
+    EMAIL_PROVIDER: z.enum(["auto", "resend", "smtp", "console"]).default("auto"),
+    EMAIL_FROM: z.string().default("Kassa POS <noreply@kassa.biz.id>"),
+    RESEND_API_KEY: z.string().optional(),
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.coerce.number().default(587),
+    SMTP_SECURE: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((v) => v === "true"),
+    SMTP_USER: z.string().optional(),
+    SMTP_PASS: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (process.env.NODE_ENV === "production") {

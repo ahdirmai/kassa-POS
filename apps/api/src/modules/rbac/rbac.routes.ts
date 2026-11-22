@@ -314,6 +314,7 @@ rbacRouter.post(
           passwordHash,
           pinHash,
           pinCode: pin ?? null,
+          emailVerifiedAt: new Date(),
         },
         include: { role: true },
       });

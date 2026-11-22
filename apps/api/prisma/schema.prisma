@@ -135,22 +135,37 @@ model User {
   email        String    @unique @db.VarChar(120)
   passwordHash String    @db.VarChar(255)
   pinHash      String?   @db.VarChar(255)
-  pinCode      String?   @db.VarChar(10) // lookup cepat per outlet + diverifikasi hash
-  isActive     Boolean   @default(true)
-  deletedAt    DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  pinCode         String?   @db.VarChar(10) // lookup cepat per outlet + diverifikasi hash
+  emailVerifiedAt DateTime?
+  isActive        Boolean   @default(true)
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  outlet        Outlet         @relation(fields: [outletId], references: [id])
-  role          Role           @relation(fields: [roleId], references: [id])
-  refreshTokens RefreshToken[]
-  shifts        Shift[]
-  orders        Order[]        @relation("OrderCashier")
-  auditLogs     AuditLog[]
+  tenant                  Tenant                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  outlet                  Outlet                   @relation(fields: [outletId], references: [id])
+  role                    Role                     @relation(fields: [roleId], references: [id])
+  refreshTokens           RefreshToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  shifts                  Shift[]
+  orders                  Order[]                  @relation("OrderCashier")
+  auditLogs               AuditLog[]
 
   @@index([tenantId])
   @@index([outletId, pinCode])
+}
+
+model EmailVerificationToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  tokenHash String    @unique @db.VarChar(128)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model RefreshToken {

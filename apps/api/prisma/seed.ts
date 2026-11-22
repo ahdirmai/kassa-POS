@@ -1059,6 +1059,24 @@ async function main() {
     },
   });
 
+  // Pastikan seluruh akun seed otomatis terverifikasi emailnya
+  await prisma.user.updateMany({
+    where: {
+      email: {
+        in: [
+          "owner@senja.id",
+          "manager@senja.id",
+          "kasir@senja.id",
+          "dapur@senja.id",
+          "free@kopipagi.id",
+          "kasir@kopipagi.id",
+        ],
+      },
+      emailVerifiedAt: null,
+    },
+    data: { emailVerifiedAt: new Date() },
+  });
+
   console.log("Seed selesai! Akun Multi-Tenant & Back Office:");
   console.log(`  [BACK OFFICE] Superadmin: ${adminEmail} / ${adminPass}`);
   console.log("  [PRO · 2 Outlet] Owner: owner@senja.id / password123 (PIN: 1111, OUT-01 & OUT-02)");

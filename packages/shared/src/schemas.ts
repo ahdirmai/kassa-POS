@@ -54,6 +54,14 @@ export const refreshSchema = z.object({
   refreshToken: z.string().min(10).optional(),
 });
 
+export const verifyEmailSchema = z.object({
+  token: z.string().trim().min(16, "Token verifikasi tidak valid").max(200),
+});
+
+export const resendVerificationSchema = z.object({
+  email: z.string().trim().email("Format email tidak valid"),
+});
+
 export const createProductSchema = z.object({
   categoryId: z.number().int().positive(),
   stationId: z.number().int().positive().nullable().optional(),

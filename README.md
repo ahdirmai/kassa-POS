@@ -68,4 +68,12 @@ Seluruh strategi pemasaran 30 hari, brief produksi, dan aset konten Instagram si
 - **14 Deck Instagram Carousel (69 Slide PNG `1080×1350`):** Tersimpan di [`docs/marketing/carousels/`](./docs/marketing/carousels/) (`H02`–`H29`) lengkap dengan `caption.txt` siap salin (caption, CTA + keyword DM, hashtag, first comment, & ide IG Story) serta panduan master di [`docs/marketing/07-Ready-To-Post-Carousels.md`](./docs/marketing/07-Ready-To-Post-Carousels.md).
 - **Kanban & Carousel Studio (`apps/backoffice`):** Seluruh 14 konten Carousel otomatis berstatus **Siap Upload** pada papan Kanban, dapat dipreview dalam mode *Swipe IG* maupun *Semua Slide*, dan diunduh langsung per slide PNG dari tab *Carousel Studio*.
 
+## Email Confirmation & Transactional Email (`apps/api` & `apps/web`)
+
+Registrasi Owner baru mewajibkan konfirmasi email (*strict verification*) sebelum dapat login:
+
+- **Alur:** `POST /api/v1/auth/register` → kirim tautan konfirmasi ke `/verify-email?token=...` (berlaku 24 jam, token sekali pakai) → `POST /api/v1/auth/verify-email` otomatis mengaktifkan akun dan mengarahkan ke `/onboarding`. Akun staf yang dibuat Owner via RBAC otomatis terverifikasi.
+- **Provider (`apps/api/src/lib/mailer.ts`):** Mode `EMAIL_PROVIDER=auto` otomatis memilih **Resend API** jika `RESEND_API_KEY` diisi (rekomendasi untuk domain Cloudflare `noreply@kassa.biz.id`, lengkap dengan `Idempotency-Key` & retry backoff), **SMTP (`nodemailer`)** jika `SMTP_HOST` diisi, atau **Console Mode** di dev lokal.
+- **Konfigurasi Env:** Lihat variabel `APP_WEB_URL`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `RESEND_API_KEY`, dan `SMTP_*` di [`.env.example`](./.env.example).
+
 Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).

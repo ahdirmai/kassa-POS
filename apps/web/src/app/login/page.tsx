@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { KeyRound, Lock, Mail } from "lucide-react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, ApiError } from "@/lib/api";
 import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { getDefaultHomePath } from "@/lib/rbac";
@@ -26,6 +26,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState(SHOW_DEMO_HINTS ? "password123" : "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+  const [resendingVerify, setResendingVerify] = useState(false);
+  const [devVerifyUrl, setDevVerifyUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = window.localStorage.getItem(OUTLET_CODE_STORAGE_KEY);
@@ -68,6 +71,8 @@ export default function LoginPage() {
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setUnverifiedEmail(null);
+    setDevVerifyUrl(null);
     setLoading(true);
     try {
       const data = await apiFetch<{ user: UserSession; accessToken: string }>("/auth/login", {
@@ -77,9 +82,32 @@ export default function LoginPage() {
       setSession(data.user, data.accessToken);
       routeAfterLogin(data.user);
     } catch (err) {
+      if (err instanceof ApiError && err.code === "EMAIL_NOT_VERIFIED") {
+        setUnverifiedEmail(email.trim().toLowerCase());
+      }
       setError(err instanceof Error ? err.message : "Login gagal");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!unverifiedEmail || resendingVerify) return;
+    setResendingVerify(true);
+    try {
+      const res = await apiFetch<{ ok: boolean; message: string; devVerifyUrl?: string }>(
+        "/auth/resend-verification",
+        {
+          method: "POST",
+          body: JSON.stringify({ email: unverifiedEmail }),
+        },
+      );
+      if (res.devVerifyUrl) setDevVerifyUrl(res.devVerifyUrl);
+      pushToast(res.message || "Email konfirmasi telah dikirim ulang!", "good");
+    } catch (err) {
+      pushToast(err instanceof Error ? err.message : "Gagal mengirim ulang email", "bad");
+    } finally {
+      setResendingVerify(false);
     }
   };
 
@@ -221,8 +249,29 @@ export default function LoginPage() {
         )}
 
         {error && (
-          <div className="rounded-2xl bg-[var(--bad)]/12 px-3.5 py-2.5 text-center text-xs font-semibold text-[var(--bad)]">
-            {error}
+          <div className="space-y-2 rounded-2xl bg-[var(--bad)]/12 px-3.5 py-2.5 text-center text-xs font-semibold text-[var(--bad)]">
+            <div>{error}</div>
+            {unverifiedEmail && (
+              <div className="pt-1">
+                <button
+                  type="button"
+                  disabled={resendingVerify}
+                  onClick={handleResendVerification}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-3 py-1.5 text-[11px] font-bold text-[var(--on-ink)]"
+                >
+                  <Mail className="h-3 w-3" />
+                  {resendingVerify ? "Mengirim ulang..." : "Kirim Ulang Email Konfirmasi"}
+                </button>
+                {devVerifyUrl && (
+                  <a
+                    href={devVerifyUrl}
+                    className="mt-2 block font-mono text-[11px] underline text-[var(--primary-ink)]"
+                  >
+                    Mode Dev: Klik untuk konfirmasi email sekarang
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         )}
 

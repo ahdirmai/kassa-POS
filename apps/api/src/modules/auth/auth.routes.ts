@@ -2,19 +2,63 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "node:crypto";
-import { loginSchema, pinLoginSchema, PLAN_POLICIES, refreshSchema, registerSchema } from "@pos/shared";
+import {
+  loginSchema,
+  pinLoginSchema,
+  PLAN_POLICIES,
+  refreshSchema,
+  registerSchema,
+  resendVerificationSchema,
+  verifyEmailSchema,
+} from "@pos/shared";
 import { env } from "../../config/env.js";
 import { prisma } from "../../lib/prisma.js";
 import { getLiveUserAuth, invalidateRbacCache } from "../../lib/rbac-cache.js";
 import { writeAuditLog } from "../../lib/audit.js";
+import { sendVerificationEmail } from "../../lib/mailer.js";
 import { AppError } from "../../middleware/error.js";
 import { validateBody } from "../../middleware/validate.js";
 import { requireAuth } from "../../middleware/auth.js";
 
 export const authRouter = Router();
 
+const EMAIL_VERIFY_TTL_MS = 24 * 60 * 60 * 1000; // 24 jam
+const EMAIL_RESEND_COOLDOWN_MS = 60 * 1000; // 60 detik
+
 function hashToken(raw: string) {
   return crypto.createHash("sha256").update(raw).digest("hex");
+}
+
+async function createAndSendEmailVerification(params: {
+  userId: number;
+  email: string;
+  ownerName: string;
+  businessName: string;
+}) {
+  const rawToken = crypto.randomBytes(32).toString("hex");
+  const tokenHash = hashToken(rawToken);
+  const expiresAt = new Date(Date.now() + EMAIL_VERIFY_TTL_MS);
+
+  await prisma.emailVerificationToken.create({
+    data: {
+      userId: params.userId,
+      tokenHash,
+      expiresAt,
+    },
+  });
+
+  const baseUrl = env.APP_WEB_URL.replace(/\/$/, "");
+  const verifyUrl = `${baseUrl}/verify-email?token=${encodeURIComponent(rawToken)}`;
+
+  const mailResult = await sendVerificationEmail({
+    to: params.email,
+    ownerName: params.ownerName,
+    businessName: params.businessName,
+    verifyUrl,
+    idempotencyKey: `verify-email/${tokenHash.slice(0, 24)}`,
+  });
+
+  return { verifyUrl, provider: mailResult.provider, messageId: mailResult.messageId };
 }
 
 function slugify(input: string) {
@@ -122,14 +166,79 @@ authRouter.post("/register", validateBody(registerSchema), async (req, res, next
       return { tenant, outlet, user };
     });
 
-    const result = await issueTokensForUser(created.user.id);
+    const verification = await createAndSendEmailVerification({
+      userId: created.user.id,
+      email: normalizedEmail,
+      ownerName: ownerName.trim(),
+      businessName: businessName.trim(),
+    });
+
     await writeAuditLog({
       outletId: created.outlet.id,
       userId: created.user.id,
       action: "TENANT_REGISTER",
       entityType: "Tenant",
       entityId: created.tenant.id,
-      afterValue: { plan: "FREE", outletCode },
+      afterValue: { plan: "FREE", outletCode, emailProvider: verification.provider },
+      ipAddress: req.ip,
+    });
+
+    res.status(201).json({
+      requiresEmailVerification: true,
+      email: normalizedEmail,
+      outletCode,
+      message: "Pendaftaran berhasil! Silakan cek kotak masuk email Anda untuk konfirmasi sebelum login.",
+      ...(process.env.NODE_ENV !== "production" && verification.provider === "console"
+        ? { devVerifyUrl: verification.verifyUrl }
+        : {}),
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * Konfirmasi email dengan token dari link email → otomatis login agar langsung lanjut Onboarding.
+ */
+authRouter.post("/verify-email", validateBody(verifyEmailSchema), async (req, res, next) => {
+  try {
+    const tokenHash = hashToken(req.body.token);
+    const record = await prisma.emailVerificationToken.findUnique({
+      where: { tokenHash },
+      include: { user: true },
+    });
+
+    if (!record || record.usedAt || record.expiresAt.getTime() < Date.now()) {
+      throw new AppError(
+        400,
+        "INVALID_VERIFICATION_TOKEN",
+        "Tautan verifikasi tidak valid atau sudah kedaluwarsa. Silakan minta kirim ulang email konfirmasi.",
+      );
+    }
+
+    if (!record.user.isActive || record.user.deletedAt) {
+      throw new AppError(403, "USER_INACTIVE", "Akun tidak aktif");
+    }
+
+    const now = new Date();
+    await prisma.$transaction([
+      prisma.emailVerificationToken.update({
+        where: { id: record.id },
+        data: { usedAt: now },
+      }),
+      prisma.user.update({
+        where: { id: record.userId },
+        data: { emailVerifiedAt: record.user.emailVerifiedAt ?? now },
+      }),
+    ]);
+
+    const result = await issueTokensForUser(record.userId);
+    await writeAuditLog({
+      outletId: record.user.outletId,
+      userId: record.userId,
+      action: "AUTH_EMAIL_VERIFIED",
+      entityType: "User",
+      entityId: record.userId,
       ipAddress: req.ip,
     });
 
@@ -139,7 +248,76 @@ authRouter.post("/register", validateBody(registerSchema), async (req, res, next
       secure: process.env.NODE_ENV === "production",
       maxAge: env.JWT_REFRESH_EXPIRES_DAYS * 86400_000,
     });
-    res.status(201).json(result);
+    res.json({
+      verified: true,
+      message: "Email berhasil dikonfirmasi!",
+      ...result,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * Kirim ulang email konfirmasi (dengan cooldown 60 detik agar tidak disalahgunakan).
+ */
+authRouter.post("/resend-verification", validateBody(resendVerificationSchema), async (req, res, next) => {
+  try {
+    const normalizedEmail = req.body.email.trim().toLowerCase();
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      include: { tenant: { select: { name: true } } },
+    });
+
+    // Jangan bocorkan keberadaan email jika tidak ditemukan
+    if (!user || user.deletedAt || !user.isActive) {
+      return res.json({
+        ok: true,
+        message: "Jika email terdaftar dan belum terverifikasi, tautan konfirmasi baru telah dikirim.",
+      });
+    }
+
+    if (user.emailVerifiedAt) {
+      return res.json({
+        ok: true,
+        alreadyVerified: true,
+        message: "Email Anda sudah terverifikasi. Silakan langsung login.",
+      });
+    }
+
+    const latest = await prisma.emailVerificationToken.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+    if (latest && Date.now() - latest.createdAt.getTime() < EMAIL_RESEND_COOLDOWN_MS) {
+      const waitSec = Math.ceil((EMAIL_RESEND_COOLDOWN_MS - (Date.now() - latest.createdAt.getTime())) / 1000);
+      throw new AppError(
+        429,
+        "RESEND_COOLDOWN",
+        `Mohon tunggu ${waitSec} detik sebelum mengirim ulang email konfirmasi.`,
+      );
+    }
+
+    // Invalidasi token lama yang belum dipakai
+    await prisma.emailVerificationToken.updateMany({
+      where: { userId: user.id, usedAt: null },
+      data: { usedAt: new Date() },
+    });
+
+    const verification = await createAndSendEmailVerification({
+      userId: user.id,
+      email: normalizedEmail,
+      ownerName: user.name,
+      businessName: user.tenant.name,
+    });
+
+    res.json({
+      ok: true,
+      message: "Email konfirmasi baru telah dikirim. Silakan cek kotak masuk atau folder spam Anda.",
+      ...(process.env.NODE_ENV !== "production" && verification.provider === "console"
+        ? { devVerifyUrl: verification.verifyUrl }
+        : {}),
+    });
   } catch (err) {
     next(err);
   }
@@ -155,6 +333,13 @@ authRouter.post("/login", validateBody(loginSchema), async (req, res, next) => {
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) {
       throw new AppError(401, "INVALID_CREDENTIALS", "Email atau password salah");
+    }
+    if (!user.emailVerifiedAt) {
+      throw new AppError(
+        403,
+        "EMAIL_NOT_VERIFIED",
+        "Email Anda belum dikonfirmasi. Silakan cek kotak masuk atau kirim ulang email verifikasi.",
+      );
     }
 
     const result = await issueTokensForUser(user.id);
