@@ -72,8 +72,13 @@ Seluruh strategi pemasaran 30 hari, brief produksi, dan aset konten Instagram si
 
 Registrasi Owner baru mewajibkan konfirmasi email (*strict verification*) sebelum dapat login:
 
-- **Alur:** `POST /api/v1/auth/register` → kirim tautan konfirmasi ke `/verify-email?token=...` (berlaku 24 jam, token sekali pakai) → `POST /api/v1/auth/verify-email` otomatis mengaktifkan akun dan mengarahkan ke `/onboarding`. Akun staf yang dibuat Owner via RBAC otomatis terverifikasi.
+- **Alur:** `POST /api/v1/auth/register` → kirim tautan konfirmasi ke `/verify-email?token=...` (berlaku 24 jam, token sekali pakai) → `POST /api/v1/auth/verify-email` otomatis mengaktifkan akun dan mengarahkan ke `/onboarding` (lengkap dengan foto produk pada 19 template menu seeder). Akun staf yang dibuat Owner via RBAC otomatis terverifikasi.
 - **Provider (`apps/api/src/lib/mailer.ts`):** Mode `EMAIL_PROVIDER=auto` otomatis memilih **Resend API** jika `RESEND_API_KEY` diisi (rekomendasi untuk domain Cloudflare `noreply@kassa.biz.id`, lengkap dengan `Idempotency-Key` & retry backoff), **SMTP (`nodemailer`)** jika `SMTP_HOST` diisi, atau **Console Mode** di dev lokal.
 - **Konfigurasi Env:** Lihat variabel `APP_WEB_URL`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `RESEND_API_KEY`, dan `SMTP_*` di [`.env.example`](./.env.example).
+
+## Landing Page / Digital Menu Pro & Upgrade via WhatsApp
+
+- **Digital Menu Publik (`kassa.biz.id/p/[slug]`):** Fitur khusus paket **Kassa Pro** yang dikelola dari `app.kassa.biz.id/admin/digital-menu`, lengkap dengan SSR Next.js, metadata SEO dinamis, JSON-LD Schema.org (`CafeOrCoffeeShop`, `hasMenu`, `BreadcrumbList`), dynamic `sitemap.xml`, dan `robots.txt`.
+- **Upgrade Pro via WhatsApp:** Tombol aktivasi paket Kassa Pro pada `app.kassa.biz.id/admin/outlets` langsung mengarah ke WhatsApp resmi Kassa (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi profil bisnis & tenant.
 
 Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).
