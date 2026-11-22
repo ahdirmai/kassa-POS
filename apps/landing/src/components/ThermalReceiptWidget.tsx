@@ -151,9 +151,16 @@ export default function ThermalReceiptWidget() {
 
         <div className="receipt-serrated mx-auto w-[88%] border-x border-t border-[#d8d5cd] bg-white px-5 pb-5 pt-4 text-[#111214] shadow-[0_14px_30px_-14px_rgba(0,0,0,0.28)]">
           <div className="flex items-center justify-between border-b border-dashed border-[#c4c1b8] pb-2.5 font-mono-num text-[10.5px]">
-            <div>
-              <div className="font-bold tracking-wider">KASSA · KOPI SENJA</div>
-              <div className="text-[#666970]">ORDER #{orderSeq} · 58MM</div>
+            <div className="flex items-center gap-2">
+              <img
+                src="/branding/kassa-monochrome-thermal.svg"
+                alt="Kassa Thermal Mark"
+                className="h-8 w-8 shrink-0 object-contain"
+              />
+              <div>
+                <div className="font-bold tracking-wider">KASSA · KOPI SENJA</div>
+                <div className="text-[#666970]">ORDER #{orderSeq} · 58MM</div>
+              </div>
             </div>
             <div className="text-right">
               <div className="font-semibold">

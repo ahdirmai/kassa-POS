@@ -21,6 +21,7 @@ import {
 } from "@pos/shared";
 import { apiFetch } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth-store";
+import { KassaBrandMark } from "@/components/kassa-brand-mark";
 import { useUiStore } from "@/stores/ui-store";
 
 interface OnboardingStatus {
@@ -144,7 +145,7 @@ export default function OnboardingPage() {
         {/* Header + Stepper */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] pb-4">
           <div className="flex items-center gap-3">
-            <span className="cadra-brand__mark">K</span>
+            <KassaBrandMark />
             <div>
               <h1 className="text-lg font-bold tracking-tight">Setup Awal Outlet Anda</h1>
               <p className="text-xs text-[var(--muted)]">

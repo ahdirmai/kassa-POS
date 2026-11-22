@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manual Book — Kassa POS (kassa.biz.id)</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/branding/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -74,13 +75,10 @@
     .brand-mark {
       width: 52px;
       height: 52px;
-      border-radius: 16px;
-      background: var(--accent);
-      color: var(--on-accent);
-      font-weight: 800;
-      font-size: 22px;
-      display: grid;
-      place-items: center;
+      border-radius: 14px;
+      overflow: hidden;
+      display: block;
+      flex: none;
     }
     .pill {
       display: inline-flex;
@@ -276,7 +274,15 @@
     <section class="sheet cover">
       <div>
         <div class="brand-row">
-          <div class="brand-mark">K</div>
+          <div class="brand-mark">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="52" height="52" role="img" aria-label="Kassa Icon">
+              <rect width="512" height="512" rx="112" fill="#0B1013"/>
+              <rect x="24" y="24" width="464" height="464" rx="92" fill="#141B1F" stroke="#222C31" stroke-width="2"/>
+              <path fill="#F6F4EF" d="M138 124H198V229L292 124H364L250 250L368 388H294L198 274V388H138V124Z"/>
+              <path fill="#F6F4EF" d="M214 124H270L214 186V124Z"/>
+              <path fill="#D9A962" d="M380 124H402L286 250L406 388H384L264 250L380 124Z"/>
+            </svg>
+          </div>
           <div>
             <div style="font-weight:800;font-size:20px;letter-spacing:-0.02em;">Kassa</div>
             <div style="font-size:12px;opacity:.75;">kassa.biz.id · app.kassa.biz.id · Single-Tenant F&amp;B POS</div>

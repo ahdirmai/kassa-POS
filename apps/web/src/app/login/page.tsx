@@ -8,6 +8,7 @@ import { apiFetch } from "@/lib/api";
 import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { getDefaultHomePath } from "@/lib/rbac";
+import { KassaBrandMark } from "@/components/kassa-brand-mark";
 
 const OUTLET_CODE_STORAGE_KEY = "kassa_outlet_code";
 const SHOW_DEMO_HINTS =
@@ -91,7 +92,7 @@ export default function LoginPage() {
     <div className="grid min-h-dvh place-items-center p-4">
       <div className="cadra-card w-full max-w-md space-y-6 p-7">
         <div className="flex items-center gap-3">
-          <div className="cadra-brand__mark">K</div>
+          <KassaBrandMark />
           <div>
             <h1 className="text-xl font-bold tracking-tight">Kassa</h1>
             <p className="text-xs font-semibold text-[var(--muted)]">Cloud POS Multi-Outlet · app.kassa.biz.id</p>

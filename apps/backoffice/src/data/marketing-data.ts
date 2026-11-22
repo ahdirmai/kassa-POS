@@ -37,7 +37,7 @@ export const PHOTOS = {
 
 export const BRAND_COLORS: BrandColor[] = [
   { name: "Deep Espresso", hex: "#0B1013", role: "Dark Canvas · Cover Reels & Offer" },
-  { name: "Espresso Surface", hex: "#12181B", role: "Dark Card & Mockup Frame" },
+  { name: "Espresso Surface", hex: "#141B1F", role: "Dark Card & Mockup Frame" },
   { name: "Warm Brass", hex: "#D9A962", role: "Primary CTA & Highlight Dark" },
   { name: "Soft Champagne", hex: "#E5BA78", role: "Italic Serif Accent (Dark)" },
   { name: "Deep Petrol", hex: "#0F5257", role: "Signature Accent (Light)" },

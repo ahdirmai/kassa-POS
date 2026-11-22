@@ -12,7 +12,7 @@ const urbanist = Urbanist({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#efefec" },
+    { media: "(prefers-color-scheme: light)", color: "#F6F4EF" },
     { media: "(prefers-color-scheme: dark)", color: "#0B1013" },
   ],
   width: "device-width",
@@ -34,9 +34,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
+    shortcut: [{ url: "/favicon.ico" }],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };

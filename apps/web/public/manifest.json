@@ -7,7 +7,7 @@
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "any",
-  "background_color": "#efefec",
+  "background_color": "#F6F4EF",
   "theme_color": "#0B1013",
   "lang": "id",
   "categories": ["business", "finance", "food"],

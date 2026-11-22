@@ -43,7 +43,13 @@ export default function BackOfficeLoginPage() {
 
       <div className="card w-full max-w-md p-8">
         <div className="flex items-center gap-3">
-          <span className="cadra-brand__mark">K</span>
+          <img
+            src="/branding/kassa-icon-dark.svg"
+            alt="Kassa"
+            width={42}
+            height={42}
+            className="cadra-brand__mark"
+          />
           <div>
             <h1 className="text-lg font-bold tracking-tight text-[var(--ink)]">
               Kassa Back Office

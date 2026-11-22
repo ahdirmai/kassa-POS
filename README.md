@@ -9,12 +9,14 @@ Pos/
 │   ├── admin-api/      # Back Office API (`admin-api.kassa.biz.id`, port 4001) — Platform Auth, Tenants, Billing, Audit
 │   ├── web/            # POS Web App (`app.kassa.biz.id`, port 3000) — Next.js 15
 │   ├── landing/        # Landing Page (`kassa.biz.id`, port 3005) — Next.js 15
-│   └── backoffice/     # Back Office Web (`admin.kassa.biz.id`, port 3006) — Next.js 15
+│   ├── backoffice/     # Back Office Web (`admin.kassa.biz.id`, port 3006) — Next.js 15
+│   └── mobile/         # POS Mobile App (Android & iOS) — Flutter
 ├── packages/
 │   └── shared/         # @pos/shared — Zod schemas, kalkulasi total, konversi satuan, & PLAN_POLICIES
 ├── docker/             # Docker Compose (dev & prod), Nginx multi-domain, Dockerfiles
 ├── docs/               # PRD, System Design, Deployment Guide, Manual Book, & Strategi Marketing
-└── assets/             # Aset video & media produksi marketing
+└── assets/
+    └── branding/       # Official Brand Identity Kit (SVG icons, lockups, favicon, thermal mark, brand-tokens.css)
 ```
 
 ## Cara Menjalankan Lokal
@@ -50,5 +52,13 @@ Aplikasi kasir POS (`apps/web`, fokus rute `/pos`) sudah mendukung **Progressive
 - **Offline App Shell (`/pos`):** Service Worker (`public/sw.js`) meng-cache App Shell `/pos`, static chunks, dan gambar produk agar kasir tetap bisa me-refresh atau membuka `/pos` saat internet mati.
 - **Full Catalog Cache (IndexedDB / Dexie):** Menggunakan `GET /api/v1/sync/pull` untuk menyimpan katalog produk, kategori, daftar meja (`areas`), dan konfigurasi pajak/service charge (`settings`) secara lokal. Keranjang POS juga persisten di perangkat.
 - **Offline Cash Checkout & Auto Sync:** Pembayaran tunai saat offline (atau saat WiFi terhubung namun server tidak terjangkau) otomatis tersimpan di IndexedDB dengan nomor struk `OFF-xxxxxx`, lalu disinkronkan otomatis ke `POST /api/v1/sync/push` saat koneksi kembali (dengan concurrency lock, periodic retry 30 detik, Background Sync, *poison-pill* fallback per-item, dan modal inspeksi/sync manual di indikator status top bar).
+
+## Brand Identity & Aset Resmi (`assets/branding`)
+
+Seluruh aplikasi (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`) dan dokumen HTML (`docs/`) menggunakan paket identitas visual resmi **Kassa** (*Editorial Hospitality-Tech* — Monogram `K` dengan aksen *Warm Brass* `#D9A962` di atas *Deep Espresso* `#0B1013`):
+
+- **Sumber Tunggal (Source of Truth):** [`assets/branding/`](./assets/branding/) — berisi `favicon.svg`, `kassa-icon-dark.svg`, `kassa-icon-light.svg`, `kassa-lockup-dark.svg`, `kassa-lockup-light.svg`, `kassa-mark-transparent.svg`, `kassa-monochrome-thermal.svg`, `brand-tokens.css`, dan panduan lengkap di [`assets/branding/BRAND-IDENTITY.md`](./assets/branding/BRAND-IDENTITY.md).
+- **Web & PWA:** Setiap aplikasi Next.js menyertakan `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikon PWA, `brand-tokens.css`, serta salinan SVG di `public/branding/`.
+- **Mobile (Flutter):** Ikon launcher Android (`mipmap-*`), iOS (`AppIcon.appiconset`), splash screen (`launch_background.xml` / `LaunchScreen.storyboard`), dan aset UI/struk thermal di `apps/mobile/assets/branding/`.
 
 Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).

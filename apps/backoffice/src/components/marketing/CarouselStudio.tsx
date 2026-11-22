@@ -78,13 +78,15 @@ function SlideShell({
         }`}
       >
         <span className="flex items-center gap-1.5 font-semibold">
-          <span
-            className={`grid h-[18px] w-[18px] place-items-center rounded text-[10px] font-extrabold ${
-              isDark ? "bg-[#f4f2ec] text-[#0b1013]" : "bg-[#121517] text-[#f6f4ef]"
+          <img
+            src={isDark ? "/branding/kassa-icon-dark.svg" : "/branding/kassa-icon-dark.svg"}
+            alt="Kassa"
+            width={18}
+            height={18}
+            className={`h-[18px] w-[18px] rounded-[4px] ${
+              isDark ? "ring-1 ring-white/15" : ""
             }`}
-          >
-            K
-          </span>
+          />
           kassa.biz.id
         </span>
         <span>{page}</span>

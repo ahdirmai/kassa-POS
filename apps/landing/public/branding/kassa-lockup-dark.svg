@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" width="760" height="220" role="img" aria-label="Kassa Full Logo Dark">
+  <rect width="760" height="220" rx="28" fill="#0B1013"/>
+  <!-- Icon Badge -->
+  <g transform="translate(44, 34) scale(0.296)">
+    <rect width="512" height="512" rx="112" fill="#141B1F" stroke="#263137" stroke-width="4"/>
+    <path fill="#F6F4EF" d="M138 124H198V229L292 124H364L250 250L368 388H294L198 274V388H138V124Z"/>
+    <path fill="#F6F4EF" d="M214 124H270L214 186V124Z"/>
+    <path fill="#D9A962" d="M380 124H402L286 250L406 388H384L264 250L380 124Z"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="234" y="132" fill="#F6F4EF" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="96" font-weight="700" letter-spacing="-3">Kassa</text>
+  <text x="238" y="168" fill="#E5BA78" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="20" font-weight="600" letter-spacing="3.2">KASIR &amp; OPERASIONAL F&amp;B · KASSA.BIZ.ID</text>
+</svg>

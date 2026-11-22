@@ -6,6 +6,18 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-22
+
+### Changed
+- **Official Brand Identity & Favicon Rollout (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`, `docs`):**
+  - Menerapkan seluruh aset identitas visual resmi dari `assets/branding/` (Monogram `K` geometris dengan *Warm Brass* `#D9A962` chevron di atas *Deep Espresso* `#0B1013`) dan token CSS (`brand-tokens.css`) secara konsisten di seluruh produk.
+  - **Favicon & App Icons:** Mengganti dan melengkapi `favicon.svg`, `favicon.ico` (multi-ukuran 16/32/48px), `icon.svg`, `apple-touch-icon.png` (180×180), `icon-192.png`, `icon-512.png`, dan `icon-maskable-512.png` di `apps/web`, `apps/landing`, `apps/backoffice`, serta `<link rel="icon">` di dokumen HTML (`docs/manual-book`, `docs/pitch-deck`, `docs/audit-report`).
+  - **POS Web (`apps/web`):** Mengganti mark teks `K` pada header shell, login, register, dan onboarding dengan komponen `KassaBrandMark` (`/branding/kassa-icon-dark.svg`), menyelaraskan warna `manifest.json` & `viewport` (`#F6F4EF` / `#0B1013`), menambahkan logo struk 1-bit (`kassa-monochrome-thermal.svg`) pada `ReceiptModal`, serta meningkatkan versi cache Service Worker (`v2`) untuk precache aset branding.
+  - **Landing Page (`apps/landing`):** Mengganti `src/app/icon.svg` lama dengan favicon resmi, memperbarui logo di navbar, footer, landing admin login/dashboard, footer Digital Menu, serta simulator struk thermal (`ThermalReceiptWidget`).
+  - **Back Office (`apps/backoffice`):** Menambahkan favicon & ikon aplikasi, mengganti mark teks `K` pada shell, login, dan footer slide `CarouselStudio`, menyelaraskan warna *Espresso Surface* (`#141B1F`), serta menambahkan galeri preview & unduh **Official Brand Logo Kit (SVG)** di tab *Marketing → Brand & Warna*.
+  - **Mobile App (`apps/mobile`):** Mengganti seluruh ikon launcher bawaan Flutter di Android (`mipmap-mdpi` s.d. `mipmap-xxxhdpi` + splash `launch_background.xml`) dan iOS (`AppIcon.appiconset` 15 ukuran + `LaunchImage.imageset` & `LaunchScreen.storyboard`), mendaftarkan `assets/branding/` di `pubspec.yaml`, serta menerapkan logo resmi di splash loading, layar login, AppBar utama, dan preview struk thermal.
+  - **Dokumentasi (`docs/`):** Mengganti seluruh badge teks `K` pada `manual-book`, `pitch-deck`, dan `audit-report` dengan vektor logo resmi Kassa.
+
 ## [1.1.0] - 2026-11-22
 
 ### Added

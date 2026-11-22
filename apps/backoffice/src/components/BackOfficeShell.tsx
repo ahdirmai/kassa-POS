@@ -281,7 +281,13 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
           }`}
         >
           <Link href="/" className="cadra-brand text-left">
-            <span className="cadra-brand__mark">K</span>
+            <img
+              src="/branding/kassa-icon-dark.svg"
+              alt="Kassa"
+              width={42}
+              height={42}
+              className="cadra-brand__mark"
+            />
             <span className="cadra-brand__text">
               <b>Kassa Admin</b>
               <small>admin.kassa.biz.id</small>

@@ -197,15 +197,13 @@ body {
   min-width: 0;
 }
 .cadra-brand__mark {
-  background: var(--ink);
-  color: var(--on-ink);
+  background: transparent;
   width: 42px;
   height: 42px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 18px;
+  border-radius: 12px;
+  display: block;
+  object-fit: contain;
+  overflow: hidden;
   flex: none;
 }
 .cadra-brand__text {

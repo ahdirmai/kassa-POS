@@ -137,9 +137,13 @@ export default function AdminDashboardClient({
       <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--surface)]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
           <div className="flex items-center gap-3">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--ink)] text-sm font-bold text-[var(--bg)]">
-              K
-            </span>
+            <img
+              src="/branding/kassa-icon-dark.svg"
+              alt="Kassa"
+              width={34}
+              height={34}
+              className="h-8.5 w-8.5 rounded-lg"
+            />
             <div>
               <div className="text-[14.5px] font-semibold tracking-tight">
                 Kassa Landing Admin

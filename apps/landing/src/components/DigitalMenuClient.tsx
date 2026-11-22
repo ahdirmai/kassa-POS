@@ -501,12 +501,19 @@ export function DigitalMenuClient({ data }: { data: PublicDigitalMenuData }) {
             © {new Date().getFullYear()} <strong className="text-slate-700">{data.cafe.displayName}</strong>
             {data.cafe.city ? ` · ${data.cafe.city}` : ""}
           </div>
-          <div>
-            Menu Digital oleh{" "}
+          <div className="flex items-center gap-1.5">
+            <span>Menu Digital oleh</span>
             <Link
               href={`/?utm_source=digital_menu&utm_medium=powered_by&utm_campaign=${encodeURIComponent(data.slug)}`}
-              className="font-semibold text-indigo-600 underline-offset-2 hover:underline"
+              className="inline-flex items-center gap-1.5 font-semibold text-[#0F5257] underline-offset-2 hover:underline"
             >
+              <img
+                src="/branding/kassa-icon-dark.svg"
+                alt="Kassa POS"
+                width={18}
+                height={18}
+                className="h-4.5 w-4.5 rounded"
+              />
               Kassa POS
             </Link>
           </div>

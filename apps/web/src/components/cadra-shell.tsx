@@ -21,6 +21,7 @@ import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { apiFetch } from "@/lib/api";
 import { ADMIN_ROUTES, canAccessPath, getDefaultHomePath, getFirstAdminPath, isRouteAllowed } from "@/lib/rbac";
+import { KassaBrandMark } from "@/components/kassa-brand-mark";
 
 export function CadraShell({
   title,
@@ -187,7 +188,7 @@ export function CadraShell({
         {/* Top Bar */}
         <header className="cadra-top">
           <Link href={brandHref} className="cadra-brand">
-            <span className="cadra-brand__mark">K</span>
+            <KassaBrandMark />
             <span className="cadra-brand__text">
               <b>Kassa</b>
               <small>{mounted && user?.outletName ? user.outletName : "Kassa POS"}</small>

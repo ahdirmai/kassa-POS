@@ -177,20 +177,23 @@ export default function LandingClient({ content }: LandingClientProps) {
   };
 
   const kdsStages = ["Masuk", "Dimasak", "Siap Saji"] as const;
-  const brandInitial = (content.general.brandName || "K").charAt(0).toUpperCase();
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] transition-colors duration-200">
       {/* Clean Airy Navbar (trackInc reference) */}
       <header className="sticky top-0 z-50 border-b border-[var(--border)]/70 bg-[var(--bg)]/85 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-          <a href="#" className="flex items-center gap-2">
-            <span className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--ink)] text-[13px] font-bold text-[var(--bg)]">
-              {brandInitial}
-            </span>
+          <a href="#" className="flex items-center gap-2.5">
+            <img
+              src="/branding/kassa-icon-dark.svg"
+              alt={content.general.brandName}
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-lg shadow-sm"
+            />
             <span className="text-[17px] font-bold tracking-tight text-[var(--ink)]">
               {content.general.brandName}
-              <span className="text-[var(--mint)]">.</span>
+              <span className="text-[var(--kassa-brass,#D9A962)]">.</span>
             </span>
           </a>
 
@@ -847,9 +850,13 @@ export default function LandingClient({ content }: LandingClientProps) {
 
           <div className="mt-10 flex flex-col justify-between gap-4 text-[13px] text-[var(--ink-muted)] sm:flex-row sm:items-center">
             <div className="flex items-center gap-2">
-              <span className="grid h-6 w-6 place-items-center rounded-md bg-[var(--ink)] text-[11px] font-bold text-[var(--bg)]">
-                {brandInitial}
-              </span>
+              <img
+                src="/branding/kassa-icon-dark.svg"
+                alt={content.general.brandName}
+                width={26}
+                height={26}
+                className="h-6.5 w-6.5 rounded-md"
+              />
               <span className="font-bold text-[var(--ink)]">
                 {content.general.brandName}
               </span>

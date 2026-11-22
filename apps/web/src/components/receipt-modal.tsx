@@ -145,6 +145,13 @@ export function ReceiptModal({
             <br />
             Wi-Fi: SenjaGuest / kopi2026
           </div>
+          <div className="mt-3 flex flex-col items-center gap-1 border-t border-dashed border-[var(--line-2)] pt-2.5">
+            <img
+              src="/branding/kassa-monochrome-thermal.svg"
+              alt="Powered by Kassa POS"
+              className="h-14 w-14 object-contain"
+            />
+          </div>
         </div>
 
         <div className="mt-4 flex justify-end gap-2">

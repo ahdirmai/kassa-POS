@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Columns3, Copy, Layers, MessageSquare, Palette } from "lucide-react";
+import { Columns3, Copy, Download, Layers, MessageSquare, Palette } from "lucide-react";
 import {
   BRAND_COLORS,
   DM_SCRIPTS,
@@ -166,23 +166,85 @@ export default function MarketingSection({
       {subTab === "carousel" && <CarouselStudio />}
 
       {subTab === "brand" && (
-        <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {BRAND_COLORS.map((c) => (
-            <button
-              key={c.hex}
-              onClick={() => copyText(c.hex, `HEX ${c.hex} tersalin!`)}
-              className="overflow-hidden card text-left transition hover:-translate-y-0.5 hover:border-[#121517]"
-            >
-              <div className="h-16 w-full border-b border-[var(--line)]" style={{ background: c.hex }} />
-              <div className="p-3.5">
-                <div className="text-xs font-bold">{c.name}</div>
-                <div className="mt-0.5 font-mono-num text-xs font-semibold text-[#0f5257]">
-                  {c.hex}
-                </div>
-                <div className="mt-1 text-[11px] text-[var(--muted)]">{c.role}</div>
+        <div className="space-y-6">
+          <div>
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-bold text-[var(--ink)]">Official Brand Logo Kit (SVG)</h3>
+                <p className="text-xs text-[var(--muted)]">
+                  Aset resmi dari <code className="font-mono-num">assets/branding/</code> — Monogram K + Warm Brass Chevron.
+                </p>
               </div>
-            </button>
-          ))}
+              <a
+                href="/branding/brand-tokens.css"
+                download="kassa-brand-tokens.css"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3 py-1.5 font-mono-num text-[11px] font-semibold text-[var(--ink)] transition hover:bg-[var(--ink)] hover:text-[var(--on-ink)]"
+              >
+                <Download className="h-3.5 w-3.5" />
+                brand-tokens.css
+              </a>
+            </div>
+            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { name: "App Icon (Dark)", file: "kassa-icon-dark.svg", desc: "Icon utama 512×512 · PWA & dark header", bg: "#0B1013" },
+                { name: "App Icon (Light)", file: "kassa-icon-light.svg", desc: "Icon terang 512×512 · dokumen cetak", bg: "#F6F4EF" },
+                { name: "Horizontal Lockup (Dark)", file: "kassa-lockup-dark.svg", desc: "Logo lengkap mode gelap · 760×220", bg: "#0B1013" },
+                { name: "Horizontal Lockup (Light)", file: "kassa-lockup-light.svg", desc: "Logo lengkap mode terang · 760×220", bg: "#F6F4EF" },
+                { name: "Mark Transparent", file: "kassa-mark-transparent.svg", desc: "Monogram K murni · watermark & end-card", bg: "#141B1F" },
+                { name: "Monochrome Thermal", file: "kassa-monochrome-thermal.svg", desc: "1-bit hitam-putih · struk 58/80mm", bg: "#FFFFFF" },
+                { name: "Browser Favicon", file: "favicon.svg", desc: "Dioptimalkan untuk 16–32px · 64×64", bg: "#0B1013" },
+              ].map((asset) => (
+                <div key={asset.file} className="overflow-hidden card">
+                  <div
+                    className="grid h-28 place-items-center border-b border-[var(--line)] p-4"
+                    style={{ background: asset.bg }}
+                  >
+                    <img
+                      src={`/branding/${asset.file}`}
+                      alt={asset.name}
+                      className="max-h-20 max-w-full object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-2 p-3.5">
+                    <div className="min-w-0">
+                      <div className="truncate text-xs font-bold text-[var(--ink)]">{asset.name}</div>
+                      <div className="truncate text-[11px] text-[var(--muted)]">{asset.desc}</div>
+                    </div>
+                    <a
+                      href={`/branding/${asset.file}`}
+                      download={asset.file}
+                      className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[var(--line)] px-2.5 py-1 font-mono-num text-[11px] font-semibold hover:bg-[#0b1013] hover:text-white"
+                    >
+                      <Download className="h-3 w-3" />
+                      SVG
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="mb-3 text-sm font-bold text-[var(--ink)]">Palet Warna Resmi (Klik untuk salin HEX)</h3>
+            <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {BRAND_COLORS.map((c) => (
+                <button
+                  key={c.hex}
+                  onClick={() => copyText(c.hex, `HEX ${c.hex} tersalin!`)}
+                  className="overflow-hidden card text-left transition hover:-translate-y-0.5 hover:border-[#121517]"
+                >
+                  <div className="h-16 w-full border-b border-[var(--line)]" style={{ background: c.hex }} />
+                  <div className="p-3.5">
+                    <div className="text-xs font-bold">{c.name}</div>
+                    <div className="mt-0.5 font-mono-num text-xs font-semibold text-[#0f5257]">
+                      {c.hex}
+                    </div>
+                    <div className="mt-1 text-[11px] text-[var(--muted)]">{c.role}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 

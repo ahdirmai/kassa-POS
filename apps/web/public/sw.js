@@ -1,7 +1,7 @@
 /* Kassa POS Service Worker — Focused on reliable /pos offline shell & asset caching */
-const SHELL_CACHE = "kassa-shell-v1";
-const ASSET_CACHE = "kassa-assets-v1";
-const IMAGE_CACHE = "kassa-images-v1";
+const SHELL_CACHE = "kassa-shell-v2";
+const ASSET_CACHE = "kassa-assets-v2";
+const IMAGE_CACHE = "kassa-images-v2";
 const ALL_CACHES = [SHELL_CACHE, ASSET_CACHE, IMAGE_CACHE];
 
 const PRECACHE_URLS = [
@@ -10,9 +10,13 @@ const PRECACHE_URLS = [
   "/offline.html",
   "/manifest.json",
   "/favicon.svg",
+  "/favicon.ico",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/icons/apple-touch-icon.png",
+  "/branding/kassa-icon-dark.svg",
+  "/branding/kassa-icon-light.svg",
+  "/branding/kassa-monochrome-thermal.svg",
 ];
 
 self.addEventListener("install", (event) => {
@@ -138,7 +142,9 @@ self.addEventListener("fetch", (event) => {
     url.origin === self.location.origin &&
     (url.pathname.startsWith("/_next/static/") ||
       url.pathname.startsWith("/icons/") ||
+      url.pathname.startsWith("/branding/") ||
       url.pathname === "/favicon.svg" ||
+      url.pathname === "/favicon.ico" ||
       url.pathname === "/manifest.json")
   ) {
     event.respondWith(

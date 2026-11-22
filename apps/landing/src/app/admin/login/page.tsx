@@ -48,9 +48,13 @@ export default function AdminLoginPage() {
 
         <div className="overflow-hidden rounded-2xl border border-white/12 bg-[#11181c]/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8">
           <div className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#f4f2ec] text-sm font-bold text-[#0b1013]">
-              K
-            </span>
+            <img
+              src="/branding/kassa-icon-dark.svg"
+              alt="Kassa"
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-xl border border-white/10"
+            />
             <div>
               <h1 className="text-[17px] font-semibold tracking-tight text-white">
                 Kassa Landing Admin
