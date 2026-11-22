@@ -11,7 +11,7 @@ export const registerSchema = z.object({
   ownerName: z.string().min(2, "Nama owner minimal 2 karakter").max(120),
   email: z.string().email("Format email tidak valid"),
   password: z.string().min(6, "Password minimal 6 karakter").max(100),
-  pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").optional(),
+  pin: z.string().regex(/^\d{6}$/, "PIN baru minimal 6 digit angka").optional(),
 });
 
 export const pinLoginSchema = z.object({
@@ -41,7 +41,7 @@ export const updatePlanSchema = z.object({
 });
 
 export const completeOnboardingSchema = z.object({
-  pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").optional(),
+  pin: z.string().regex(/^\d{6}$/, "PIN baru minimal 6 digit angka").optional(),
   businessType: z.enum(["COFFEE_SHOP", "RESTAURANT", "BAKERY", "FAST_FOOD", "BEVERAGE_BAR"]),
   foodTypes: z
     .array(z.enum(["COFFEE", "NON_COFFEE", "BOBA_COLD", "HEAVY_MEAL", "GRILL_WESTERN", "PASTRY_CAKE", "SNACK"]))
@@ -215,7 +215,7 @@ export const createUserSchema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email(),
   password: z.string().min(6),
-  pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").optional(),
+  pin: z.string().regex(/^\d{6}$/, "PIN baru minimal 6 digit angka").optional(),
   roleId: z.number().int().positive(),
 });
 
@@ -224,7 +224,7 @@ export const updateUserSchema = z.object({
   email: z.string().email().optional(),
   password: z.string().min(6).optional(),
   roleId: z.number().int().positive().optional(),
-  pin: z.string().regex(/^\d{4,6}$/, "PIN harus 4-6 digit angka").nullable().optional(),
+  pin: z.string().regex(/^\d{6}$/, "PIN baru minimal 6 digit angka").nullable().optional(),
   isActive: z.boolean().optional(),
 });
 

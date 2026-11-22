@@ -23,6 +23,13 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     });
   }
 
+  if (err instanceof SyntaxError && "body" in err) {
+    return res.status(400).json({
+      code: "INVALID_JSON",
+      message: "Format JSON tidak valid",
+    });
+  }
+
   if (err instanceof ZodError) {
     return res.status(400).json({
       code: "VALIDATION_ERROR",

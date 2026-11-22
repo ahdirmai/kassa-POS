@@ -7,7 +7,9 @@ import { boFetch, setStoredToken, type PlatformAdmin } from "@/lib/api";
 
 export default function BackOfficeLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("superadmin@kassa.biz.id");
+  const [email, setEmail] = useState(
+    process.env.NODE_ENV !== "production" ? "superadmin@kassa.biz.id" : "",
+  );
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ export default function BackOfficeLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-2xl border border-[var(--line-2)] bg-[var(--glass-2)] py-2.5 pl-10 pr-4 text-sm text-[var(--text)] focus:border-[var(--iris)] focus:outline-none"
-                placeholder="superadmin@kassa.biz.id"
+                placeholder="nama@perusahaan.com"
               />
             </div>
           </div>

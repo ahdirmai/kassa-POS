@@ -5,6 +5,7 @@ import { env } from "./config/env.js";
 import { createApp } from "./app.js";
 import { setSocketServer } from "./lib/socket.js";
 import { getLiveUserAuth } from "./lib/rbac-cache.js";
+import { closePinLockoutRedis } from "./lib/pin-lockout.js";
 import { prisma } from "./lib/prisma.js";
 
 const app = createApp();
@@ -67,6 +68,7 @@ server.listen(env.API_PORT, () => {
 
 async function shutdown() {
   server.close();
+  await closePinLockoutRedis();
   await prisma.$disconnect();
   process.exit(0);
 }

@@ -85,9 +85,9 @@ if echo "$CHANGED_FILES" | grep -qE "^apps/api/prisma/"; then
 fi
 
 if echo "$CHANGED_FILES" | grep -qE "^docker/nginx\.conf"; then
-  echo "==> Nginx config changed; reloading nginx..."
+  echo "==> Nginx config changed; recreating nginx container..."
+  sudo docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --force-recreate --no-deps nginx
   sudo docker exec kassa_nginx_prod nginx -t
-  sudo docker exec kassa_nginx_prod nginx -s reload
 fi
 
 echo "==> Running health checks..."

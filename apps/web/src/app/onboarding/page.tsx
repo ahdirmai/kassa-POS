@@ -91,8 +91,8 @@ export default function OnboardingPage() {
   const handleNextFromPin = () => {
     setError(null);
     if (!hasExistingPin || pin.length > 0) {
-      if (!/^\d{4,6}$/.test(pin)) {
-        setError("PIN harus terdiri dari 4 sampai 6 digit angka.");
+      if (!/^\d{6}$/.test(pin)) {
+        setError("PIN baru harus terdiri dari 6 digit angka.");
         return;
       }
       if (pin !== pinConfirm) {
@@ -113,7 +113,7 @@ export default function OnboardingPage() {
       }>("/onboarding/complete", {
         method: "POST",
         body: JSON.stringify({
-          pin: pin.length >= 4 ? pin : undefined,
+          pin: pin.length === 6 ? pin : undefined,
           businessType,
           foodTypes,
           serviceMode,
@@ -183,7 +183,7 @@ export default function OnboardingPage() {
             <div className="flex items-start gap-3 rounded-2xl bg-[var(--well)] p-4">
               <KeyRound className="mt-0.5 h-5 w-5 shrink-0 text-[var(--primary-ink)]" />
               <div className="text-xs space-y-1">
-                <div className="font-bold text-[var(--text)]">Atur PIN Owner (4–6 digit angka)</div>
+                <div className="font-bold text-[var(--text)]">Atur PIN Owner (6 digit angka)</div>
                 <p className="text-[var(--muted)]">
                   PIN digunakan untuk <strong>login cepat di layar kasir POS</strong> (bersama Kode Outlet{" "}
                   <span className="font-mono font-semibold">{user?.outletCode}</span>) serta untuk{" "}
@@ -195,13 +195,13 @@ export default function OnboardingPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">
-                  PIN Baru (4–6 digit) {hasExistingPin ? "(Opsional jika tidak diubah)" : "*"}
+                  PIN Baru (6 digit) {hasExistingPin ? "(Opsional jika tidak diubah)" : "*"}
                 </label>
                 <input
                   type="password"
                   inputMode="numeric"
                   maxLength={6}
-                  placeholder="Contoh: 2580"
+                  placeholder="Contoh: 258046"
                   className="cadra-input font-mono text-base tracking-[0.35em]"
                   value={pin}
                   onChange={(e) => setPin(e.target.value.replace(/\D/g, ""))}

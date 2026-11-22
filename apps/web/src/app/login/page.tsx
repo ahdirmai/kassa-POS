@@ -11,8 +11,7 @@ import { getDefaultHomePath } from "@/lib/rbac";
 import { KassaBrandMark } from "@/components/kassa-brand-mark";
 
 const OUTLET_CODE_STORAGE_KEY = "kassa_outlet_code";
-const SHOW_DEMO_HINTS =
-  process.env.NODE_ENV !== "production" || process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+const SHOW_DEMO_HINTS = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 export default function LoginPage() {
   const router = useRouter();

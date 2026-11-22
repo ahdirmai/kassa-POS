@@ -146,7 +146,7 @@ export default function AdminRbacPage() {
       qc.invalidateQueries({ queryKey: ["rbac-users"] });
       qc.invalidateQueries({ queryKey: ["rbac-roles"] });
       setUserModalOpen(false);
-      setNewUser({ name: "", email: "", password: "password123", pin: "", roleId: "" });
+      setNewUser({ name: "", email: "", password: "", pin: "", roleId: "" });
       pushToast("Staf baru berhasil ditambahkan", "good");
     },
     onError: (e: Error) => pushToast(e.message, "bad"),
@@ -457,8 +457,8 @@ export default function AdminRbacPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">PIN 4–6 Digit</label>
-                <input className="cadra-input" maxLength={6} placeholder="3456" value={newUser.pin} onChange={(e) => setNewUser({ ...newUser, pin: e.target.value.replace(/\D/g, "") })} />
+                <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">PIN 6 Digit</label>
+                <input className="cadra-input" maxLength={6} placeholder="345678" value={newUser.pin} onChange={(e) => setNewUser({ ...newUser, pin: e.target.value.replace(/\D/g, "") })} />
               </div>
               <div>
                 <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">Role</label>
@@ -502,7 +502,7 @@ export default function AdminRbacPage() {
                 <input type="password" className="cadra-input" placeholder="Kosongkan jika tetap" value={editUser.password} onChange={(e) => setEditUser({ ...editUser, password: e.target.value })} />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">PIN Baru 4–6 Digit (opsional)</label>
+                <label className="mb-1 block text-xs font-semibold text-[var(--muted)]">PIN Baru 6 Digit (opsional)</label>
                 <input className="cadra-input" maxLength={6} placeholder="Kosongkan jika tetap" value={editUser.pin} onChange={(e) => setEditUser({ ...editUser, pin: e.target.value.replace(/\D/g, "") })} />
               </div>
             </div>

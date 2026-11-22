@@ -16,6 +16,7 @@ import { prisma } from "../../lib/prisma.js";
 import { getLiveUserAuth, invalidateRbacCache } from "../../lib/rbac-cache.js";
 import { writeAuditLog } from "../../lib/audit.js";
 import { sendVerificationEmail } from "../../lib/mailer.js";
+import { checkPinLockout, clearPinFailures, recordPinFailure } from "../../lib/pin-lockout.js";
 import { AppError } from "../../middleware/error.js";
 import { validateBody } from "../../middleware/validate.js";
 import { requireAuth } from "../../middleware/auth.js";
@@ -24,6 +25,8 @@ export const authRouter = Router();
 
 const EMAIL_VERIFY_TTL_MS = 24 * 60 * 60 * 1000; // 24 jam
 const EMAIL_RESEND_COOLDOWN_MS = 60 * 1000; // 60 detik
+// Precomputed bcrypt hash (cost 10) untuk dummy compare agar timing respons pin-login seragam
+const DUMMY_PIN_HASH = bcrypt.hashSync("000000", 10);
 
 function hashToken(raw: string) {
   return crypto.createHash("sha256").update(raw).digest("hex");
@@ -367,34 +370,99 @@ authRouter.post("/login", validateBody(loginSchema), async (req, res, next) => {
 authRouter.post("/pin-login", validateBody(pinLoginSchema), async (req, res, next) => {
   try {
     const { pin, outletCode } = req.body;
+    const normalizedOutletCode = outletCode.trim().toUpperCase();
 
-    const outlet = await prisma.outlet.findUnique({
-      where: { code: outletCode.trim().toUpperCase() },
-    });
-    if (!outlet || !outlet.isActive) {
-      throw new AppError(404, "OUTLET_NOT_FOUND", `Kode outlet ${outletCode} tidak ditemukan atau nonaktif`);
+    // KSA-02: Cek lockout berbasis Redis per outletCode (independen dari IP)
+    const lockState = await checkPinLockout(normalizedOutletCode);
+    if (lockState.locked) {
+      req.log?.warn(
+        { outletCode: normalizedOutletCode, retryAfterSec: lockState.retryAfterSec, ip: req.ip },
+        "PIN login blocked: outlet locked out",
+      );
+      res.setHeader("Retry-After", String(lockState.retryAfterSec));
+      return res.status(429).json({
+        code: "PIN_LOCKED",
+        message: "Terlalu banyak percobaan PIN salah. Silakan coba lagi nanti.",
+        retryAfterSec: lockState.retryAfterSec,
+      });
     }
 
-    const candidates = await prisma.user.findMany({
-      where: {
-        outletId: outlet.id,
-        tenantId: outlet.tenantId,
-        pinCode: pin,
-        isActive: true,
-        deletedAt: null,
-      },
+    const outlet = await prisma.outlet.findUnique({
+      where: { code: normalizedOutletCode },
     });
 
     let matched = null;
-    for (const u of candidates) {
-      if (u.pinHash && (await bcrypt.compare(pin, u.pinHash))) {
-        matched = u;
-        break;
+    if (!outlet || !outlet.isActive) {
+      // KSA-03: Dummy hash compare agar waktu respons seragam dan mencegah outlet enumeration
+      await bcrypt.compare(pin, DUMMY_PIN_HASH);
+    } else {
+      const candidates = await prisma.user.findMany({
+        where: {
+          outletId: outlet.id,
+          tenantId: outlet.tenantId,
+          pinCode: pin,
+          isActive: true,
+          deletedAt: null,
+        },
+      });
+
+      if (candidates.length === 0) {
+        await bcrypt.compare(pin, DUMMY_PIN_HASH);
+      } else {
+        for (const u of candidates) {
+          if (u.pinHash && (await bcrypt.compare(pin, u.pinHash))) {
+            matched = u;
+            break;
+          }
+        }
       }
     }
+
     if (!matched) {
-      throw new AppError(401, "INVALID_PIN", "PIN tidak ditemukan untuk outlet ini");
+      const failure = await recordPinFailure(normalizedOutletCode);
+      req.log?.warn(
+        {
+          outletCode: normalizedOutletCode,
+          outletId: outlet?.id ?? null,
+          attempts: failure.attempts,
+          locked: failure.locked,
+          retryAfterSec: failure.retryAfterSec,
+          ip: req.ip,
+        },
+        failure.locked ? "PIN login locked out after consecutive failures" : "PIN login failed",
+      );
+
+      if (outlet) {
+        await writeAuditLog({
+          outletId: outlet.id,
+          userId: null,
+          action: failure.locked ? "AUTH_PIN_LOCKOUT" : "AUTH_PIN_FAILED",
+          entityType: "Outlet",
+          entityId: outlet.id,
+          afterValue: {
+            outletCode: normalizedOutletCode,
+            attempts: failure.attempts,
+            locked: failure.locked,
+            retryAfterSec: failure.retryAfterSec,
+          },
+          ipAddress: req.ip,
+        });
+      }
+
+      if (failure.locked) {
+        res.setHeader("Retry-After", String(failure.retryAfterSec));
+        return res.status(429).json({
+          code: "PIN_LOCKED",
+          message: "Terlalu banyak percobaan PIN salah. Silakan coba lagi nanti.",
+          retryAfterSec: failure.retryAfterSec,
+        });
+      }
+
+      // KSA-03: Respons seragam untuk outlet tidak ditemukan maupun PIN salah
+      throw new AppError(401, "INVALID_CREDENTIALS", "Kode outlet atau PIN salah");
     }
+
+    await clearPinFailures(normalizedOutletCode);
 
     const result = await issueTokensForUser(matched.id);
     await writeAuditLog({
