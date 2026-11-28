@@ -1,5 +1,5 @@
 ================================================================================
-KASSA INSTAGRAM CAROUSEL — HARI 4 (KAMIS)
+TUMPU INSTAGRAM CAROUSEL — HARI 4 (KAMIS)
 ================================================================================
 Judul       : 3 Celah Kebocoran Kasir & Kontrol Akses Staf
 Post ID     : ig-d4
@@ -21,11 +21,11 @@ Geser buat cek 3 celah kasir yang paling sering luput:
 2. 1 akun kasir dipakai ramai-ramai lintas shift
 3. Kasir bisa intip omzet harian & edit data stok
 
-Di Kassa, tiap staf login pakai PIN personal dan akses layarnya terkunci sesuai peran.
+Di Tumpu, tiap staf login pakai PIN personal dan akses layarnya terkunci sesuai peran.
 
-Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung coba di kassa.biz.id.
+Komen "AMAN" kalau mau lihat demo kontrol akses staf di Tumpu, atau langsung coba di tumpu.biz.id.
 
-#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto #kassa
+#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto #tumpu
 
 --------------------------------------------------------------------------------
 FIRST COMMENT / PINNED COMMENT
@@ -37,4 +37,4 @@ COMPANION IG STORY (2–3 SLIDE PROMPTS)
 --------------------------------------------------------------------------------
 - Slide 1 (Question Box): "Pernah ngalamin uang laci kasir selisih pas tutup shift? Biasanya paling sering gara-gara apa?"
 - Slide 2 (Teaser): Repost Slide 1 + teks "3 celah kasir yang sering nggak kelihatan owner 👀"
-- Slide 3 (Demo): Tampilkan screenshot RBAC + link kassa.biz.id
+- Slide 3 (Demo): Tampilkan screenshot RBAC + link tumpu.biz.id

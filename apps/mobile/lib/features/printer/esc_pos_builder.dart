@@ -158,7 +158,7 @@ class EscPosBuilder {
     bytes.addAll(latin1.encode('${_sanitizeAscii(outletName.toUpperCase())}\n'));
     bytes.addAll([..._sizeNormal, ..._boldOff]);
     bytes.addAll(latin1.encode('$divider\n'));
-    bytes.addAll(latin1.encode('KASSA POS — TEST PRINT OK\n'));
+    bytes.addAll(latin1.encode('TUMPU POS — TEST PRINT OK\n'));
     bytes.addAll(latin1.encode('Kertas: ${paperWidthMm}mm ($width kolom)\n'));
     bytes.addAll(latin1.encode(
         '${DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now())}\n'));

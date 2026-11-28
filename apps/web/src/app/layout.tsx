@@ -21,15 +21,15 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Kassa — POS Cafe & Rumah Makan",
+  title: "Tumpu — POS Cafe & Rumah Makan",
   description:
-    "Kassa (app.kassa.biz.id) — Sistem Point of Sale Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, dan kontrol HPP.",
+    "Tumpu (pos.tumpu.biz.id) — Sistem Point of Sale Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, dan kontrol HPP.",
   manifest: "/manifest.json",
-  applicationName: "Kassa POS",
+  applicationName: "Tumpu POS",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Kassa POS",
+    title: "Tumpu POS",
   },
   icons: {
     icon: [

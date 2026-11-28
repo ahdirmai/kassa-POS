@@ -316,7 +316,7 @@ class ReceiptModal extends StatelessWidget {
                             const SizedBox(height: 10),
                             Center(
                               child: Image.asset(
-                                'assets/branding/kassa-monochrome-thermal.png',
+                                'assets/branding/tumpu-monochrome-thermal.png',
                                 width: 52,
                                 height: 52,
                                 fit: BoxFit.contain,

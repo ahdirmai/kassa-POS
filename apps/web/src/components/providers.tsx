@@ -58,7 +58,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
     const onAppInstalled = () => {
       setDeferredInstallPrompt(null);
-      pushToast("Kassa POS berhasil di-install ke perangkat Anda", "good");
+      pushToast("Tumpu POS berhasil di-install ke perangkat Anda", "good");
     };
 
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);

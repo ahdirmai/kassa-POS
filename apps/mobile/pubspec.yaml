@@ -1,5 +1,5 @@
-name: kassa_pos
-description: "Kassa POS — Aplikasi Mobile Kasir, Meja, KDS, & Offline-First (Android & iOS)."
+name: tumpu_pos
+description: "Tumpu POS — Aplikasi Mobile Kasir, Meja, KDS, & Offline-First (Android & iOS)."
 publish_to: 'none'
 version: 1.0.0+1
 

@@ -8,7 +8,7 @@ import { boFetch, setStoredToken, type PlatformAdmin } from "@/lib/api";
 export default function BackOfficeLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState(
-    process.env.NODE_ENV !== "production" ? "superadmin@kassa.biz.id" : "",
+    process.env.NODE_ENV !== "production" ? "superadmin@tumpu.biz.id" : "",
   );
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -46,18 +46,18 @@ export default function BackOfficeLoginPage() {
       <div className="card w-full max-w-md p-8">
         <div className="flex items-center gap-3">
           <img
-            src="/branding/kassa-icon-dark.svg"
-            alt="Kassa"
+            src="/branding/tumpu-icon-dark.svg"
+            alt="Tumpu"
             width={42}
             height={42}
             className="cadra-brand__mark"
           />
           <div>
             <h1 className="text-lg font-bold tracking-tight text-[var(--ink)]">
-              Kassa Back Office
+              Tumpu Back Office
             </h1>
             <p className="text-xs text-[var(--muted)]">
-              admin.kassa.biz.id · Platform Control
+              admin.tumpu.biz.id · Platform Control
             </p>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function BackOfficeLoginPage() {
         <div className="mt-6 rounded-2xl border border-[var(--line)] bg-[var(--well)] px-4 py-3 text-xs">
           <div className="flex items-center gap-2 font-semibold text-[var(--primary-ink)]">
             <ShieldCheck className="h-4 w-4 shrink-0" />
-            Akses Internal Tim Kassa
+            Akses Internal Tim Tumpu
           </div>
           <p className="mt-1 text-[12px] text-[var(--muted)]">
             Kontrol Account Tenant, Subscription &amp; Billing, Landing CMS &amp; Leads, serta Marketing Hub.
@@ -124,7 +124,7 @@ export default function BackOfficeLoginPage() {
 
         {process.env.NODE_ENV !== "production" && (
           <p className="mt-6 text-center font-mono-num text-[11px] text-[var(--faint)]">
-            Dev mode: superadmin@kassa.biz.id / kassa-superadmin-2026
+            Dev mode: superadmin@tumpu.biz.id / tumpu-superadmin-2026
           </p>
         )}
       </div>

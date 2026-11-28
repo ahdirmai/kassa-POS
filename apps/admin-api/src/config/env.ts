@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { z } from "zod";
 
-const DEV_PLATFORM_DEFAULT = "kassa-platform-backoffice-access-secret-min-32-chars";
+const DEV_PLATFORM_DEFAULT = "tumpu-platform-backoffice-access-secret-min-32-chars";
 
 const envSchema = z
   .object({

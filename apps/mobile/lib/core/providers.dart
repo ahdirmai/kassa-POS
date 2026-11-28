@@ -12,18 +12,36 @@ final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);
 final cadraAccentProvider =
     StateProvider<CadraAccent>((ref) => CadraAccent.ocean);
 
+class RegisterResult {
+  const RegisterResult({
+    required this.email,
+    required this.message,
+    this.outletCode,
+    this.devVerifyUrl,
+  });
+
+  final String email;
+  final String message;
+  final String? outletCode;
+  final String? devVerifyUrl;
+}
+
 class AuthState {
   const AuthState({
     this.user,
     this.isInitialized = false,
     this.isLoading = false,
     this.error,
+    this.errorCode,
+    this.retryAfterSec,
   });
 
   final AuthUser? user;
   final bool isInitialized;
   final bool isLoading;
   final String? error;
+  final String? errorCode;
+  final int? retryAfterSec;
 
   bool get isAuthenticated => user != null;
 
@@ -33,6 +51,8 @@ class AuthState {
     bool? isInitialized,
     bool? isLoading,
     String? error,
+    String? errorCode,
+    int? retryAfterSec,
     bool clearError = false,
   }) {
     return AuthState(
@@ -40,6 +60,8 @@ class AuthState {
       isInitialized: isInitialized ?? this.isInitialized,
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
+      errorCode: clearError ? null : (errorCode ?? this.errorCode),
+      retryAfterSec: clearError ? null : (retryAfterSec ?? this.retryAfterSec),
     );
   }
 }
@@ -82,6 +104,10 @@ class AuthController extends StateNotifier<AuthState> {
     state = state.copyWith(isInitialized: true, clearUser: true);
   }
 
+  void clearError() {
+    state = state.copyWith(clearError: true);
+  }
+
   Future<bool> loginEmail({
     required String email,
     required String password,
@@ -97,6 +123,8 @@ class AuthController extends StateNotifier<AuthState> {
       state = state.copyWith(
         isLoading: false,
         error: ApiClient.extractErrorMessage(e),
+        errorCode: ApiClient.extractErrorCode(e),
+        retryAfterSec: ApiClient.extractRetryAfterSec(e),
       );
       return false;
     }
@@ -121,8 +149,98 @@ class AuthController extends StateNotifier<AuthState> {
       state = state.copyWith(
         isLoading: false,
         error: ApiClient.extractErrorMessage(e),
+        errorCode: ApiClient.extractErrorCode(e),
+        retryAfterSec: ApiClient.extractRetryAfterSec(e),
       );
       return false;
+    }
+  }
+
+  Future<({RegisterResult? result, String? error})> registerOwner({
+    required String businessName,
+    String? outletName,
+    required String ownerName,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final res = await _api.dio.post<Map<String, dynamic>>(
+        '/auth/register',
+        data: {
+          'businessName': businessName.trim(),
+          if (outletName != null && outletName.trim().isNotEmpty)
+            'outletName': outletName.trim(),
+          'ownerName': ownerName.trim(),
+          'email': email.trim().toLowerCase(),
+          'password': password,
+        },
+      );
+      final data = res.data ?? const <String, dynamic>{};
+      final outletCode = data['outletCode']?.toString();
+      if (outletCode != null && outletCode.isNotEmpty) {
+        await _storage.setLastOutletCode(outletCode);
+      }
+      return (
+        result: RegisterResult(
+          email: (data['email'] ?? email.trim().toLowerCase()).toString(),
+          message: (data['message'] ??
+                  'Pendaftaran berhasil! Cek email Anda untuk konfirmasi.')
+              .toString(),
+          outletCode: outletCode,
+          devVerifyUrl: data['devVerifyUrl']?.toString(),
+        ),
+        error: null,
+      );
+    } catch (e) {
+      return (result: null, error: ApiClient.extractErrorMessage(e));
+    }
+  }
+
+  Future<({String? message, String? devVerifyUrl, String? error})>
+      resendVerificationEmail(String email) async {
+    try {
+      final res = await _api.dio.post<Map<String, dynamic>>(
+        '/auth/resend-verification',
+        data: {'email': email.trim().toLowerCase()},
+      );
+      final data = res.data ?? const <String, dynamic>{};
+      return (
+        message: (data['message'] ?? 'Email konfirmasi telah dikirim ulang!')
+            .toString(),
+        devVerifyUrl: data['devVerifyUrl']?.toString(),
+        error: null,
+      );
+    } catch (e) {
+      return (
+        message: null,
+        devVerifyUrl: null,
+        error: ApiClient.extractErrorMessage(e),
+      );
+    }
+  }
+
+  /// Verifikasi email memakai raw token atau full URL (`/verify-email?token=...`).
+  Future<({bool ok, String? error})> verifyEmailToken(String tokenOrUrl) async {
+    var token = tokenOrUrl.trim();
+    final uri = Uri.tryParse(token);
+    if (uri != null && uri.queryParameters['token'] != null) {
+      token = uri.queryParameters['token']!.trim();
+    }
+    if (token.isEmpty) {
+      return (ok: false, error: 'Token verifikasi tidak valid');
+    }
+    state = state.copyWith(isLoading: true, clearError: true);
+    try {
+      final res = await _api.dio.post<Map<String, dynamic>>(
+        '/auth/verify-email',
+        data: {'token': token},
+      );
+      final ok = await _handleAuthResponse(res.data);
+      return (ok: ok, error: ok ? null : 'Verifikasi gagal');
+    } catch (e) {
+      final msg = ApiClient.extractErrorMessage(e);
+      state = state.copyWith(isLoading: false, error: msg);
+      return (ok: false, error: msg);
     }
   }
 
@@ -185,9 +303,9 @@ final apiClientProvider = Provider<ApiClient>((ref) {
   return ref.watch(authControllerProvider.notifier).api;
 });
 
-final socketServiceProvider = Provider<KassaSocketService>((ref) {
+final socketServiceProvider = Provider<TumpuSocketService>((ref) {
   final storage = ref.watch(tokenStorageProvider);
-  final service = KassaSocketService(storage);
+  final service = TumpuSocketService(storage);
   ref.onDispose(service.dispose);
   return service;
 });

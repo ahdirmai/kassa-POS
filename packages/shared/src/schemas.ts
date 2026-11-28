@@ -243,7 +243,7 @@ export const RESERVED_DIGITAL_MENU_SLUGS = new Set([
   "preview",
   "sitemap",
   "robots",
-  "kassa",
+  "tumpu",
   "menu",
   "p",
   "pos",

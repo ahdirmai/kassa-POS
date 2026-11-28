@@ -64,7 +64,7 @@ async function callDeployAgent<T>(
     throw new AppError(
       502,
       "DEPLOY_AGENT_UNREACHABLE",
-      "Tidak dapat terhubung ke kassa-webhook Deploy Agent di host VM.",
+      "Tidak dapat terhubung ke tumpu-webhook Deploy Agent di host VM.",
       err instanceof Error ? err.message : undefined,
     );
   } finally {

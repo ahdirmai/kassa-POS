@@ -44,7 +44,7 @@ export default function AdminDashboardClient({
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem("kassa-landing-theme");
+    const saved = localStorage.getItem("tumpu-landing-theme");
     const isDark = saved === "dark";
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
@@ -72,7 +72,7 @@ export default function AdminDashboardClient({
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("kassa-landing-theme", next ? "dark" : "light");
+    localStorage.setItem("tumpu-landing-theme", next ? "dark" : "light");
   };
 
   const handleSaveContent = async () => {
@@ -138,15 +138,15 @@ export default function AdminDashboardClient({
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
           <div className="flex items-center gap-3">
             <img
-              src="/branding/kassa-icon-dark.svg"
-              alt="Kassa"
+              src="/branding/tumpu-icon-dark.svg"
+              alt="Tumpu"
               width={34}
               height={34}
               className="h-8.5 w-8.5 rounded-lg"
             />
             <div>
               <div className="text-[14.5px] font-semibold tracking-tight">
-                Kassa Landing Admin
+                Tumpu Landing Admin
               </div>
               <div className="font-mono-num text-[11px] text-[var(--ink-muted)]">
                 {adminEmail}

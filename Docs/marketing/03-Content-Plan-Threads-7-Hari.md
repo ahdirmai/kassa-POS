@@ -1,11 +1,11 @@
-# 03 — Content Plan Threads 7 Hari — Kassa (`kassa.biz.id`)
+# 03 — Content Plan Threads 7 Hari — Tumpu (`tumpu.biz.id`)
 
 **Aturan Main Threads Indonesia:**
 - Tulis seperti **manusia ngobrol**, bukan brosur iklan. Hindari hashtag berlebihan (0–1 hashtag saja atau tanpa hashtag).
 - **Pola 3 Post/Hari:**
   - **Pagi (`08.00 – 09.30`):** Opini singkat / pertanyaan pancing diskusi (*reply-bait* sehat untuk owner F&B).
   - **Siang (`12.30 – 13.30`):** Mini-thread edukasi (3–4 balasan) atau cerita di balik layar.
-  - **Malam (`19.30 – 21.00`):** Soft-sell / demo singkat / tautan ke `kassa.biz.id` (taruh link di reply pertama jika ingin jangkauan organik lebih tinggi).
+  - **Malam (`19.30 – 21.00`):** Soft-sell / demo singkat / tautan ke `tumpu.biz.id` (taruh link di reply pertama jika ingin jangkauan organik lebih tinggi).
 
 ---
 
@@ -20,17 +20,17 @@
 
 ### Post 2 (Siang — Build-in-Public / Mini-Thread)
 - **Post Utama:**
-  > Salah satu alasan kami bikin Kassa: banyak pemilik kedai kopi yang baru jalan, tapi tiap bulan sudah habis Rp200rb–Rp350rb cuma buat langganan aplikasi kasir + add-on stok + layar dapur.
+  > Salah satu alasan kami bikin Tumpu: banyak pemilik kedai kopi yang baru jalan, tapi tiap bulan sudah habis Rp200rb–Rp350rb cuma buat langganan aplikasi kasir + add-on stok + layar dapur.
   >
   > Padahal margin awal itu tipis banget. 🧵
 - **Reply 1:**
   > Akhirnya banyak yang milih pakai kasir gratisan yang terbatas, lalu stok & HPP dicatat manual di Excel—yang ujung-ujungnya cuma bertahan 2 minggu sebelum bolong lagi.
 - **Reply 2:**
-  > Di Kassa, kami gabungin semua yang beneran dipakai harian: kasir offline, layar dapur (KDS), potong stok otomatis, dan kunci akses staf.
+  > Di Tumpu, kami gabungin semua yang beneran dipakai harian: kasir offline, layar dapur (KDS), potong stok otomatis, dan kunci akses staf.
   >
   > Starter tetap gratis selamanya buat 1 outlet. Versi Pro all-in cuma Rp49.000/bulan (~Rp1.600/hari).
 - **Reply 3:**
-  > Yang mau lihat tampilannya atau tes langsung di browser HP/tablet, mampir aja ke `kassa.biz.id`. Masukan dari teman-teman F&B sangat kami tunggu 🙌
+  > Yang mau lihat tampilannya atau tes langsung di browser HP/tablet, mampir aja ke `tumpu.biz.id`. Masukan dari teman-teman F&B sangat kami tunggu 🙌
 
 ### Post 3 (Malam — Short Observation)
 > Reminder buat owner F&B hari Senin:
@@ -59,11 +59,11 @@
 ### Post 3 (Malam — Soft Demo + Screenshot HPP)
 > *(Lampirkan screenshot `07-stock.png` atau kartu HPP)*
 >
-> Hal kecil yang ternyata paling disukai owner cafe di Kassa: beli kopi tetap input dalam **kg**, beli sirup dalam **botol**, tapi di resep cukup tulis **18 gram** atau **25 ml**.
+> Hal kecil yang ternyata paling disukai owner cafe di Tumpu: beli kopi tetap input dalam **kg**, beli sirup dalam **botol**, tapi di resep cukup tulis **18 gram** atau **25 ml**.
 >
 > Begitu kasir klik lunas, stok otomatis berkurang dan HPP langsung kebaca.
 >
-> Detail lengkapnya ada di `kassa.biz.id`.
+> Detail lengkapnya ada di `tumpu.biz.id`.
 
 ---
 
@@ -82,16 +82,16 @@
 - **Reply 1:**
   > Cukup pakai tablet Android lama atau monitor bekas yang bisa buka browser.
   >
-  > Di Kassa, pesanan kopi otomatis masuk ke layar Bar, makanan masuk ke layar Dapur. Ada timer otomatis juga biar ketahuan pesanan mana yang sudah lewat 10 menit.
+  > Di Tumpu, pesanan kopi otomatis masuk ke layar Bar, makanan masuk ke layar Dapur. Ada timer otomatis juga biar ketahuan pesanan mana yang sudah lewat 10 menit.
 - **Reply 2:**
   > Staf tinggal geser kartu: Masuk → Dimasak → Siap Saji. Kertas thermal lebih hemat, dapur jauh lebih tenang.
 
 ### Post 3 (Malam — Visual Showcase)
 > *(Lampirkan screenshot `03-kds.png`)*
 >
-> Tampilan layar dapur Kassa. Bersih, kontras jelas, dan bisa drag & drop antar status. Sudah termasuk di paket Rp49rb/bulan tanpa biaya add-on.
+> Tampilan layar dapur Tumpu. Bersih, kontras jelas, dan bisa drag & drop antar status. Sudah termasuk di paket Rp49rb/bulan tanpa biaya add-on.
 >
-> Tes demonya di `kassa.biz.id`.
+> Tes demonya di `tumpu.biz.id`.
 
 ---
 
@@ -113,11 +113,11 @@
 ### Post 3 (Malam — Soft-Sell RBAC)
 > *(Lampirkan screenshot `08-rbac.png`)*
 >
-> Di Kassa, kalau staf login pakai PIN Kasir, yang kebuka ya cuma layar Kasir POS. Menu laporan omzet, stok, dan pengaturan otomatis hilang dan terkunci.
+> Di Tumpu, kalau staf login pakai PIN Kasir, yang kebuka ya cuma layar Kasir POS. Menu laporan omzet, stok, dan pengaturan otomatis hilang dan terkunci.
 >
 > Pergantian shift pagi ke sore cukup tap PIN 4 digit. 3 detik beres.
 >
-> Cek langsung di `kassa.biz.id`.
+> Cek langsung di `tumpu.biz.id`.
 
 ---
 
@@ -128,10 +128,10 @@
 >
 > Jualan kopi Rp25 ribuan, tapi biaya aplikasi kasir + fitur stok + layar dapur bisa tembus Rp300rb/bulan. Belum lagi kalau kena komisi per transaksi.
 >
-> Makanya di Kassa kami patok **Rp49.000/outlet/bulan** (~Rp1.600/hari) sudah all-in, dan **Rp0 komisi transaksi**.
+> Makanya di Tumpu kami patok **Rp49.000/outlet/bulan** (~Rp1.600/hari) sudah all-in, dan **Rp0 komisi transaksi**.
 
 ### Post 2 (Siang — Perbandingan Singkat)
-> Buat yang nanya bedanya paket Gratis vs Pro di Kassa:
+> Buat yang nanya bedanya paket Gratis vs Pro di Tumpu:
 >
 > **Starter (Rp0 / Gratis selamanya):**
 > Kasir POS, mode offline tunai, struk thermal 58/80mm, tutup shift & Z-Report, sampai 5 akun PIN.
@@ -139,7 +139,7 @@
 > **Pro (Rp49.000/bulan):**
 > Semua fitur Starter + Layar Dapur (KDS) + Stok & HPP otomatis + Kontrol akses staf + Laporan CSV.
 >
-> Nggak ada biaya tersembunyi. Kalau masih mau tes di 1 outlet, pakai yang gratis dulu aja → `kassa.biz.id`.
+> Nggak ada biaya tersembunyi. Kalau masih mau tes di 1 outlet, pakai yang gratis dulu aja → `tumpu.biz.id`.
 
 ### Post 3 (Malam — Engagement Ringan)
 > Jumat malam biasanya jam paling sibuk di cafe & resto. Semangat buat semua owner, barista, kasir, dan tim dapur yang lagi lembur malam ini ☕🔥
@@ -158,7 +158,7 @@
 ### Post 2 (Siang — Visual Mobile POS)
 > *(Lampirkan screenshot `10-pos-mobile.png`)*
 >
-> Ini tampilan Kassa kalau dibuka dari HP. Pas weekend outlet penuh, pramusaji bisa langsung catat pesanan di meja tamu, dan tiket langsung muncul di dapur.
+> Ini tampilan Tumpu kalau dibuka dari HP. Pas weekend outlet penuh, pramusaji bisa langsung catat pesanan di meja tamu, dan tiket langsung muncul di dapur.
 >
 > Ringan, langsung dari browser, tanpa install ribet.
 
@@ -178,7 +178,7 @@
 >
 > Kalau data ini masih susah dilihat tanpa ngitung manual, saatnya rapikan sistem kasirnya.
 
-### Post 2 (Siang — Recap 4 Langkah Kassa)
+### Post 2 (Siang — Recap 4 Langkah Tumpu)
 > Kalau kamu punya cafe, coffee shop, atau rumah makan dan pengen sistem yang simpel dari depan sampai belakang:
 >
 > 1. Kasir 1-tap (tetap jalan saat Wi-Fi mati)
@@ -186,7 +186,7 @@
 > 3. Stok & HPP terpotong otomatis per porsi
 > 4. Tutup shift Z-Report & akses staf terkunci
 >
-> Semuanya bisa dicoba langsung di `kassa.biz.id` (Gratis untuk Starter, atau Trial Pro 14 hari cuma Rp49rb/bulan).
+> Semuanya bisa dicoba langsung di `tumpu.biz.id` (Gratis untuk Starter, atau Trial Pro 14 hari cuma Rp49rb/bulan).
 
 ### Post 3 (Malam — Open Q&A)
 > Ada owner cafe/resto di sini yang lagi cari aplikasi kasir tapi masih bingung soal printer Bluetooth, hitung PB1 10%, atau cara pindahin menu?

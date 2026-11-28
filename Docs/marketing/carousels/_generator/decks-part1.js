@@ -24,15 +24,15 @@ Geser buat lihat:
 
 Simpan postingan ini buat bahan evaluasi outlet minggu ini 📌
 
-Mau lihat contoh setup resep & HPP otomatis di Kassa?
-Komen "HPP" biar kami kirim link demonya ke DM, atau langsung coba gratis di kassa.biz.id.
+Mau lihat contoh setup resep & HPP otomatis di Tumpu?
+Komen "HPP" biar kami kirim link demonya ke DM, atau langsung coba gratis di tumpu.biz.id.
 
-#hppkuliner #bisniskopi #ownercoffee #manajemenresto #aplikasikasir #kassa`,
+#hppkuliner #bisniskopi #ownercoffee #manajemenresto #aplikasikasir #tumpu`,
     firstComment: `Boleh tulis di kolom komentar: di outlet kamu sekarang masih hitung stok pakai Excel mingguan, atau sudah auto-potong dari kasir? 👇`,
     stories: [
       "Slide 1 (Poll): \"Jujur, stok susu & kopi di outlet pernah habis lebih cepat dari catatan penjualan?\" [Sering banget 😅 / Aman terkendali ✅]",
       "Slide 2 (Teaser): Share Slide 3 (Breakdown HPP Rp7.450) dengan stiker \"Cek hitungan lengkapnya di feed terbaru 👆\"",
-      "Slide 3 (CTA): Link sticker ke kassa.biz.id — \"Coba Trial Pro 14 Hari · Auto potong stok & HPP\"",
+      "Slide 3 (CTA): Link sticker ke tumpu.biz.id — \"Coba Trial Pro 14 Hari · Auto potong stok & HPP\"",
     ],
     slides: [
       {
@@ -134,30 +134,30 @@ Komen "HPP" biar kami kirim link demonya ke DM, atau langsung coba gratis di kas
       },
       {
         theme: "light",
-        eyebrow: "SOLUSI DI KASSA",
+        eyebrow: "SOLUSI DI TUMPU",
         rightTag: "AUTO HPP & STOK",
         html: `
           <h2 class="h2-slide">Transaksi lunas, stok <span class="serif">terpotong otomatis.</span></h2>
-          <p class="body-sm">Input belanja tetap pakai kg/liter/botol, resep pakai gram/ml. Kassa otomatis konversi satuan dan hitung HPP per menu.</p>
+          <p class="body-sm">Input belanja tetap pakai kg/liter/botol, resep pakai gram/ml. Tumpu otomatis konversi satuan dan hitung HPP per menu.</p>
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/stock</span>
+              <span class="device-url">pos.tumpu.biz.id/stock</span>
             </div>
-            <img class="device-img" src="{{IMG:07-stock.png}}" alt="Stok & HPP Otomatis Kassa" />
+            <img class="device-img" src="{{IMG:07-stock.png}}" alt="Stok & HPP Otomatis Tumpu" />
           </div>
         `,
       },
       {
         theme: "dark",
         eyebrow: "MULAI MINGGU INI",
-        rightTag: "KASSA PRO",
+        rightTag: "TUMPU PRO",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">TRIAL GRATIS 14 HARI</span>
             <h1 class="h1-cover dark">Rapikan stok &amp; HPP <span class="serif-dark">tanpa ribet Excel.</span></h1>
             <p class="lead dark">Sudah termasuk Kasir Offline, Layar Dapur (KDS), Multi-Outlet, dan potong stok resep otomatis. Rp0 komisi transaksi.</p>
-            <div class="cta-btn">Pro Rp49.000/outlet/bln · kassa.biz.id</div>
+            <div class="cta-btn">Pro Rp49.000/outlet/bln · tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"HPP"</strong> di bawah untuk link demo langsung ke DM</div>
           </div>
         `,
@@ -186,16 +186,16 @@ Geser buat cek 3 celah kasir yang paling sering luput:
 2. 1 akun kasir dipakai ramai-ramai lintas shift
 3. Kasir bisa intip omzet harian & edit data stok
 
-Di Kassa, tiap staf login pakai PIN personal dan akses layarnya terkunci sesuai peran.
+Di Tumpu, tiap staf login pakai PIN personal dan akses layarnya terkunci sesuai peran.
 
-Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung coba di kassa.biz.id.
+Komen "AMAN" kalau mau lihat demo kontrol akses staf di Tumpu, atau langsung coba di tumpu.biz.id.
 
-#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto #kassa`,
+#manajemencafe #kasirpintar #antifraud #bisnisfnb #ownerresto #tumpu`,
     firstComment: `Di outlet kamu sekarang, kalau ada pelanggan batalin order setelah struk tercetak, kasir bisa langsung hapus sendiri atau wajib izin Manager? Share SOP kamu ya 👇`,
     stories: [
       "Slide 1 (Question Box): \"Pernah ngalamin uang laci kasir selisih pas tutup shift? Biasanya paling sering gara-gara apa?\"",
       "Slide 2 (Teaser): Repost Slide 1 + teks \"3 celah kasir yang sering nggak kelihatan owner 👀\"",
-      "Slide 3 (Demo): Tampilkan screenshot RBAC + link kassa.biz.id",
+      "Slide 3 (Demo): Tampilkan screenshot RBAC + link tumpu.biz.id",
     ],
     slides: [
       {
@@ -223,7 +223,7 @@ Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung cob
           <h2 class="h2-slide">Void / hapus pesanan <span class="serif">tanpa izin owner.</span></h2>
           <p class="body">Pelanggan sudah bayar tunai, struk tercetak, lalu pesanan dibatalkan sepihak di sistem tanpa jejak. 1 void fiktif Rp50rb/hari = <strong>Rp1,5 juta hilang per bulan.</strong></p>
           <div class="solution-card">
-            <div class="mono-label teal">SOLUSI DI KASSA</div>
+            <div class="mono-label teal">SOLUSI DI TUMPU</div>
             <div class="sol-title">Wajib PIN Manager &amp; Audit Log Permanen</div>
             <p class="sol-desc">Setiap pembatalan atau diskon khusus wajib otorisasi PIN Manager/Owner dan tercatat otomatis lengkap dengan jam &amp; nama staf.</p>
           </div>
@@ -238,7 +238,7 @@ Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung cob
           <h2 class="h2-slide">Semua staf pakai <span class="serif">1 akun yang sama.</span></h2>
           <p class="body">Begitu Shift Pagi dan Shift Sore berbagi login yang sama, saat laci kasir selisih Rp75.000 di malam hari, owner tidak pernah tahu terjadi di shift siapa.</p>
           <div class="solution-card">
-            <div class="mono-label teal">SOLUSI DI KASSA</div>
+            <div class="mono-label teal">SOLUSI DI TUMPU</div>
             <div class="sol-title">PIN Personal 4–6 Digit per Staf</div>
             <p class="sol-desc">Ganti shift cukup 3 detik lewat keypad PIN. Rekap tunai &amp; Z-Report Shift Pagi dan Shift Sore otomatis terpisah rapi.</p>
           </div>
@@ -258,22 +258,22 @@ Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung cob
           <div class="device-frame compact">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/staff-roles</span>
+              <span class="device-url">pos.tumpu.biz.id/staff-roles</span>
             </div>
-            <img class="device-img tall-sm" src="{{IMG:08-rbac.png}}" alt="Kontrol Akses Peran Kassa" />
+            <img class="device-img tall-sm" src="{{IMG:08-rbac.png}}" alt="Kontrol Akses Peran Tumpu" />
           </div>
         `,
       },
       {
         theme: "dark",
         eyebrow: "TENANG TINGGALKAN OUTLET",
-        rightTag: "KASSA",
+        rightTag: "TUMPU",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">KONTROL AKSES PERAN</span>
             <h1 class="h1-cover dark">Sistem rapi bikin staf nyaman, <span class="serif-dark">owner tenang.</span></h1>
             <p class="lead dark">Atur akses Owner, Manager, Kasir, dan Dapur dalam 1 menit. Mulai gratis (1 outlet, 3 akun) atau Pro Rp49rb/bln.</p>
-            <div class="cta-btn">Amankan Outlet di kassa.biz.id</div>
+            <div class="cta-btn">Amankan Outlet di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"AMAN"</strong> biar kami kirim demo kontrol staf ke DM</div>
           </div>
         `,
@@ -297,20 +297,20 @@ Komen "AMAN" kalau mau lihat demo kontrol akses staf di Kassa, atau langsung cob
 
 Padahal jualan kopi Rp25 ribuan, masa marginnya habis cuma buat bayar langganan aplikasi?
 
-Di Kassa Pro, semuanya sudah jadi satu:
+Di Tumpu Pro, semuanya sudah jadi satu:
 • Rp49.000 / outlet / bulan (~Rp1.600 / hari)
 • Rp0 komisi transaksi
 • Sudah termasuk POS Offline, Layar Dapur (KDS), Auto Stok & HPP, Kontrol Staf, dan Multi-Outlet
 
 Mau coba tanpa keluar uang dulu? Ada paket Starter Rp0 selamanya (1 outlet, 3 akun, khusus POS).
 
-Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
+Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik tumpu.biz.id di bio.
 
-#aplikasikasirmurah #posindonesia #umkmkuliner #bisniskopi #poscafe #kassa`,
-    firstComment: `Harga 2 gelas es kopi susu per bulan untuk sistem kasir + dapur + stok yang bikin tidur lebih nyenyak ☕ Cek detailnya di kassa.biz.id`,
+#aplikasikasirmurah #posindonesia #umkmkuliner #bisniskopi #poscafe #tumpu`,
+    firstComment: `Harga 2 gelas es kopi susu per bulan untuk sistem kasir + dapur + stok yang bikin tidur lebih nyenyak ☕ Cek detailnya di tumpu.biz.id`,
     stories: [
       "Slide 1 (Dark Editorial): Repost Slide 1 — \"Rp1.600/hari sudah dapat POS Offline + KDS + Auto Stok & HPP\"",
-      "Slide 2 (Link CTA): \"Pilih Starter Rp0 atau Trial Pro 14 Hari\" + link sticker kassa.biz.id",
+      "Slide 2 (Link CTA): \"Pilih Starter Rp0 atau Trial Pro 14 Hari\" + link sticker tumpu.biz.id",
     ],
     slides: [
       {
@@ -319,7 +319,7 @@ Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
         rightTag: "SWIPE →",
         html: `
           <div class="luxury-hero">
-            <span class="pill gold-dark">KASSA PRO · ALL-IN</span>
+            <span class="pill gold-dark">TUMPU PRO · ALL-IN</span>
             <div class="big-price">Rp49rb</div>
             <div class="price-meta">/ OUTLET / BULAN &nbsp;·&nbsp; ~Rp1.600 / HARI</div>
             <div class="gold-divider"></div>
@@ -371,7 +371,7 @@ Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
               </div>
             </div>
           </div>
-          <div class="cta-btn">Daftar Gratis di kassa.biz.id</div>
+          <div class="cta-btn">Daftar Gratis di tumpu.biz.id</div>
           <div class="cta-sub">Komen <strong>"PRO"</strong> untuk aktifkan Trial Gratis 14 Hari</div>
         `,
       },
@@ -387,12 +387,12 @@ Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
     day: 7,
     dayLabel: "Minggu",
     time: "18:30 WIB",
-    dmKeyword: "KASSA",
+    dmKeyword: "TUMPU",
     title: "Recap 4 Langkah: Rapikan Outlet Mulai Senin Besok",
     themeLabel: "Light Editorial + Dark CTA",
     caption: `Besok sudah Senin lagi. Saatnya pindah dari bon kertas yang sering hilang & rekap Excel manual ke satu alur operasional yang rapi dari depan sampai belakang.
 
-4 langkah sederhana di Kassa:
+4 langkah sederhana di Tumpu:
 01. Kasir 1-tap (tetap jalan saat Wi-Fi mati)
 02. Tiket otomatis muncul di Layar Dapur (KDS)
 03. Stok bahan baku & HPP terpotong otomatis
@@ -400,14 +400,14 @@ Komen "PRO" untuk link Trial Gratis 14 Hari, atau klik kassa.biz.id di bio.
 
 Setup awalnya cuma butuh 5 menit—cukup masukkan 5 menu terlaris dulu buat tes langsung dari HP atau tablet kamu.
 
-Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daftar gratis di kassa.biz.id.
+Ada pertanyaan soal printer Bluetooth atau PB1? Komen "TUMPU" atau langsung daftar gratis di tumpu.biz.id.
 
-#bisniskuliner #poscafe #posresto #manajemenoutlet #operasionalcafe #kassa`,
-    firstComment: `Siap masuk hari Senin dengan sistem kasir yang jauh lebih tenang? Drop pertanyaan kamu soal setup Kassa di komentar ya 👇`,
+#bisniskuliner #poscafe #posresto #manajemenoutlet #operasionalcafe #tumpu`,
+    firstComment: `Siap masuk hari Senin dengan sistem kasir yang jauh lebih tenang? Drop pertanyaan kamu soal setup Tumpu di komentar ya 👇`,
     stories: [
       "Slide 1 (Sunday Check-in): \"Minggu sore enaknya siapin outlet buat Senin besok. Sudah rapi kasir & stoknya?\"",
       "Slide 2 (Swipe Recap): Share Slide 1 (Alur 01→04) ke Story",
-      "Slide 3 (CTA): Link sticker kassa.biz.id — \"Setup 5 menit, mulai Rp0\"",
+      "Slide 3 (CTA): Link sticker tumpu.biz.id — \"Setup 5 menit, mulai Rp0\"",
     ],
     slides: [
       {
@@ -435,11 +435,11 @@ Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daft
           <div class="dual-shot">
             <div class="shot-card">
               <div class="shot-head"><span class="mono teal bold">01 · KASIR POS (OFFLINE-READY)</span><span class="pill good">1-TAP</span></div>
-              <img class="shot-img" src="{{IMG:02-pos.png}}" alt="Kasir POS Kassa" />
+              <img class="shot-img" src="{{IMG:02-pos.png}}" alt="Kasir POS Tumpu" />
             </div>
             <div class="shot-card">
               <div class="shot-head"><span class="mono teal bold">02 · LAYAR DAPUR (KDS KANBAN)</span><span class="pill warn">REALTIME</span></div>
-              <img class="shot-img" src="{{IMG:03-kds.png}}" alt="Layar Dapur KDS Kassa" />
+              <img class="shot-img" src="{{IMG:03-kds.png}}" alt="Layar Dapur KDS Tumpu" />
             </div>
           </div>
         `,
@@ -452,11 +452,11 @@ Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daft
           <div class="dual-shot">
             <div class="shot-card">
               <div class="shot-head"><span class="mono teal bold">03 · STOK &amp; HPP TERPOTONG OTOMATIS</span><span class="pill good">AUTO</span></div>
-              <img class="shot-img" src="{{IMG:07-stock.png}}" alt="Stok & HPP Kassa" />
+              <img class="shot-img" src="{{IMG:07-stock.png}}" alt="Stok & HPP Tumpu" />
             </div>
             <div class="shot-card">
               <div class="shot-head"><span class="mono teal bold">04 · DASHBOARD OWNER &amp; Z-REPORT</span><span class="pill teal-soft">LIVE</span></div>
-              <img class="shot-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Owner Kassa" />
+              <img class="shot-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Owner Tumpu" />
             </div>
           </div>
         `,
@@ -469,13 +469,13 @@ Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daft
           <h2 class="h2-slide">Cuma butuh 5 menit <span class="serif">buat mulai:</span></h2>
           <div class="split-mobile">
             <div class="list-card tight">
-              <div class="list-row"><span class="badge-num teal">01</span><span>Buka <strong>kassa.biz.id</strong> dari HP atau tablet</span></div>
+              <div class="list-row"><span class="badge-num teal">01</span><span>Buka <strong>tumpu.biz.id</strong> dari HP atau tablet</span></div>
               <div class="list-row"><span class="badge-num teal">02</span><span>Input 5 menu terlaris outlet dulu</span></div>
               <div class="list-row"><span class="badge-num teal">03</span><span>Sambung printer thermal Bluetooth</span></div>
               <div class="list-row"><span class="badge-num teal">04</span><span>Langsung tes transaksi pertama</span></div>
             </div>
             <div class="phone-frame">
-              <img class="phone-img" src="{{IMG:10-pos-mobile.png}}" alt="Kassa Mobile POS" />
+              <img class="phone-img" src="{{IMG:10-pos-mobile.png}}" alt="Tumpu Mobile POS" />
             </div>
           </div>
         `,
@@ -483,14 +483,14 @@ Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daft
       {
         theme: "dark",
         eyebrow: "SIAP UNTUK SENIN?",
-        rightTag: "KASSA",
+        rightTag: "TUMPU",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">TANPA KARTU KREDIT</span>
             <h1 class="h1-cover dark">Mulai gratis hari ini. <span class="serif-dark">Outlet rapi besok.</span></h1>
             <p class="lead dark">Starter Rp0 selamanya (1 Outlet, 3 Akun) atau Pro Rp49.000/bulan (Multi-Outlet, KDS, Stok &amp; HPP).</p>
-            <div class="cta-btn">Daftar 2 Menit di kassa.biz.id</div>
-            <div class="cta-sub">Komen <strong>"KASSA"</strong> atau chat WA di link bio</div>
+            <div class="cta-btn">Daftar 2 Menit di tumpu.biz.id</div>
+            <div class="cta-sub">Komen <strong>"TUMPU"</strong> atau chat WA di link bio</div>
           </div>
         `,
       },
@@ -514,19 +514,19 @@ Ada pertanyaan soal printer Bluetooth atau PB1? Komen "KASSA" atau langsung daft
 Modal setup kasir yang rapi sebenarnya cukup Rp250 ribuan:
 • HP Android / iPad bekas yang sudah ada: Rp0
 • Printer Thermal Bluetooth 58mm + kertas: ~Rp250.000
-• Kassa Starter (1 outlet, 3 akun, offline POS): Rp0 selamanya
+• Tumpu Starter (1 outlet, 3 akun, offline POS): Rp0 selamanya
 
 Sisa modal Rp4,5 juta lebih baik dipakai buat beli biji kopi, bahan baku berkualitas, dan promosi pembukaan.
 
 Simpan carousel ini buat checklist buka outlet kamu 📌
 Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim rekomendasinya ke DM!
 
-#bukacafe #modalusaha #printerbluetooth #posumkm #tipsbisniskopi #kassa`,
+#bukacafe #modalusaha #printerbluetooth #posumkm #tipsbisniskopi #tumpu`,
     firstComment: `Teman-teman owner F&B, printer thermal Bluetooth 58mm/80mm merek apa yang paling awet di outlet kalian? Bantu share buat calon owner baru ya 👇`,
     stories: [
       "Slide 1 (Poll): \"Pas baru buka usaha F&B, kasir pertama kamu pakai apa?\" [Mesin POS jutaan / HP + Printer Bluetooth]",
       "Slide 2 (Share Feed): Share Slide 1 (Setup Kasir Modal Rp250rb) — \"Hemat Rp4,5 juta di bulan pertama!\"",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Jalan di HP, Tablet & Laptop\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Jalan di HP, Tablet & Laptop\"",
     ],
     slides: [
       {
@@ -541,7 +541,7 @@ Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim
               <div class="data-table">
                 <div class="data-row"><span>HP / Tablet yang sudah ada</span><span class="mono good bold">Rp0</span></div>
                 <div class="data-row"><span>Printer Thermal Bluetooth 58mm</span><span class="mono bold">~Rp250.000</span></div>
-                <div class="data-row"><span>Kassa Starter (1 Outlet, 3 Akun)</span><span class="mono good bold">Rp0</span></div>
+                <div class="data-row"><span>Tumpu Starter (1 Outlet, 3 Akun)</span><span class="mono good bold">Rp0</span></div>
                 <div class="data-row total"><span>Total Modal Kasir Awal</span><span class="mono teal">~Rp250.000</span></div>
               </div>
             </div>
@@ -555,7 +555,7 @@ Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim
         html: `
           <div class="step-num">01</div>
           <h2 class="h2-slide">Pakai HP Android atau iPad <span class="serif">yang sudah ada.</span></h2>
-          <p class="body">Kassa berbasis web &amp; PWA ringan—langsung jalan di browser HP Android, iPhone, iPad, maupun laptop tanpa harus beli perangkat terkunci.</p>
+          <p class="body">Tumpu berbasis web &amp; PWA ringan—langsung jalan di browser HP Android, iPhone, iPad, maupun laptop tanpa harus beli perangkat terkunci.</p>
           <div class="pill-row">
             <span class="chip">Android</span>
             <span class="chip">iPhone / iPad</span>
@@ -574,7 +574,7 @@ Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim
         html: `
           <div class="step-num">02</div>
           <h2 class="h2-slide">Printer Thermal Bluetooth <span class="serif">58mm (~Rp250rb).</span></h2>
-          <p class="body">Tanpa tinta, cukup isi ulang kertas thermal Rp3.000-an per roll. Kassa mendukung standar 58mm maupun 80mm (Bluetooth &amp; USB).</p>
+          <p class="body">Tanpa tinta, cukup isi ulang kertas thermal Rp3.000-an per roll. Tumpu mendukung standar 58mm maupun 80mm (Bluetooth &amp; USB).</p>
           <div class="compare-grid">
             <div class="card-surface compact">
               <span class="pill teal-soft">58MM · HEMAT</span>
@@ -595,26 +595,26 @@ Bingung pilih merek printer Bluetooth yang awet? Komen "PRINTER" biar kami kirim
         rightTag: "SOFTWARE Rp0",
         html: `
           <h2 class="h2-slide">Atur struk &amp; printer <span class="serif">dalam 1 menit.</span></h2>
-          <p class="body-sm">Pasangkan printer Bluetooth di Pengaturan Kassa, isi nama &amp; alamat kedai, struk langsung tercetak rapi.</p>
+          <p class="body-sm">Pasangkan printer Bluetooth di Pengaturan Tumpu, isi nama &amp; alamat kedai, struk langsung tercetak rapi.</p>
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/settings</span>
+              <span class="device-url">pos.tumpu.biz.id/settings</span>
             </div>
-            <img class="device-img" src="{{IMG:09-settings.png}}" alt="Pengaturan Printer Kassa" />
+            <img class="device-img" src="{{IMG:09-settings.png}}" alt="Pengaturan Printer Tumpu" />
           </div>
         `,
       },
       {
         theme: "dark",
         eyebrow: "HEMAT Rp4,5 JUTA DI BULAN PERTAMA",
-        rightTag: "KASSA STARTER",
+        rightTag: "TUMPU STARTER",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">STARTER Rp0 SELAMANYA</span>
             <h1 class="h1-cover dark">Modal hemat buat kasir, <span class="serif-dark">fokus ke rasa &amp; promo.</span></h1>
             <p class="lead dark">Starter gratis untuk 1 outlet (3 akun, POS Offline + Struk 58/80mm). Upgrade ke Pro Rp49rb/bln kapan saja.</p>
-            <div class="cta-btn">Mulai Gratis di kassa.biz.id</div>
+            <div class="cta-btn">Mulai Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"PRINTER"</strong> untuk daftar printer Bluetooth yang cocok</div>
           </div>
         `,
@@ -642,17 +642,17 @@ Geser buat simpan panduan ringkasnya:
 • Beda PB1 10% (Pajak Daerah) vs Service Charge 5%
 • Contoh urutan hitungan struk yang benar (Subtotal → Service → PB1 10%)
 • Kapan pakai harga Inklusif vs Eksklusif
-• Cara setting otomatis sekali klik di Pengaturan Outlet Kassa
+• Cara setting otomatis sekali klik di Pengaturan Outlet Tumpu
 
 Simpan biar kasir nggak perlu pencet kalkulator manual lagi 📌
-Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
+Komen "PB1" atau langsung coba atur otomatis di tumpu.biz.id.
 
-#pajakresto #pb1 #bisniscafe #operasionalresto #aplikasikasir #kassa`,
+#pajakresto #pb1 #bisniscafe #operasionalresto #aplikasikasir #tumpu`,
     firstComment: `Di outlet kamu, harga menu di buku menu sudah termasuk pajak (inklusif) atau belum termasuk (eksklusif)? Tulis di bawah ya 👇`,
     stories: [
       "Slide 1 (Quiz): \"Pajak 10% di struk cafe/restoran itu namanya...\" [A. PPN / B. PB1 ✅]",
       "Slide 2 (Teaser): Share Slide 3 (Contoh Struk Rapi Subtotal + Service + PB1) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Atur pajak otomatis sekali klik\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Atur pajak otomatis sekali klik\"",
     ],
     slides: [
       {
@@ -684,13 +684,13 @@ Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
         rightTag: "PENGATURAN OUTLET",
         html: `
           <h2 class="h2-slide">Aktifkan sekali di <span class="serif">Pengaturan Outlet.</span></h2>
-          <p class="body-sm">Cukup tentukan persentase PB1 &amp; Service Charge di Kassa. Setiap transaksi langsung terhitung rapi di layar kasir &amp; struk.</p>
+          <p class="body-sm">Cukup tentukan persentase PB1 &amp; Service Charge di Tumpu. Setiap transaksi langsung terhitung rapi di layar kasir &amp; struk.</p>
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/settings/tax</span>
+              <span class="device-url">pos.tumpu.biz.id/settings/tax</span>
             </div>
-            <img class="device-img" src="{{IMG:09-settings.png}}" alt="Pengaturan Pajak PB1 Kassa" />
+            <img class="device-img" src="{{IMG:09-settings.png}}" alt="Pengaturan Pajak PB1 Tumpu" />
           </div>
         `,
       },
@@ -701,7 +701,7 @@ Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
         html: `
           <h2 class="h2-slide">Contoh hitungan <span class="serif">struk yang benar.</span></h2>
           <div class="receipt-card">
-            <div class="receipt-head">KASSA COFFEE &amp; EATERY · MEJA 04</div>
+            <div class="receipt-head">TUMPU COFFEE &amp; EATERY · MEJA 04</div>
             <div class="receipt-line"><span>2× Es Kopi Susu Aren</span><span class="mono">Rp56.000</span></div>
             <div class="receipt-line"><span>1× Nasi Goreng Spesial</span><span class="mono">Rp44.000</span></div>
             <div class="receipt-dash"></div>
@@ -734,13 +734,13 @@ Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
       {
         theme: "dark",
         eyebrow: "BEBAS HITUNG MANUAL",
-        rightTag: "KASSA",
+        rightTag: "TUMPU",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">STRUK &amp; LAPORAN RAPI</span>
             <h1 class="h1-cover dark">Atur pajak sekali, <span class="serif-dark">beres setiap hari.</span></h1>
             <p class="lead dark">Total PB1 &amp; Service Charge otomatis terpisah di laporan CSV bulanan. Mulai gratis di Starter Rp0 atau Pro Rp49rb/bln.</p>
-            <div class="cta-btn">Coba Gratis di kassa.biz.id</div>
+            <div class="cta-btn">Coba Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"PB1"</strong> kalau mau panduan setup struk outlet kamu</div>
           </div>
         `,
@@ -770,14 +770,14 @@ Sebelum keluar uang langganan tahunan atau beli hardware jutaan, cek dulu 5 kesa
 05. Kena potongan komisi per transaksi yang menggerus margin
 
 Simpan carousel ini sebelum kamu memilih POS untuk outlet kamu 📌
-Mau bandingkan langsung? Komen "DEMO" atau cek kassa.biz.id.
+Mau bandingkan langsung? Komen "DEMO" atau cek tumpu.biz.id.
 
-#tipsbisnisfnb #poscafe #ownercoffee #aplikasikasir #bisniskuliner #kassa`,
+#tipsbisnisfnb #poscafe #ownercoffee #aplikasikasir #bisniskuliner #tumpu`,
     firstComment: `Dari 5 poin di atas, mana yang paling sering bikin owner F&B kaget setelah terlanjur langganan? Nomor 1 atau nomor 2? 👇`,
     stories: [
       "Slide 1 (Hook): \"Mau langganan aplikasi kasir? Stop dulu, cek 5 jebakan ini sebelum transfer 👇\"",
       "Slide 2 (Teaser): Share Slide 2 (Jebakan Biaya Add-On) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Pro Rp49rb/bln All-In · Rp0 Komisi\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Pro Rp49rb/bln All-In · Rp0 Komisi\"",
     ],
     slides: [
       {
@@ -862,13 +862,13 @@ Mau bandingkan langsung? Komen "DEMO" atau cek kassa.biz.id.
       {
         theme: "dark",
         eyebrow: "TRANSPARAN SEJAK HARI PERTAMA",
-        rightTag: "KASSA PRO",
+        rightTag: "TUMPU PRO",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">ALL-IN · Rp0 KOMISI</span>
             <h1 class="h1-cover dark">Satu harga jelas: <span class="serif-dark">Rp49rb/outlet/bln.</span></h1>
             <p class="lead dark">Offline-ready, KDS, Auto Stok &amp; HPP, RBAC staf, jalan di HP/tablet Anda. Atau mulai dari Starter Rp0 selamanya.</p>
-            <div class="cta-btn">Coba Demo Gratis di kassa.biz.id</div>
+            <div class="cta-btn">Coba Demo Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"DEMO"</strong> untuk kirim link langsung ke DM</div>
           </div>
         `,

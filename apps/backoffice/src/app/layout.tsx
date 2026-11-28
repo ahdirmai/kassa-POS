@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kassa Back Office — Platform Control Center",
-  description: "Pusat kendali Account, Subscription, Landing, dan Marketing untuk ekosistem Kassa POS.",
+  title: "Tumpu Back Office — Platform Control Center",
+  description: "Pusat kendali Account, Subscription, Landing, dan Marketing untuk ekosistem Tumpu POS.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },

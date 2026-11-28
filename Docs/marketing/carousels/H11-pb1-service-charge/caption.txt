@@ -1,5 +1,5 @@
 ================================================================================
-KASSA INSTAGRAM CAROUSEL — HARI 11 (KAMIS)
+TUMPU INSTAGRAM CAROUSEL — HARI 11 (KAMIS)
 ================================================================================
 Judul       : Cara Hitung PB1 10% & Service Charge Otomatis di Struk Cafe
 Post ID     : ig-d11
@@ -20,12 +20,12 @@ Geser buat simpan panduan ringkasnya:
 • Beda PB1 10% (Pajak Daerah) vs Service Charge 5%
 • Contoh urutan hitungan struk yang benar (Subtotal → Service → PB1 10%)
 • Kapan pakai harga Inklusif vs Eksklusif
-• Cara setting otomatis sekali klik di Pengaturan Outlet Kassa
+• Cara setting otomatis sekali klik di Pengaturan Outlet Tumpu
 
 Simpan biar kasir nggak perlu pencet kalkulator manual lagi 📌
-Komen "PB1" atau langsung coba atur otomatis di kassa.biz.id.
+Komen "PB1" atau langsung coba atur otomatis di tumpu.biz.id.
 
-#pajakresto #pb1 #bisniscafe #operasionalresto #aplikasikasir #kassa
+#pajakresto #pb1 #bisniscafe #operasionalresto #aplikasikasir #tumpu
 
 --------------------------------------------------------------------------------
 FIRST COMMENT / PINNED COMMENT
@@ -37,4 +37,4 @@ COMPANION IG STORY (2–3 SLIDE PROMPTS)
 --------------------------------------------------------------------------------
 - Slide 1 (Quiz): "Pajak 10% di struk cafe/restoran itu namanya..." [A. PPN / B. PB1 ✅]
 - Slide 2 (Teaser): Share Slide 3 (Contoh Struk Rapi Subtotal + Service + PB1) ke Story
-- Slide 3 (CTA): Link kassa.biz.id — "Atur pajak otomatis sekali klik"
+- Slide 3 (CTA): Link tumpu.biz.id — "Atur pajak otomatis sekali klik"

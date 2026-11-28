@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="grid min-h-dvh place-items-center text-sm text-[var(--muted)]">
-      Memuat Kassa...
+      Memuat Tumpu...
     </div>
   );
 }

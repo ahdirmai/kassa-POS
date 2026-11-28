@@ -21,7 +21,7 @@ import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { apiFetch } from "@/lib/api";
 import { ADMIN_ROUTES, canAccessPath, getDefaultHomePath, getFirstAdminPath, isRouteAllowed } from "@/lib/rbac";
-import { KassaBrandMark } from "@/components/kassa-brand-mark";
+import { TumpuBrandMark } from "@/components/tumpu-brand-mark";
 
 export function CadraShell({
   title,
@@ -74,7 +74,7 @@ export function CadraShell({
       const target = getDefaultHomePath(hasPermission, plan);
       pushToast(
         isFree
-          ? "Fitur ini khusus Kassa Pro (Rp49rb/bln). Paket Free hanya mendukung Kasir POS."
+          ? "Fitur ini khusus Tumpu Pro (Rp49rb/bln). Paket Free hanya mendukung Kasir POS."
           : "Akses ditolak: role Anda tidak memiliki izin untuk halaman ini",
         "warn",
       );
@@ -188,10 +188,10 @@ export function CadraShell({
         {/* Top Bar */}
         <header className="cadra-top">
           <Link href={brandHref} className="cadra-brand">
-            <KassaBrandMark />
+            <TumpuBrandMark />
             <span className="cadra-brand__text">
-              <b>Kassa</b>
-              <small>{mounted && user?.outletName ? user.outletName : "Kassa POS"}</small>
+              <b>Tumpu</b>
+              <small>{mounted && user?.outletName ? user.outletName : "Tumpu POS"}</small>
             </span>
           </Link>
 
@@ -264,7 +264,7 @@ export function CadraShell({
                   }
                 }}
                 className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[var(--rim)] bg-[var(--ink)] px-3 py-1.5 text-[11px] font-bold text-[var(--on-ink)] shadow-sm transition hover:opacity-90"
-                title="Install Kassa POS sebagai Aplikasi"
+                title="Install Tumpu POS sebagai Aplikasi"
               >
                 <Download className="h-3.5 w-3.5" />
                 Install App
@@ -313,7 +313,7 @@ export function CadraShell({
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div className="min-w-0">
             <div className="mb-1 text-xs font-semibold text-[var(--muted)]">
-              {mounted && user?.outletName ? user.outletName : "Kassa"} › <span className="text-[var(--primary-ink)]">{crumb ?? title}</span>
+              {mounted && user?.outletName ? user.outletName : "Tumpu"} › <span className="text-[var(--primary-ink)]">{crumb ?? title}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">{title}</h1>
           </div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Tumpu Icon Light">
+  <rect width="512" height="512" rx="112" fill="#F6F4EF" stroke="#E2DFD7" stroke-width="6"/>
+  <!-- Architectural T Monogram (Light Mode) -->
+  <path fill="#0B1013" d="M112 124H330L294 184H112V124Z"/>
+  <path fill="#0B1013" d="M224 182H288V388H224V182Z"/>
+  <!-- Right Deep Petrol cantilevered wing -->
+  <path fill="#0F5257" d="M350 124H400L364 184H314L350 124Z"/>
+</svg>

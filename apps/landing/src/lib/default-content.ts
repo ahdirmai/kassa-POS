@@ -2,12 +2,12 @@ import type { LandingContent } from "./types";
 
 export const DEFAULT_LANDING_CONTENT: LandingContent = {
   general: {
-    brandName: "Kassa",
-    domain: "kassa.biz.id",
-    appUrl: "https://app.kassa.biz.id",
+    brandName: "Tumpu",
+    domain: "tumpu.biz.id",
+    appUrl: "https://pos.tumpu.biz.id",
     waNumber: "62895388220777",
     waMessage:
-      "Halo tim Kassa, saya ingin tanya soal Kassa POS untuk outlet saya.",
+      "Halo tim Tumpu, saya ingin tanya soal Tumpu POS untuk outlet saya.",
   },
   hero: {
     badge: "POS Cafe & Rumah Makan · Rp49rb/bln",
@@ -116,7 +116,7 @@ export const DEFAULT_LANDING_CONTENT: LandingContent = {
       desc: "Khusus Kasir POS untuk kedai yang baru mulai.",
       featured: false,
       cta: "Mulai Gratis",
-      href: "https://app.kassa.biz.id/register",
+      href: "https://pos.tumpu.biz.id/register",
       items: [
         "1 Outlet & 2 Staf (total 3 akun)",
         "Kasir POS & Hold Bill",
@@ -134,12 +134,12 @@ export const DEFAULT_LANDING_CONTENT: LandingContent = {
       desc: "All-in kasir, layar dapur KDS, stok HPP, multi-outlet & Menu Digital SEO.",
       featured: true,
       cta: "Mulai Paket Pro",
-      href: "https://app.kassa.biz.id/register?plan=pro",
+      href: "https://pos.tumpu.biz.id/register?plan=pro",
       items: [
         "Semua fitur Starter + hingga 20 outlet & 200 akun",
         "Layar Dapur (KDS) Kanban realtime",
         "Stok bahan baku, resep (BOM) & HPP otomatis",
-        "Menu Digital QR & SEO (kassa.biz.id/p/namacafe)",
+        "Menu Digital QR & SEO (tumpu.biz.id/p/namacafe)",
         "Role RBAC kustom, laporan CSV & log aktivitas",
       ],
     },

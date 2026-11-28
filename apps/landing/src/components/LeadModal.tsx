@@ -57,7 +57,7 @@ export default function LeadModal({
       let utm: { utmSource?: string; utmMedium?: string; utmCampaign?: string } = {};
       try {
         const params = new URLSearchParams(window.location.search);
-        const saved = JSON.parse(sessionStorage.getItem("kassa_utm") || "{}") as typeof utm;
+        const saved = JSON.parse(sessionStorage.getItem("tumpu_utm") || "{}") as typeof utm;
         utm = {
           utmSource: params.get("utm_source") || saved.utmSource,
           utmMedium: params.get("utm_medium") || saved.utmMedium,
@@ -140,7 +140,7 @@ export default function LeadModal({
               Terima kasih, {name}!
             </h4>
             <p className="mt-2 text-[14px] leading-relaxed text-[var(--ink-secondary)]">
-              Permintaan Anda sudah tercatat. Tim Kassa akan menghubungi via
+              Permintaan Anda sudah tercatat. Tim Tumpu akan menghubungi via
               WhatsApp dalam waktu dekat untuk demo dan bantu setup outlet.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">

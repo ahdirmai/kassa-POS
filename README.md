@@ -1,15 +1,15 @@
-# Kassa POS Ecosystem
+# Tumpu POS Ecosystem
 
-Monorepo terpadu untuk seluruh ekosistem **Kassa** dengan pemisahan ketat antara layanan **Tenant POS (`app` / `app-api`)** dan **Platform Back Office (`admin` / `admin-api`)**:
+Monorepo terpadu untuk seluruh ekosistem **Tumpu** dengan pemisahan ketat antara layanan **Tenant POS (`pos` / `app-api`)** dan **Platform Back Office (`admin` / `admin-api`)**:
 
 ```text
 Pos/
 ├── apps/
-│   ├── api/            # POS API (`app-api.kassa.biz.id`, port 4000) — Express + Prisma + MySQL 8 + Socket.IO
-│   ├── admin-api/      # Back Office API (`admin-api.kassa.biz.id`, port 4001) — Platform Auth, Tenants, Billing, Audit
-│   ├── web/            # POS Web App (`app.kassa.biz.id`, port 3000) — Next.js 15
-│   ├── landing/        # Landing Page (`kassa.biz.id`, port 3005) — Next.js 15
-│   ├── backoffice/     # Back Office Web (`admin.kassa.biz.id`, port 3006) — Next.js 15
+│   ├── api/            # POS API (`app-api.tumpu.biz.id`, port 4000) — Express + Prisma + MySQL 8 + Socket.IO
+│   ├── admin-api/      # Back Office API (`admin-api.tumpu.biz.id`, port 4001) — Platform Auth, Tenants, Billing, Audit
+│   ├── web/            # POS Web App (`pos.tumpu.biz.id`, port 3000) — Next.js 15
+│   ├── landing/        # Landing Page (`tumpu.biz.id`, port 3005) — Next.js 15
+│   ├── backoffice/     # Back Office Web (`admin.tumpu.biz.id`, port 3006) — Next.js 15
 │   └── mobile/         # POS Mobile App (Android & iOS) — Flutter
 ├── packages/
 │   └── shared/         # @pos/shared — Zod schemas, kalkulasi total, konversi satuan, & PLAN_POLICIES
@@ -38,11 +38,11 @@ pnpm dev
 
 | Layanan | Perintah Individual | URL Lokal | Domain Produksi |
 |---|---|---|---|
-| **POS API** (`apps/api`) | `pnpm dev:api` | `http://localhost:4000` | `app-api.kassa.biz.id` |
-| **Back Office API** (`apps/admin-api`) | `pnpm dev:admin-api` | `http://localhost:4001` | `admin-api.kassa.biz.id` |
-| **POS Web** (`apps/web`) | `pnpm dev:web` | `http://localhost:3000` | `app.kassa.biz.id` |
-| **Landing Page** (`apps/landing`) | `pnpm dev:landing` | `http://localhost:3005` | `kassa.biz.id` |
-| **Back Office Web** (`apps/backoffice`) | `pnpm dev:backoffice` | `http://localhost:3006` | `admin.kassa.biz.id` |
+| **POS API** (`apps/api`) | `pnpm dev:api` | `http://localhost:4000` | `app-api.tumpu.biz.id` |
+| **Back Office API** (`apps/admin-api`) | `pnpm dev:admin-api` | `http://localhost:4001` | `admin-api.tumpu.biz.id` |
+| **POS Web** (`apps/web`) | `pnpm dev:web` | `http://localhost:3000` | `pos.tumpu.biz.id` |
+| **Landing Page** (`apps/landing`) | `pnpm dev:landing` | `http://localhost:3005` | `tumpu.biz.id` |
+| **Back Office Web** (`apps/backoffice`) | `pnpm dev:backoffice` | `http://localhost:3006` | `admin.tumpu.biz.id` |
 
 ## PWA, Mode Offline & Auto Sync (`apps/web`)
 
@@ -55,9 +55,9 @@ Aplikasi kasir POS (`apps/web`, fokus rute `/pos`) sudah mendukung **Progressive
 
 ## Brand Identity & Aset Resmi (`assets/branding`)
 
-Seluruh aplikasi (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`) dan dokumen HTML (`docs/`) menggunakan paket identitas visual resmi **Kassa** (*Editorial Hospitality-Tech* — Monogram `K` dengan aksen *Warm Brass* `#D9A962` di atas *Deep Espresso* `#0B1013`):
+Seluruh aplikasi (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`) dan dokumen HTML (`docs/`) menggunakan paket identitas visual resmi **Tumpu** (*Editorial Hospitality-Tech* — Monogram `K` dengan aksen *Warm Brass* `#D9A962` di atas *Deep Espresso* `#0B1013`):
 
-- **Sumber Tunggal (Source of Truth):** [`assets/branding/`](./assets/branding/) — berisi `favicon.svg`, `kassa-icon-dark.svg`, `kassa-icon-light.svg`, `kassa-lockup-dark.svg`, `kassa-lockup-light.svg`, `kassa-mark-transparent.svg`, `kassa-monochrome-thermal.svg`, `brand-tokens.css`, dan panduan lengkap di [`assets/branding/BRAND-IDENTITY.md`](./assets/branding/BRAND-IDENTITY.md).
+- **Sumber Tunggal (Source of Truth):** [`assets/branding/`](./assets/branding/) — berisi `favicon.svg`, `tumpu-icon-dark.svg`, `tumpu-icon-light.svg`, `tumpu-lockup-dark.svg`, `tumpu-lockup-light.svg`, `tumpu-mark-transparent.svg`, `tumpu-monochrome-thermal.svg`, `brand-tokens.css`, dan panduan lengkap di [`assets/branding/BRAND-IDENTITY.md`](./assets/branding/BRAND-IDENTITY.md).
 - **Web & PWA:** Setiap aplikasi Next.js menyertakan `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, ikon PWA, `brand-tokens.css`, serta salinan SVG di `public/branding/`.
 - **Mobile (Flutter):** Ikon launcher Android (`mipmap-*`), iOS (`AppIcon.appiconset`), splash screen (`launch_background.xml` / `LaunchScreen.storyboard`), dan aset UI/struk thermal di `apps/mobile/assets/branding/`.
 
@@ -73,12 +73,12 @@ Seluruh strategi pemasaran 30 hari, brief produksi, dan aset konten Instagram si
 Registrasi Owner baru mewajibkan konfirmasi email (*strict verification*) sebelum dapat login:
 
 - **Alur:** `POST /api/v1/auth/register` → kirim tautan konfirmasi ke `/verify-email?token=...` (berlaku 24 jam, token sekali pakai) → `POST /api/v1/auth/verify-email` otomatis mengaktifkan akun dan mengarahkan ke `/onboarding` (lengkap dengan foto produk pada 19 template menu seeder). Akun staf yang dibuat Owner via RBAC otomatis terverifikasi.
-- **Provider (`apps/api/src/lib/mailer.ts`):** Mode `EMAIL_PROVIDER=auto` otomatis memilih **Resend API** jika `RESEND_API_KEY` diisi (rekomendasi untuk domain Cloudflare `noreply@kassa.biz.id`, lengkap dengan `Idempotency-Key` & retry backoff), **SMTP (`nodemailer`)** jika `SMTP_HOST` diisi, atau **Console Mode** di dev lokal.
+- **Provider (`apps/api/src/lib/mailer.ts`):** Mode `EMAIL_PROVIDER=auto` otomatis memilih **Resend API** jika `RESEND_API_KEY` diisi (rekomendasi untuk domain Cloudflare `noreply@tumpu.biz.id`, lengkap dengan `Idempotency-Key` & retry backoff), **SMTP (`nodemailer`)** jika `SMTP_HOST` diisi, atau **Console Mode** di dev lokal.
 - **Konfigurasi Env:** Lihat variabel `APP_WEB_URL`, `EMAIL_PROVIDER`, `EMAIL_FROM`, `RESEND_API_KEY`, dan `SMTP_*` di [`.env.example`](./.env.example).
 
 ## Landing Page / Digital Menu Pro & Upgrade via WhatsApp
 
-- **Digital Menu Publik (`kassa.biz.id/p/[slug]`):** Fitur khusus paket **Kassa Pro** yang dikelola dari `app.kassa.biz.id/admin/digital-menu`, lengkap dengan SSR Next.js, metadata SEO dinamis, JSON-LD Schema.org (`CafeOrCoffeeShop`, `hasMenu`, `BreadcrumbList`), dynamic `sitemap.xml`, dan `robots.txt`.
-- **Upgrade Pro via WhatsApp:** Tombol aktivasi paket Kassa Pro pada `app.kassa.biz.id/admin/outlets` langsung mengarah ke WhatsApp resmi Kassa (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi profil bisnis & tenant.
+- **Digital Menu Publik (`tumpu.biz.id/p/[slug]`):** Fitur khusus paket **Tumpu Pro** yang dikelola dari `pos.tumpu.biz.id/admin/digital-menu`, lengkap dengan SSR Next.js, metadata SEO dinamis, JSON-LD Schema.org (`CafeOrCoffeeShop`, `hasMenu`, `BreadcrumbList`), dynamic `sitemap.xml`, dan `robots.txt`.
+- **Upgrade Pro via WhatsApp:** Tombol aktivasi paket Tumpu Pro pada `pos.tumpu.biz.id/admin/outlets` langsung mengarah ke WhatsApp resmi Tumpu (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi profil bisnis & tenant.
 
 Lihat riwayat perubahan lengkap di [CHANGELOG.md](./CHANGELOG.md).

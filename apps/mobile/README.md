@@ -1,4 +1,4 @@
-# kassa_pos
+# tumpu_pos
 
 A new Flutter project.
 

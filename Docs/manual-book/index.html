@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manual Book — Kassa POS (kassa.biz.id)</title>
+  <title>Manual Book — Tumpu POS (tumpu.biz.id)</title>
   <link rel="icon" type="image/svg+xml" href="../../assets/branding/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -275,32 +275,32 @@
       <div>
         <div class="brand-row">
           <div class="brand-mark">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="52" height="52" role="img" aria-label="Kassa Icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="52" height="52" role="img" aria-label="Tumpu Icon">
               <rect width="512" height="512" rx="112" fill="#0B1013"/>
               <rect x="24" y="24" width="464" height="464" rx="92" fill="#141B1F" stroke="#222C31" stroke-width="2"/>
-              <path fill="#F6F4EF" d="M138 124H198V229L292 124H364L250 250L368 388H294L198 274V388H138V124Z"/>
-              <path fill="#F6F4EF" d="M214 124H270L214 186V124Z"/>
-              <path fill="#D9A962" d="M380 124H402L286 250L406 388H384L264 250L380 124Z"/>
+              <path fill="#F6F4EF" d="M112 124H330L294 184H112V124Z"/>
+              <path fill="#F6F4EF" d="M224 182H288V388H224V182Z"/>
+              <path fill="#D9A962" d="M350 124H400L364 184H314L350 124Z"/>
             </svg>
           </div>
           <div>
-            <div style="font-weight:800;font-size:20px;letter-spacing:-0.02em;">Kassa</div>
-            <div style="font-size:12px;opacity:.75;">kassa.biz.id · app.kassa.biz.id · Single-Tenant F&amp;B POS</div>
+            <div style="font-weight:800;font-size:20px;letter-spacing:-0.02em;">Tumpu</div>
+            <div style="font-size:12px;opacity:.75;">tumpu.biz.id · pos.tumpu.biz.id · Single-Tenant F&amp;B POS</div>
           </div>
         </div>
 
         <div style="margin-top:46px;">
           <span class="pill">USER MANUAL BOOK · VERSI 1.0</span>
-          <h1>Panduan Operasional<br/>Kassa POS Cafe &amp; Rumah Makan</h1>
+          <h1>Panduan Operasional<br/>Tumpu POS Cafe &amp; Rumah Makan</h1>
           <p class="lead">
-            Buku panduan lengkap untuk Owner, Manager, Kasir, dan Tim Dapur/Bar dalam mengoperasikan Kassa POS,
+            Buku panduan lengkap untuk Owner, Manager, Kasir, dan Tim Dapur/Bar dalam mengoperasikan Tumpu POS,
             Kitchen Display Kanban realtime, manajemen menu &amp; add-on dinamis, stok bahan baku fleksibel &amp; HPP,
             mode offline, serta RBAC dinamis.
           </p>
         </div>
 
         <div class="ss-box" style="margin-top:26px;border-color:rgba(255,255,255,.18);background:#0f1722;">
-          <img src="screenshots/02-pos.png" alt="Preview Layar Kasir Kassa" />
+          <img src="screenshots/02-pos.png" alt="Preview Layar Kasir Tumpu" />
         </div>
       </div>
 
@@ -346,7 +346,7 @@
       <div class="chapter-tag">Bab 1</div>
       <h2 class="chapter">Login &amp; Hak Akses Per Role</h2>
       <p>
-        Kassa mendukung dua cara masuk di halaman <b><code>/login</code></b>: <b>PIN Cepat (4–6 digit)</b> untuk kasir dan tim dapur
+        Tumpu mendukung dua cara masuk di halaman <b><code>/login</code></b>: <b>PIN Cepat (4–6 digit)</b> untuk kasir dan tim dapur
         agar pergantian shift berlangsung dalam hitungan detik, serta <b>Email &amp; Password</b> untuk Owner/Manager.
       </p>
 
@@ -364,7 +364,7 @@
       </table>
 
       <div class="ss-box">
-        <img src="screenshots/01-login.png" alt="Halaman Login PIN Cepat Kassa" />
+        <img src="screenshots/01-login.png" alt="Halaman Login PIN Cepat Tumpu" />
         <div class="ss-cap">Gambar 1.1 — Halaman Login PIN Cepat 4–6 digit &amp; Tab Email Admin.</div>
       </div>
 
@@ -447,7 +447,7 @@
       </ul>
 
       <div class="ss-box">
-        <img src="screenshots/04-dashboard.png" alt="Dashboard Owner Kassa" />
+        <img src="screenshots/04-dashboard.png" alt="Dashboard Owner Tumpu" />
         <div class="ss-cap">Gambar 4.1 — Dashboard Owner dengan KPI utama, grafik jam ramai, metode bayar, peringatan stok, dan menu terlaris.</div>
       </div>
     </section>
@@ -520,12 +520,12 @@
       <h3>7.2 Pengaturan Pajak, Tema &amp; Audit Log (<code>/admin/settings</code>)</h3>
       <p>
         Atur nama bisnis, tarif <b>PB1 (%)</b>, <b>Service Charge (%)</b>, <b>Pembulatan (Rp)</b>, teks footer struk, mode tampilan <b>Light/Dark</b>,
-        serta <b>5 aksen warna Kassa</b> (Ocean, Sage, Coral, Amber, Mono). Di sisi kanan tersaji <b>Audit Log Immutable</b> yang merekam seluruh aksi penting (login, buka/tutup shift, void, refund, waste, perubahan RBAC).
+        serta <b>5 aksen warna Tumpu</b> (Ocean, Sage, Coral, Amber, Mono). Di sisi kanan tersaji <b>Audit Log Immutable</b> yang merekam seluruh aksi penting (login, buka/tutup shift, void, refund, waste, perubahan RBAC).
       </p>
 
       <div class="ss-box">
         <img src="screenshots/09-settings.png" alt="Pengaturan Bisnis dan Audit Log" />
-        <div class="ss-cap">Gambar 7.2 — Pengaturan Pajak PB1/Service, pilihan Tema &amp; 5 Aksen Kassa, serta Audit Log Immutable.</div>
+        <div class="ss-cap">Gambar 7.2 — Pengaturan Pajak PB1/Service, pilihan Tema &amp; 5 Aksen Tumpu, serta Audit Log Immutable.</div>
       </div>
     </section>
 

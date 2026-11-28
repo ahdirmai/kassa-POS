@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" width="820" height="220" role="img" aria-label="Tumpu Full Logo Light">
+  <rect width="820" height="220" rx="28" fill="#F6F4EF"/>
+  <!-- Icon Badge -->
+  <g transform="translate(44, 34) scale(0.296)">
+    <rect width="512" height="512" rx="112" fill="#0B1013"/>
+    <path fill="#F6F4EF" d="M112 124H330L294 184H112V124Z"/>
+    <path fill="#F6F4EF" d="M224 182H288V388H224V182Z"/>
+    <path fill="#D9A962" d="M350 124H400L364 184H314L350 124Z"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="234" y="132" fill="#121517" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="96" font-weight="700" letter-spacing="-3">Tumpu</text>
+  <text x="238" y="168" fill="#0F5257" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="19" font-weight="600" letter-spacing="2.4">BUSINESS OPERATING SUITE · TUMPU.BIZ.ID</text>
+</svg>

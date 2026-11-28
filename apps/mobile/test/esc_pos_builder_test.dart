@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kassa_pos/core/widgets/receipt_modal.dart';
-import 'package:kassa_pos/features/printer/esc_pos_builder.dart';
+import 'package:tumpu_pos/core/widgets/receipt_modal.dart';
+import 'package:tumpu_pos/features/printer/esc_pos_builder.dart';
 
 void main() {
   group('EscPosBuilder', () {

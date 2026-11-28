@@ -5,8 +5,8 @@ import 'core/theme/cadra_theme.dart';
 import 'features/auth/login_screen.dart';
 import 'features/home/home_shell.dart';
 
-class KassaPosApp extends ConsumerWidget {
-  const KassaPosApp({super.key});
+class TumpuPosApp extends ConsumerWidget {
+  const TumpuPosApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +15,7 @@ class KassaPosApp extends ConsumerWidget {
     final authState = ref.watch(authControllerProvider);
 
     return MaterialApp(
-      title: 'Kassa POS',
+      title: 'Tumpu POS',
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
       theme: CadraTheme.build(Brightness.light, accent),
@@ -29,7 +29,7 @@ class KassaPosApp extends ConsumerWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(18),
                       child: Image.asset(
-                        'assets/branding/kassa-icon-dark.png',
+                        'assets/branding/tumpu-icon-dark.png',
                         width: 72,
                         height: 72,
                       ),

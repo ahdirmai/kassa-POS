@@ -65,7 +65,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
 
     final activeIdx = _selectedIndex.clamp(0, destinations.length - 1);
     final active = destinations[activeIdx];
-    final isWide = MediaQuery.sizeOf(context).width >= 900;
+    final isWide = MediaQuery.sizeOf(context).width >= 760;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +74,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
-                'assets/branding/kassa-icon-dark.png',
+                'assets/branding/tumpu-icon-dark.png',
                 width: 28,
                 height: 28,
                 fit: BoxFit.cover,

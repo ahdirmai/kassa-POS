@@ -286,7 +286,7 @@ rbacRouter.post(
         throw new AppError(
           403,
           "PLAN_LIMIT_REACHED",
-          `Batas paket ${req.user!.plan} tercapai (maksimal ${req.user!.maxUsers} akun: 1 Owner + ${req.user!.maxUsers - 1} Staf). Upgrade ke Kassa Pro (Rp49.000/bln) untuk menambah staf.`,
+          `Batas paket ${req.user!.plan} tercapai (maksimal ${req.user!.maxUsers} akun: 1 Owner + ${req.user!.maxUsers - 1} Staf). Upgrade ke Tumpu Pro (Rp49.000/bln) untuk menambah staf.`,
         );
       }
 
@@ -387,7 +387,7 @@ rbacRouter.patch(
           throw new AppError(
             403,
             "PLAN_LIMIT_REACHED",
-            `Batas paket ${req.user!.plan} tercapai (maksimal ${req.user!.maxUsers} akun aktif). Upgrade ke Kassa Pro untuk mengaktifkan staf.`,
+            `Batas paket ${req.user!.plan} tercapai (maksimal ${req.user!.maxUsers} akun aktif). Upgrade ke Tumpu Pro untuk mengaktifkan staf.`,
           );
         }
       }

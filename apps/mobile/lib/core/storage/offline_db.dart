@@ -11,7 +11,7 @@ class OfflineDb {
   Future<Database> get database async {
     if (_db != null) return _db!;
     final dbPath = await getDatabasesPath();
-    final fullPath = p.join(dbPath, 'kassa_pos_offline_v1.db');
+    final fullPath = p.join(dbPath, 'tumpu_pos_offline_v1.db');
     _db = await openDatabase(
       fullPath,
       version: 1,

@@ -1,8 +1,8 @@
-# 07 — Panduan Deployment Produksi Lengkap — Kassa (`kassa.biz.id` & `app.kassa.biz.id`)
+# 07 — Panduan Deployment Produksi Lengkap — Tumpu (`tumpu.biz.id` & `pos.tumpu.biz.id`)
 
-Dokumen ini adalah panduan operasional teknis yang rinci untuk men-deploy **Kassa POS (Next.js 15 + Express + Prisma + MySQL 8 + Redis + Socket.IO)** dengan arsitektur dual-domain:
-- **`kassa.biz.id`** → Landing Page & Marketing Page (folder terpisah: `landing/`)
-- **`app.kassa.biz.id`** → Aplikasi POS, KDS Kanban, Admin Back-Office, API `/api/v1`, & Socket.IO `/socket.io/`
+Dokumen ini adalah panduan operasional teknis yang rinci untuk men-deploy **Tumpu POS (Next.js 15 + Express + Prisma + MySQL 8 + Redis + Socket.IO)** dengan arsitektur dual-domain:
+- **`tumpu.biz.id`** → Landing Page & Marketing Page (folder terpisah: `landing/`)
+- **`pos.tumpu.biz.id`** → Aplikasi POS, KDS Kanban, Admin Back-Office, API `/api/v1`, & Socket.IO `/socket.io/`
 
 ---
 
@@ -107,10 +107,10 @@ MYSQL_DATABASE=pos_cafe
 MYSQL_USER=pos_user
 MYSQL_PASSWORD=<hasil_openssl_user>
 
-# Domain Publik Produksi (Kassa)
-CORS_ORIGIN=https://app.kassa.biz.id
-NEXT_PUBLIC_API_URL=https://app.kassa.biz.id/api/v1
-NEXT_PUBLIC_SOCKET_URL=https://app.kassa.biz.id
+# Domain Publik Produksi (Tumpu)
+CORS_ORIGIN=https://pos.tumpu.biz.id
+NEXT_PUBLIC_API_URL=https://pos.tumpu.biz.id/api/v1
+NEXT_PUBLIC_SOCKET_URL=https://pos.tumpu.biz.id
 
 # Keamanan JWT (WAJIB berbeda antara access & refresh)
 JWT_ACCESS_SECRET=<64_hex_acak_1>
@@ -172,19 +172,19 @@ docker exec -it cadra_pos_api_prod pnpm db:seed
 
 ## 6. Tahap 5 — Setup Domain & HTTPS (SSL Let's Encrypt)
 
-### 6.1 Arahkan DNS Domain (`kassa.biz.id` & `app.kassa.biz.id`)
+### 6.1 Arahkan DNS Domain (`tumpu.biz.id` & `pos.tumpu.biz.id`)
 Di panel DNS domain Anda (Cloudflare / Niagahoster / Rumahweb), buat **2 A Record**:
-- **Host/Name:** `@` (untuk `kassa.biz.id` — Landing Page) → `IP_PUBLIK_VPS_ANDA` (atau CNAME ke Vercel/Cloudflare Pages)
-- **Host/Name:** `app` (untuk `app.kassa.biz.id` — Aplikasi Kassa POS) → `IP_PUBLIK_VPS_ANDA`
+- **Host/Name:** `@` (untuk `tumpu.biz.id` — Landing Page) → `IP_PUBLIK_VPS_ANDA` (atau CNAME ke Vercel/Cloudflare Pages)
+- **Host/Name:** `pos` (untuk `pos.tumpu.biz.id` — Aplikasi Tumpu POS) → `IP_PUBLIK_VPS_ANDA`
 
 Verifikasi DNS sudah mengarah ke VPS:
 ```bash
-dig +short kassa.biz.id app.kassa.biz.id
+dig +short tumpu.biz.id pos.tumpu.biz.id
 ```
 
 ### 6.2 Pasang Reverse Proxy HTTPS dengan Caddy (Dual-Domain SSL Otomatis)
 Jika ingin SSL otomatis tanpa ribet konfigurasi manual Certbot:
-1. Ubah port Nginx di `docker/docker-compose.prod.yml` menjadi `127.0.0.1:8080:80` (untuk `app.kassa.biz.id`) dan jalankan `landing/` di port `3005` (atau deploy `landing/` ke Vercel/Cloudflare Pages).
+1. Ubah port Nginx di `docker/docker-compose.prod.yml` menjadi `127.0.0.1:8080:80` (untuk `pos.tumpu.biz.id`) dan jalankan `landing/` di port `3005` (atau deploy `landing/` ke Vercel/Cloudflare Pages).
 2. Install Caddy di host Ubuntu:
    ```bash
    sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
@@ -194,12 +194,12 @@ Jika ingin SSL otomatis tanpa ribet konfigurasi manual Certbot:
    ```
 3. Edit `/etc/caddy/Caddyfile`:
    ```caddyfile
-   kassa.biz.id, www.kassa.biz.id {
+   tumpu.biz.id, www.tumpu.biz.id {
        encode gzip zstd
        reverse_proxy 127.0.0.1:3005
    }
 
-   app.kassa.biz.id {
+   pos.tumpu.biz.id {
        encode gzip zstd
        reverse_proxy 127.0.0.1:8080
    }
@@ -209,6 +209,21 @@ Jika ingin SSL otomatis tanpa ribet konfigurasi manual Certbot:
    sudo systemctl reload caddy
    ```
    Caddy otomatis menerbitkan sertifikat SSL Let's Encrypt, mengaktifkan HTTPS (443), HTTP/2, dan WebSocket (`/socket.io/`) untuk KDS!
+
+### 6.3 Konfigurasi Cloudflare DNS & SSL/TLS (`tumpu.biz.id`)
+Karena nameserver `tumpu.biz.id` sudah diarahkan ke **Cloudflare**, `docker/nginx.conf` telah dikonfigurasi agar mempertahankan IP asli pengunjung (`CF-Connecting-IP` → `$client_real_ip` untuk rate-limit auth yang akurat) dan protokol HTTPS (`X-Forwarded-Proto`).
+
+1. **DNS Records di Cloudflare Dashboard** (arahkan semua ke `IP_PUBLIK_VPS_ANDA` dengan status **Proxied / Awan Oranye ON**):
+   - `A` `@` (`tumpu.biz.id`) → Landing Page
+   - `A` `www` (`www.tumpu.biz.id`) → Landing Page
+   - `A` `pos` (`pos.tumpu.biz.id`) → Tumpu POS Web App
+   - `A` `app-api` (`app-api.tumpu.biz.id`) → POS API + Socket.IO KDS
+   - `A` `admin` (`admin.tumpu.biz.id`) → Back Office Web
+   - `A` `admin-api` (`admin-api.tumpu.biz.id`) → Back Office API
+2. **Pengaturan SSL/TLS & Network di Cloudflare:**
+   - **SSL/TLS Encryption Mode:** Pilih **`Flexible`** jika origin VPS hanya membuka port `80` (Nginx container), atau **`Full (Strict)`** jika Anda memasang **Cloudflare Origin Certificate** / Caddy di port `443`.
+   - **Always Use HTTPS:** `ON`
+   - **Network → WebSockets:** Pastikan **`ON`** agar real-time Socket.IO pada `app-api.tumpu.biz.id/socket.io/` berjalan lancar ke layar KDS.
 
 ---
 

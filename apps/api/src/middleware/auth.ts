@@ -108,7 +108,7 @@ export function requireFeature(feature: PlanFeature) {
       new AppError(
         403,
         "PLAN_UPGRADE_REQUIRED",
-        `Fitur ${FEATURE_LABELS[feature]} khusus paket Kassa Pro (Rp49.000/bulan). Paket Free hanya mendukung Kasir POS.`,
+        `Fitur ${FEATURE_LABELS[feature]} khusus paket Tumpu Pro (Rp49.000/bulan). Paket Free hanya mendukung Kasir POS.`,
       ),
     );
   };

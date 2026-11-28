@@ -12,7 +12,7 @@ import {
 import CarouselStudio from "@/components/marketing/CarouselStudio";
 import ContentKanban from "@/components/marketing/ContentKanban";
 
-const STORAGE_KEY = "kassa_marketing_manager_v1";
+const STORAGE_KEY = "tumpu_marketing_manager_v1";
 
 type SubTab = "kanban" | "carousel" | "brand" | "scripts";
 
@@ -181,7 +181,7 @@ export default function MarketingSection({
               </div>
               <a
                 href="/branding/brand-tokens.css"
-                download="kassa-brand-tokens.css"
+                download="tumpu-brand-tokens.css"
                 className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3 py-1.5 font-mono-num text-[11px] font-semibold text-[var(--ink)] transition hover:bg-[var(--ink)] hover:text-[var(--on-ink)]"
               >
                 <Download className="h-3.5 w-3.5" />
@@ -190,12 +190,12 @@ export default function MarketingSection({
             </div>
             <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { name: "App Icon (Dark)", file: "kassa-icon-dark.svg", desc: "Icon utama 512×512 · PWA & dark header", bg: "#0B1013" },
-                { name: "App Icon (Light)", file: "kassa-icon-light.svg", desc: "Icon terang 512×512 · dokumen cetak", bg: "#F6F4EF" },
-                { name: "Horizontal Lockup (Dark)", file: "kassa-lockup-dark.svg", desc: "Logo lengkap mode gelap · 760×220", bg: "#0B1013" },
-                { name: "Horizontal Lockup (Light)", file: "kassa-lockup-light.svg", desc: "Logo lengkap mode terang · 760×220", bg: "#F6F4EF" },
-                { name: "Mark Transparent", file: "kassa-mark-transparent.svg", desc: "Monogram K murni · watermark & end-card", bg: "#141B1F" },
-                { name: "Monochrome Thermal", file: "kassa-monochrome-thermal.svg", desc: "1-bit hitam-putih · struk 58/80mm", bg: "#FFFFFF" },
+                { name: "App Icon (Dark)", file: "tumpu-icon-dark.svg", desc: "Icon utama 512×512 · PWA & dark header", bg: "#0B1013" },
+                { name: "App Icon (Light)", file: "tumpu-icon-light.svg", desc: "Icon terang 512×512 · dokumen cetak", bg: "#F6F4EF" },
+                { name: "Horizontal Lockup (Dark)", file: "tumpu-lockup-dark.svg", desc: "Logo lengkap mode gelap · 760×220", bg: "#0B1013" },
+                { name: "Horizontal Lockup (Light)", file: "tumpu-lockup-light.svg", desc: "Logo lengkap mode terang · 760×220", bg: "#F6F4EF" },
+                { name: "Mark Transparent", file: "tumpu-mark-transparent.svg", desc: "Monogram K murni · watermark & end-card", bg: "#141B1F" },
+                { name: "Monochrome Thermal", file: "tumpu-monochrome-thermal.svg", desc: "1-bit hitam-putih · struk 58/80mm", bg: "#FFFFFF" },
                 { name: "Browser Favicon", file: "favicon.svg", desc: "Dioptimalkan untuk 16–32px · 64×64", bg: "#0B1013" },
               ].map((asset) => (
                 <div key={asset.file} className="overflow-hidden card">

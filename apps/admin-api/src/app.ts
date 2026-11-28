@@ -44,7 +44,7 @@ export function createAdminApp() {
   });
 
   app.get("/health", (_req, res) => {
-    res.json({ status: "ok", service: "kassa-admin-api", timestamp: new Date().toISOString() });
+    res.json({ status: "ok", service: "tumpu-admin-api", timestamp: new Date().toISOString() });
   });
 
   app.use("/api/v1/public/landing", publicLimiter, publicLandingRouter);

@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Kassa POS — CEO & C-Suite Startup Audit Report</title>
+  <title>Tumpu POS — CEO & C-Suite Startup Audit Report</title>
   <link rel="icon" type="image/svg+xml" href="../../assets/branding/favicon.svg" />
   <style>
     @page {
@@ -191,19 +191,19 @@
   <section class="cover">
     <div>
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="44" height="44" role="img" aria-label="Kassa">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="44" height="44" role="img" aria-label="Tumpu">
           <rect width="512" height="512" rx="112" fill="#0B1013"/>
           <rect x="24" y="24" width="464" height="464" rx="92" fill="#141B1F" stroke="#222C31" stroke-width="2"/>
-          <path fill="#F6F4EF" d="M138 124H198V229L292 124H364L250 250L368 388H294L198 274V388H138V124Z"/>
-          <path fill="#F6F4EF" d="M214 124H270L214 186V124Z"/>
-          <path fill="#D9A962" d="M380 124H402L286 250L406 388H384L264 250L380 124Z"/>
+          <path fill="#F6F4EF" d="M112 124H330L294 184H112V124Z"/>
+          <path fill="#F6F4EF" d="M224 182H288V388H224V182Z"/>
+          <path fill="#D9A962" d="M350 124H400L364 184H314L350 124Z"/>
         </svg>
         <span class="badge" style="margin-bottom:0;">Executive Startup Audit · Confidential</span>
       </div>
-      <h1>Kassa POS<br/><span>CEO &amp; C-Suite Audit Report</span></h1>
+      <h1>Tumpu POS<br/><span>CEO &amp; C-Suite Audit Report</span></h1>
       <p class="lead">
-        Audit menyeluruh kesiapan peluncuran komersial ekosistem <strong>Kassa POS</strong>
-        (<code>kassa.biz.id</code>, <code>app.kassa.biz.id</code>, <code>admin.kassa.biz.id</code>,
+        Audit menyeluruh kesiapan peluncuran komersial ekosistem <strong>Tumpu POS</strong>
+        (<code>tumpu.biz.id</code>, <code>pos.tumpu.biz.id</code>, <code>admin.tumpu.biz.id</code>,
         <code>app-api</code>, dan <code>admin-api</code>) oleh tim eksekutif lintas fungsi:
         CEO, CTO, CPO, CMO, dan CFO.
       </p>
@@ -234,7 +234,7 @@
 
     <div class="cover-meta">
       <div><strong>Disusun Oleh:</strong> CEO Office &amp; Startup Leadership Team</div>
-      <div><strong>Produk:</strong> Kassa Cloud POS Multi-Tenant</div>
+      <div><strong>Produk:</strong> Tumpu Cloud POS Multi-Tenant</div>
       <div><strong>Tanggal:</strong> 21 November 2026</div>
     </div>
   </section>
@@ -242,7 +242,7 @@
   <!-- SECTION 1: CEO EXECUTIVE SUMMARY -->
   <h2>1. Ringkasan Eksekutif CEO <span class="tag">Verdict</span></h2>
   <div class="exec-box">
-    <strong>Keputusan CEO:</strong> Kassa POS memiliki fondasi produk yang sangat kompetitif untuk pasar F&amp;B Indonesia
+    <strong>Keputusan CEO:</strong> Tumpu POS memiliki fondasi produk yang sangat kompetitif untuk pasar F&amp;B Indonesia
     (POS Offline-First, KDS Kanban Realtime, Auto-HPP/Resep BOM, Menu Digital SEO <code>/p/[slug]</code>, Multi-Outlet,
     dan Back Office terpisah). Namun, sebelum menerima trafik iklan &amp; pelanggan berbayar massal,
     <strong>12 temuan P0 lintas CTO/CPO/CMO/CFO wajib ditutup hari ini</strong> karena berdampak langsung pada
@@ -267,7 +267,7 @@
   <h3>Kekuatan Utama Produk (Competitive Moat)</h3>
   <ul>
     <li><strong>Isolasi Multi-Tenant &amp; API Terpisah:</strong> <code>app-api</code> (POS) dan <code>admin-api</code> (Back Office) sudah terpisah penuh; seluruh query POS di-scope oleh <code>tenantId</code> / <code>outletId</code> live dari DB.</li>
-    <li><strong>Fitur Lengkap di Harga Rp49.000/bln:</strong> POS Kasir, KDS Dapur Realtime (Socket.IO), Stok &amp; HPP Otomatis, RBAC Custom, Multi-Outlet, dan Menu Digital SEO (<code>kassa.biz.id/p/[slug]</code>).</li>
+    <li><strong>Fitur Lengkap di Harga Rp49.000/bln:</strong> POS Kasir, KDS Dapur Realtime (Socket.IO), Stok &amp; HPP Otomatis, RBAC Custom, Multi-Outlet, dan Menu Digital SEO (<code>tumpu.biz.id/p/[slug]</code>).</li>
     <li><strong>Back Office Terpadu:</strong> Manajemen Tenant, Invoice/Billing, Landing CMS, Leads CRM dengan <em>1-Click Convert Lead → Tenant</em>, dan Marketing Hub dalam satu pintu.</li>
   </ul>
 
@@ -393,7 +393,7 @@
         <td><span class="sev p2">P2</span></td>
         <td><strong>Leftover Brand "Cadra", Referrer Threads, Link <code>/admin</code> Publik</strong></td>
         <td><code>settings/page.tsx</code>, <code>track/route.ts</code>, <code>LandingClient.tsx</code></td>
-        <td>Ganti <em>Tampilan Cadra UI</em> → <em>Tampilan &amp; Tema Kassa</em>; kenali referrer <code>threads.net</code>; hapus link <code>/admin</code> di footer publik; tambah UTM PLG di footer Menu Digital.</td>
+        <td>Ganti <em>Tampilan Cadra UI</em> → <em>Tampilan &amp; Tema Tumpu</em>; kenali referrer <code>threads.net</code>; hapus link <code>/admin</code> di footer publik; tambah UTM PLG di footer Menu Digital.</td>
       </tr>
     </tbody>
   </table>

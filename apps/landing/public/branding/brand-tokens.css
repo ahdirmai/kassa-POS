@@ -1,0 +1,31 @@
+/* Tumpu Official Brand Identity Tokens (v1.0 — Universal Business Operating Suite) */
+:root {
+  /* Brand Core */
+  --tumpu-espresso: #0b1013;
+  --tumpu-espresso-surface: #141b1f;
+  --tumpu-brass: #d9a962;
+  --tumpu-champagne: #e5ba78;
+  --tumpu-petrol: #0f5257;
+  --tumpu-petrol-bright: #38a3a5;
+
+  /* Editorial Neutrals */
+  --tumpu-parchment: #f6f4ef;
+  --tumpu-white: #ffffff;
+  --tumpu-charcoal: #121517;
+  --tumpu-slate: #4c5259;
+  --tumpu-stone: #787e86;
+  --tumpu-border: #e2dfd7;
+
+  /* Semantic Status */
+  --tumpu-good: #059669;
+  --tumpu-good-dark: #34d399;
+  --tumpu-warn: #d97706;
+  --tumpu-warn-dark: #fbbf24;
+  --tumpu-bad: #dc2626;
+  --tumpu-bad-dark: #f87171;
+
+  /* Typography */
+  --tumpu-font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --tumpu-font-serif: "Instrument Serif", "Playfair Display", Georgia, serif;
+  --tumpu-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}

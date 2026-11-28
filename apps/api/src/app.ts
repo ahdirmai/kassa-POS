@@ -50,7 +50,7 @@ export function createApp() {
   });
 
   app.get("/health", (_req, res) => {
-    res.json({ status: "ok", service: "kassa-pos-api", timestamp: new Date().toISOString() });
+    res.json({ status: "ok", service: "tumpu-pos-api", timestamp: new Date().toISOString() });
   });
 
   app.use("/api/v1/auth", authLimiter, authRouter);

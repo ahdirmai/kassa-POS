@@ -1,8 +1,8 @@
-# 04 — Brand Color & Visual Guide Lengkap: Kassa (`kassa.biz.id`)
+# 04 — Brand Color & Visual Guide Lengkap: Tumpu (`tumpu.biz.id`)
 
-Panduan visual resmi untuk menjaga konsistensi antara **Aplikasi POS (`app.kassa.biz.id`)**, **Landing Page (`kassa.biz.id`)**, dan seluruh materi **Instagram, Reels, Carousel, & Story**.
+Panduan visual resmi untuk menjaga konsistensi antara **Aplikasi POS (`pos.tumpu.biz.id`)**, **Landing Page (`tumpu.biz.id`)**, dan seluruh materi **Instagram, Reels, Carousel, & Story**.
 
-**Karakter Visual Kassa:** *Editorial Hospitality-Tech* — hangat seperti kedai kopi specialty, presisi seperti alat kasir modern, bersih tanpa gradien neon berlebihan (*anti-AI-slop*).
+**Karakter Visual Tumpu:** *Editorial Hospitality-Tech* — hangat seperti kedai kopi specialty, presisi seperti alat kasir modern, bersih tanpa gradien neon berlebihan (*anti-AI-slop*).
 
 ---
 
@@ -68,7 +68,7 @@ Panduan visual resmi untuk menjaga konsistensi antara **Aplikasi POS (`app.kassa
 - **Headline Slide Cover:** `76–88 px` (maks 2–3 baris, 8–12 kata)
 - **Headline Slide Isi:** `48–56 px`
 - **Body Text:** `28–32 px` (maks 2–3 baris per poin, hindari paragraf panjang)
-- **Footer / Nomor Slide:** `20 px` (`01 / 06` di kanan bawah, `Kassa · kassa.biz.id` di kiri bawah)
+- **Footer / Nomor Slide:** `20 px` (`01 / 06` di kanan bawah, `Tumpu · tumpu.biz.id` di kiri bawah)
 
 ---
 
@@ -88,7 +88,7 @@ Panduan visual resmi untuk menjaga konsistensi antara **Aplikasi POS (`app.kassa
 
 ## 5. Do's & Don'ts (Anti-AI-Slop Checklist)
 
-- **DO:** Gunakan screenshot asli produk Kassa di dalam bingkai bersih (border tipis `1px` + bayangan halus).
+- **DO:** Gunakan screenshot asli produk Tumpu di dalam bingkai bersih (border tipis `1px` + bayangan halus).
 - **DO:** Sisakan minimal **30–40% ruang kosong (*whitespace*)** di setiap slide.
 - **DO:** Gunakan maksimal **2 warna teks + 1 warna aksen** per slide.
 - **DON'T:** Jangan pakai gradien ungu/pink/biru neon atau glow menyala berlebihan.

@@ -20,7 +20,10 @@ class ShiftScreen extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Card(
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 680),
+              child: Card(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: shift == null
@@ -136,6 +139,8 @@ class ShiftScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
+                ),
+              ),
             ),
           ),
         ],

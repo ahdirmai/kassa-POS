@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kassa_pos/core/calculations/order_calculations.dart';
+import 'package:tumpu_pos/core/calculations/order_calculations.dart';
 
 void main() {
   group('calculateOrderTotals (identik dengan packages/shared)', () {

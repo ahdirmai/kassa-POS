@@ -37,7 +37,7 @@ export const PLAN_POLICIES: Record<PlanTier, PlanPolicy> = {
   },
   PRO: {
     tier: "PRO",
-    label: "Kassa Pro",
+    label: "Tumpu Pro",
     priceMonthly: 49_000,
     maxOutlets: 20,
     maxUsers: 200,

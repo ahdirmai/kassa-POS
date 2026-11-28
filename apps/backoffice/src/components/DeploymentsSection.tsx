@@ -277,7 +277,7 @@ export default function DeploymentsSection({
 
   const deployState = statusData?.deployState ?? "IDLE";
   const isDeploying = deployState === "DEPLOYING";
-  const repoUrl = statusData?.currentCommit?.repoUrl || "https://github.com/ahdirmai/kassa-POS";
+  const repoUrl = statusData?.currentCommit?.repoUrl || "https://github.com/ahdirmai/tumpu-POS";
   const containersByService = new Map<string, ContainerStatusItem>();
   for (const c of statusData?.containers ?? []) {
     containersByService.set(c.service, c);
@@ -322,7 +322,7 @@ export default function DeploymentsSection({
                 </div>
                 <p className="mt-0.5 text-[var(--text)]">{agentError.message}</p>
                 <p className="mt-1 font-mono-num text-[11px] text-[var(--muted)]">
-                  Pastikan <code>kassa-webhook</code> berjalan di host VM (:9000) serta{" "}
+                  Pastikan <code>tumpu-webhook</code> berjalan di host VM (:9000) serta{" "}
                   <code>DEPLOY_AGENT_URL</code> &amp; <code>DEPLOY_INTERNAL_TOKEN</code> sudah
                   diset pada <code>admin-api</code>.
                 </p>
@@ -473,11 +473,11 @@ export default function DeploymentsSection({
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {(statusData?.services ?? [
-            { key: "landing", name: "Landing Page", url: "https://kassa.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
-            { key: "web", name: "POS Web", url: "https://app.kassa.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
-            { key: "api", name: "POS API", url: "https://app-api.kassa.biz.id/health", httpStatus: 0, ok: false, latencyMs: 0 },
-            { key: "backoffice", name: "Back Office", url: "https://admin.kassa.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
-            { key: "admin-api", name: "Admin API", url: "https://admin-api.kassa.biz.id/health", httpStatus: 0, ok: false, latencyMs: 0 },
+            { key: "landing", name: "Landing Page", url: "https://tumpu.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
+            { key: "web", name: "POS Web", url: "https://pos.tumpu.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
+            { key: "api", name: "POS API", url: "https://app-api.tumpu.biz.id/health", httpStatus: 0, ok: false, latencyMs: 0 },
+            { key: "backoffice", name: "Back Office", url: "https://admin.tumpu.biz.id", httpStatus: 0, ok: false, latencyMs: 0 },
+            { key: "admin-api", name: "Admin API", url: "https://admin-api.tumpu.biz.id/health", httpStatus: 0, ok: false, latencyMs: 0 },
           ]).map((svc) => {
             const container = containersByService.get(svc.key);
             return (
@@ -537,7 +537,7 @@ export default function DeploymentsSection({
                   <div>
                     <div className="font-bold text-[var(--text)]">{infra.label}</div>
                     <div className="font-mono-num text-[10.5px] text-[var(--muted)]">
-                      {c?.name || `kassa_${infra.key}_prod`}
+                      {c?.name || `tumpu_${infra.key}_prod`}
                     </div>
                   </div>
                 </div>

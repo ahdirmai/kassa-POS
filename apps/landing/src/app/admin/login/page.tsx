@@ -49,15 +49,15 @@ export default function AdminLoginPage() {
         <div className="overflow-hidden rounded-2xl border border-white/12 bg-[#11181c]/90 p-7 shadow-2xl backdrop-blur-xl sm:p-8">
           <div className="flex items-center gap-3">
             <img
-              src="/branding/kassa-icon-dark.svg"
-              alt="Kassa"
+              src="/branding/tumpu-icon-dark.svg"
+              alt="Tumpu"
               width={40}
               height={40}
               className="h-10 w-10 rounded-xl border border-white/10"
             />
             <div>
               <h1 className="text-[17px] font-semibold tracking-tight text-white">
-                Kassa Landing Admin
+                Tumpu Landing Admin
               </h1>
               <p className="font-mono-num text-[11px] uppercase tracking-[0.12em] text-[#e5ba78]">
                 CMS · Leads · Analytics
@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@kassa.biz.id"
+                placeholder="admin@tumpu.biz.id"
                 className="w-full rounded-lg border border-white/15 bg-[#0b1013] px-3.5 py-2.5 text-[14px] text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#d9a962]"
               />
             </div>

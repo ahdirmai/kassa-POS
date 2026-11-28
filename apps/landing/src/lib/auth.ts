@@ -1,20 +1,20 @@
 import crypto from "node:crypto";
 import { cookies } from "next/headers";
 
-export const SESSION_COOKIE_NAME = "kassa_admin_session";
+export const SESSION_COOKIE_NAME = "tumpu_admin_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 function getSecret(): string {
   return (
     process.env.ADMIN_SESSION_SECRET ||
-    "kassa_dev_fallback_secret_change_in_env_local"
+    "tumpu_dev_fallback_secret_change_in_env_local"
   );
 }
 
 export function getAdminCredentials(): { email: string; password: string } {
   return {
-    email: (process.env.ADMIN_EMAIL || "admin@kassa.biz.id").trim().toLowerCase(),
-    password: process.env.ADMIN_PASSWORD || "kassa-admin-2026",
+    email: (process.env.ADMIN_EMAIL || "admin@tumpu.biz.id").trim().toLowerCase(),
+    password: process.env.ADMIN_PASSWORD || "tumpu-admin-2026",
   };
 }
 

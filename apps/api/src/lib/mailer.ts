@@ -127,7 +127,7 @@ export async function sendMail(options: SendMailOptions): Promise<SendMailResult
 
   // Fallback dev/console mode
   console.log("\n============================================================");
-  console.log("[KASSA MAILER · CONSOLE MODE]");
+  console.log("[TUMPU MAILER · CONSOLE MODE]");
   console.log(`To      : ${options.to}`);
   console.log(`From    : ${env.EMAIL_FROM}`);
   console.log(`Subject : ${options.subject}`);
@@ -148,18 +148,18 @@ export async function sendVerificationEmail(params: {
   const safeName = ownerName.replace(/[<>]/g, "");
   const safeBiz = businessName.replace(/[<>]/g, "");
 
-  const subject = `Konfirmasi Email Akun Kassa — ${safeBiz}`;
+  const subject = `Konfirmasi Email Akun Tumpu — ${safeBiz}`;
   const text = [
     `Halo ${safeName},`,
     "",
-    `Terima kasih telah mendaftarkan ${safeBiz} di Kassa POS.`,
+    `Terima kasih telah mendaftarkan ${safeBiz} di Tumpu POS.`,
     "Silakan klik tautan berikut untuk mengonfirmasi alamat email Anda (berlaku 24 jam):",
     "",
     verifyUrl,
     "",
-    "Jika Anda tidak merasa mendaftar di Kassa, abaikan email ini.",
+    "Jika Anda tidak merasa mendaftar di Tumpu, abaikan email ini.",
     "",
-    "— Tim Kassa (kassa.biz.id)",
+    "— Tim Tumpu (tumpu.biz.id)",
   ].join("\n");
 
   const html = `
@@ -174,14 +174,14 @@ export async function sendVerificationEmail(params: {
           <tr>
             <td style="padding:28px 32px 16px;">
               <div style="display:inline-block;background:#0f172a;color:#ffffff;font-weight:800;font-size:16px;width:36px;height:36px;line-height:36px;text-align:center;border-radius:10px;">K</div>
-              <span style="margin-left:10px;font-size:18px;font-weight:700;vertical-align:middle;">Kassa POS</span>
+              <span style="margin-left:10px;font-size:18px;font-weight:700;vertical-align:middle;">Tumpu POS</span>
             </td>
           </tr>
           <tr>
             <td style="padding:8px 32px 28px;">
               <h1 style="margin:0 0 12px;font-size:20px;line-height:1.35;color:#0f172a;">Konfirmasi Alamat Email Anda</h1>
               <p style="margin:0 0 14px;font-size:14px;line-height:1.6;color:#475569;">
-                Halo <strong>${safeName}</strong>, terima kasih telah mendaftarkan <strong>${safeBiz}</strong> di Kassa.
+                Halo <strong>${safeName}</strong>, terima kasih telah mendaftarkan <strong>${safeBiz}</strong> di Tumpu.
                 Klik tombol di bawah ini untuk mengaktifkan akun dan melanjutkan setup outlet Anda.
               </p>
               <table role="presentation" cellspacing="0" cellpadding="0" style="margin:24px 0;">
@@ -201,7 +201,7 @@ export async function sendVerificationEmail(params: {
               </p>
               <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0;" />
               <p style="margin:0;font-size:11px;color:#94a3b8;">
-                Jika Anda tidak merasa membuat akun di Kassa, silakan abaikan email ini.
+                Jika Anda tidak merasa membuat akun di Tumpu, silakan abaikan email ini.
               </p>
             </td>
           </tr>

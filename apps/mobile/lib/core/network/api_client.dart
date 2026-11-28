@@ -101,6 +101,32 @@ class ApiClient {
     }
   }
 
+  static String? extractErrorCode(Object error) {
+    if (error is DioException) {
+      final data = error.response?.data;
+      if (data is Map && data['code'] != null) {
+        return data['code'].toString();
+      }
+    }
+    return null;
+  }
+
+  static int? extractRetryAfterSec(Object error) {
+    if (error is DioException) {
+      final data = error.response?.data;
+      if (data is Map && data['retryAfterSec'] != null) {
+        final parsed = int.tryParse(data['retryAfterSec'].toString());
+        if (parsed != null && parsed > 0) return parsed;
+      }
+      final header = error.response?.headers.value('retry-after');
+      if (header != null) {
+        final parsed = int.tryParse(header.trim());
+        if (parsed != null && parsed > 0) return parsed;
+      }
+    }
+    return null;
+  }
+
   static String extractErrorMessage(Object error) {
     if (error is DioException) {
       final data = error.response?.data;
@@ -109,7 +135,7 @@ class ApiClient {
       }
       if (error.type == DioExceptionType.connectionTimeout ||
           error.type == DioExceptionType.connectionError) {
-        return 'Tidak dapat terhubung ke server Kassa POS. Periksa koneksi atau URL API.';
+        return 'Tidak dapat terhubung ke server Tumpu POS. Periksa koneksi atau URL API.';
       }
       return error.message ?? 'Terjadi kesalahan jaringan';
     }

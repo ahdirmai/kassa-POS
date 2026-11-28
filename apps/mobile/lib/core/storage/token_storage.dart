@@ -12,10 +12,10 @@ class TokenStorage {
               ),
             );
 
-  static const _kAccessToken = 'kassa_access_token';
-  static const _kRefreshToken = 'kassa_refresh_token';
-  static const _kApiBaseUrl = 'kassa_api_base_url';
-  static const _kLastOutletCode = 'kassa_last_outlet_code';
+  static const _kAccessToken = 'tumpu_access_token';
+  static const _kRefreshToken = 'tumpu_refresh_token';
+  static const _kApiBaseUrl = 'tumpu_api_base_url';
+  static const _kLastOutletCode = 'tumpu_last_outlet_code';
 
   final FlutterSecureStorage _secure;
 

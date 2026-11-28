@@ -26,7 +26,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
   if (!data) {
     return {
-      title: "Menu Digital Tidak Ditemukan — Kassa",
+      title: "Menu Digital Tidak Ditemukan — Tumpu",
       robots: { index: false, follow: false },
     };
   }
@@ -56,7 +56,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       title,
       description,
       url: canonicalUrl,
-      siteName: `${data.cafe.displayName} · Kassa`,
+      siteName: `${data.cafe.displayName} · Tumpu`,
       locale: "id_ID",
       type: "website",
       ...(ogImages.length > 0 ? { images: ogImages.map((url) => ({ url, alt: data.cafe.displayName })) } : {}),

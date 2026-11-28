@@ -7,7 +7,7 @@ import { calculateOrderTotals, PERMISSION_CATALOG, PERMISSIONS } from "@pos/shar
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding Kassa Multi-Tenant POS...");
+  console.log("Seeding Tumpu Multi-Tenant POS...");
 
   // 0. Tenant 1 (PRO — Multi-Outlet Showcase)
   const tenantPro = await prisma.tenant.upsert({
@@ -36,7 +36,7 @@ async function main() {
     },
   });
 
-  // 1b. Landing Page / Digital Menu Tenant PRO (kassa.biz.id/p/kopi-senja)
+  // 1b. Landing Page / Digital Menu Tenant PRO (tumpu.biz.id/p/kopi-senja)
   const heroBannerUrl =
     "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1400&q=80";
   await prisma.tenantDigitalMenu.upsert({
@@ -1021,15 +1021,15 @@ async function main() {
   }
 
   // 14. Platform Back Office Superadmin & Sample Subscription Invoice
-  const adminEmail = (process.env.PLATFORM_ADMIN_EMAIL || "superadmin@kassa.biz.id").trim().toLowerCase();
-  const adminPass = process.env.PLATFORM_ADMIN_PASSWORD || "kassa-superadmin-2026";
+  const adminEmail = (process.env.PLATFORM_ADMIN_EMAIL || "superadmin@tumpu.biz.id").trim().toLowerCase();
+  const adminPass = process.env.PLATFORM_ADMIN_PASSWORD || "tumpu-superadmin-2026";
   const adminPasswordHash = await bcrypt.hash(adminPass, 10);
 
   const superAdmin = await prisma.platformAdmin.upsert({
     where: { email: adminEmail },
     update: { isActive: true },
     create: {
-      name: "Kassa Superadmin",
+      name: "Tumpu Superadmin",
       email: adminEmail,
       passwordHash: adminPasswordHash,
       role: "SUPERADMIN",
@@ -1058,7 +1058,7 @@ async function main() {
       status: "PAID",
       paymentMethod: "MANUAL_TRANSFER",
       referenceNo: "BCA-20261121-SENJA",
-      notes: "Aktivasi awal paket Kassa Pro (seed)",
+      notes: "Aktivasi awal paket Tumpu Pro (seed)",
       paidAt: new Date(),
       approvedById: superAdmin.id,
     },

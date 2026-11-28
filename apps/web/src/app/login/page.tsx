@@ -8,9 +8,9 @@ import { apiFetch, ApiError } from "@/lib/api";
 import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
 import { getDefaultHomePath } from "@/lib/rbac";
-import { KassaBrandMark } from "@/components/kassa-brand-mark";
+import { TumpuBrandMark } from "@/components/tumpu-brand-mark";
 
-const OUTLET_CODE_STORAGE_KEY = "kassa_outlet_code";
+const OUTLET_CODE_STORAGE_KEY = "tumpu_outlet_code";
 const SHOW_DEMO_HINTS = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 export default function LoginPage() {
@@ -119,10 +119,10 @@ export default function LoginPage() {
     <div className="grid min-h-dvh place-items-center p-4">
       <div className="cadra-card w-full max-w-md space-y-6 p-7">
         <div className="flex items-center gap-3">
-          <KassaBrandMark />
+          <TumpuBrandMark />
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Kassa</h1>
-            <p className="text-xs font-semibold text-[var(--muted)]">Cloud POS Multi-Outlet · app.kassa.biz.id</p>
+            <h1 className="text-xl font-bold tracking-tight">Tumpu</h1>
+            <p className="text-xs font-semibold text-[var(--muted)]">Cloud POS Multi-Outlet · pos.tumpu.biz.id</p>
           </div>
         </div>
 

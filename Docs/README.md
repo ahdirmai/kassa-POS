@@ -1,4 +1,4 @@
-# Dokumentasi & Prototype — Kassa (`kassa.biz.id` / `app.kassa.biz.id`)
+# Dokumentasi & Prototype — Tumpu (`tumpu.biz.id` / `pos.tumpu.biz.id`)
 
 Folder ini berisi seluruh dokumentasi teknis & produk serta **Prototype interaktif Next.js tanpa Backend**.
 
@@ -10,12 +10,14 @@ Folder ini berisi seluruh dokumentasi teknis & produk serta **Prototype interakt
 5. [05-API-Spec.md](./05-API-Spec.md) — Daftar Endpoint REST `/api/v1` & Event Socket.IO.
 6. [06-Runbook-and-Deployment.md](./06-Runbook-and-Deployment.md) — Panduan Setup Lokal, Dummy Data, & Checklist UAT/Go-Live.
 7. [07-Deployment-Guide.md](./07-Deployment-Guide.md) — Panduan Deployment Produksi (Cloud VPS Docker + Nginx/HTTPS, On-Premise Mini PC LAN, Backup Cron, & Security Hardening).
+8. [08-Backoffice-Deployment-Monitor-Brief.md](./08-Backoffice-Deployment-Monitor-Brief.md) — Feature Brief Back Office Deployment Monitor (`apps/backoffice`, `apps/admin-api`, `tumpu-webhook`).
+9. [09-SEO-Boost-Implementation-Plan.md](./09-SEO-Boost-Implementation-Plan.md) — Plan Implementasi SEO Boost & Organic Growth Engine untuk `apps/landing` (Technical SEO, 5 Halaman Pillar, Kalkulator HPP Gratis, & Blog Hub).
 
 ## Manual Book Pengguna (HTML & PDF + Screenshot Asli)
-- **PDF Siap Pakai / Cetak (Kassa):** [`Docs/Kassa-Manual-Book.pdf`](./Kassa-Manual-Book.pdf)
+- **PDF Siap Pakai / Cetak (Tumpu):** [`Docs/Tumpu-Manual-Book.pdf`](./Tumpu-Manual-Book.pdf)
 - **Sumber HTML & 10 Screenshot Retina:** [`Docs/manual-book/index.html`](./manual-book/index.html)
 
-## Landing Page & Marketing (`kassa.biz.id`)
+## Landing Page & Marketing (`tumpu.biz.id`)
 - **Folder Terpisah (Standalone Next.js):** [`landing/`](../landing/) (`pnpm dev` → `http://localhost:3005`)
 - **Strategi Marketing & Content Plan 7 Hari (IG & Threads):** [`Marketing/`](../Marketing/)
 

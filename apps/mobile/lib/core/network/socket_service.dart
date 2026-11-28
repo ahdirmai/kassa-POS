@@ -3,8 +3,8 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../config/app_config.dart';
 import '../storage/token_storage.dart';
 
-class KassaSocketService {
-  KassaSocketService(this._storage);
+class TumpuSocketService {
+  TumpuSocketService(this._storage);
 
   final TokenStorage _storage;
   io.Socket? _socket;

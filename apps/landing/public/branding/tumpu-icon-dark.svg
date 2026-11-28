@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Tumpu Icon Dark">
+  <rect width="512" height="512" rx="112" fill="#0B1013"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="#141B1F" stroke="#222C31" stroke-width="2"/>
+  <!-- Architectural T Monogram (Tumpu v1.0) -->
+  <!-- Top-left crossbar -->
+  <path fill="#F6F4EF" d="M112 124H330L294 184H112V124Z"/>
+  <!-- Central load-bearing pillar -->
+  <path fill="#F6F4EF" d="M224 182H288V388H224V182Z"/>
+  <!-- Right Warm Brass cantilevered wing -->
+  <path fill="#D9A962" d="M350 124H400L364 184H314L350 124Z"/>
+</svg>

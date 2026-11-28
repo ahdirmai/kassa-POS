@@ -101,7 +101,7 @@ export default function ScrollExpandShowcase({
 
             <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-0.5 font-mono-num text-[11px] text-[var(--ink-muted)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#12b886]" />
-              <span>app.kassa.biz.id{currentTab.route}</span>
+              <span>pos.tumpu.biz.id{currentTab.route}</span>
             </div>
 
             <a

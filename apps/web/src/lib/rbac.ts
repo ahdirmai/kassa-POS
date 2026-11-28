@@ -19,7 +19,7 @@ export const APP_ROUTES: RouteRule[] = [
   { href: "/admin/shifts", label: "Shift", sub: "Riwayat buka/tutup shift & Z-Report", kind: "Admin", anyPermissions: ["report.view"], requiredFeature: "reports" },
   { href: "/admin/reports", label: "Laporan", sub: "Laporan harian, metode bayar & ekspor CSV", kind: "Admin", anyPermissions: ["report.view"], requiredFeature: "reports" },
   { href: "/admin/rbac", label: "RBAC & Staf", sub: "Role kustom, matriks permission & akun staf", kind: "Admin", anyPermissions: ["role.manage", "user.manage"] },
-  { href: "/admin/digital-menu", label: "Menu Digital", sub: "Landing page publik kassa.biz.id/p/nama-cafe & SEO Google", kind: "Admin", anyPermissions: ["settings.manage"], requiredFeature: "digitalMenu" },
+  { href: "/admin/digital-menu", label: "Menu Digital", sub: "Landing page publik tumpu.biz.id/p/nama-cafe & SEO Google", kind: "Admin", anyPermissions: ["settings.manage"], requiredFeature: "digitalMenu" },
   { href: "/admin/outlets", label: "Outlet & Paket", sub: "Multi-outlet, kuota staf & upgrade Pro", kind: "Admin", anyPermissions: ["settings.manage"] },
   { href: "/admin/settings", label: "Pengaturan", sub: "PB1 10%, Service 5%, tema & audit log", kind: "Admin", anyPermissions: ["settings.manage"] },
 ];

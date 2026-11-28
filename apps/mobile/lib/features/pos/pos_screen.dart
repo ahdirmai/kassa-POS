@@ -17,7 +17,9 @@ class PosScreen extends ConsumerWidget {
     final ctrl = ref.read(posControllerProvider.notifier);
     final accent = ref.watch(cadraAccentProvider);
     final p = CadraTheme.palette(Theme.of(context).brightness, accent);
-    final isWide = MediaQuery.sizeOf(context).width >= 900;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isWide = screenWidth >= 760;
+    final gridCols = screenWidth >= 1200 ? 4 : (isWide ? 3 : 2);
 
     final catalogSection = Column(
       children: [
@@ -182,10 +184,10 @@ class PosScreen extends ConsumerWidget {
                         isWide ? 24 : 96,
                       ),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: isWide ? 3 : 2,
+                        crossAxisCount: gridCols,
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12,
-                        childAspectRatio: isWide ? 1.08 : 0.92,
+                        childAspectRatio: isWide ? 1.04 : 0.92,
                       ),
                       itemCount: pos.filteredProducts.length,
                       itemBuilder: (ctx, i) {
@@ -204,10 +206,10 @@ class PosScreen extends ConsumerWidget {
     if (isWide) {
       return Row(
         children: [
-          Expanded(flex: 6, child: catalogSection),
+          Expanded(flex: screenWidth >= 1100 ? 7 : 6, child: catalogSection),
           VerticalDivider(width: 1, color: p.line),
           Expanded(
-            flex: 4,
+            flex: screenWidth >= 1100 ? 3 : 4,
             child: _CartPanel(
               onCheckout: () => _openPaymentSheet(context, ref),
               onPickTable: () => _openTablePicker(context, ref),

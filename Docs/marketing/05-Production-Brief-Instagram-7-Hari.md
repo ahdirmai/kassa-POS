@@ -31,16 +31,16 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
 | Detik | Visual / Rekaman | Teks di Layar (Safe Zone Tengah) | Voiceover / Arahan |
 |---|---|---|---|
 | `00–03` | Close-up tangan mematikan toggle Wi-Fi di tablet/laptop yang sedang membuka `/pos`, lalu muncul pil status **Offline** (amber). | `Wi-Fi outlet mati pas jam makan siang?` | *(Nada tenang, relatable)* "Wi-Fi mati pas antrean lagi ramai?" |
-| `03–08` | Screen record close-up: tap cepat *Es Kopi Susu* + *Nasi Goreng* → klik **Bayar Tunai** → klik **Lunas**. | `Di Kassa, transaksi tunai tetap jalan.` | "Di Kassa, kasir nggak ikut macet. Transaksi tunai tetap diproses biasa." |
+| `03–08` | Screen record close-up: tap cepat *Es Kopi Susu* + *Nasi Goreng* → klik **Bayar Tunai** → klik **Lunas**. | `Di Tumpu, transaksi tunai tetap jalan.` | "Di Tumpu, kasir nggak ikut macet. Transaksi tunai tetap diproses biasa." |
 | `08–13` | Zoom in ke badge nomor antrean **`OFF-042`** & tampilan preview struk thermal 58/80mm yang langsung muncul. | `Tersimpan lokal (OFF-042) & struk tetap cetak.` | "Order tersimpan aman di perangkat, struk pelanggan tetap keluar." |
 | `13–18` | Toggle Wi-Fi dinyalakan kembali → status berubah jadi hijau **`Online · Tersinkron`**. | `Sinyal balik → otomatis sinkron tanpa dobel.` | "Begitu internet nyala lagi, semua laporan langsung masuk otomatis tanpa dobel." |
-| `18–22` | End-card `#0B1013`: Logo `K` Kassa + URL `kassa.biz.id`. | `Mulai Gratis · Pro Rp49rb/bln` / `Link di Bio` | "Coba gratis sekarang di kassa.biz.id." |
+| `18–22` | End-card `#0B1013`: Logo `K` Tumpu + URL `tumpu.biz.id`. | `Mulai Gratis · Pro Rp49rb/bln` / `Link di Bio` | "Coba gratis sekarang di tumpu.biz.id." |
 
 ---
 
 ## BRIEF HARI 2 — Carousel (6 Slide): "Omzet 3 Juta Sehari Tapi Kas Tipis?"
 - **Canvas:** `1080×1350` (4:5) · **Tema:** Light Editorial (`#F6F4EF`, border `#E2DFD7`, aksen `#0F5257`)
-- **Elemen Tetap (Header/Footer):** Kiri bawah `Kassa · kassa.biz.id` (`20px`, `#787E86`), kanan bawah nomor slide `01 / 06` (`JetBrains Mono`).
+- **Elemen Tetap (Header/Footer):** Kiri bawah `Tumpu · tumpu.biz.id` (`20px`, `#787E86`), kanan bawah nomor slide `01 / 06` (`JetBrains Mono`).
 
 ### Detail Layout Per Slide
 - **Slide 1 (Cover):**
@@ -66,13 +66,13 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
   - Angka besar: `02`
   - Judul (`50px`): `Stok tidak terpotong otomatis.`
   - Body (`30px`): `Kalau opname cuma seminggu sekali di Excel, bahan tumpah atau dipakai berlebih tidak akan ketahuan.`
-- **Slide 5 (Solusi Kassa — Screenshot Asli):**
-  - Judul (`44px`): `Di Kassa, stok terpotong otomatis tiap order lunas.`
+- **Slide 5 (Solusi Tumpu — Screenshot Asli):**
+  - Judul (`44px`): `Di Tumpu, stok terpotong otomatis tiap order lunas.`
   - Visual utama: Frame mockup layar [`07-stock.png`](file:///Users/ahdirmai/Pos/landing/public/screenshots/07-stock.png) dengan highlight callout panah ke kolom *Status Stok* & *Resep/HPP*.
 - **Slide 6 (CTA Slide — Dark Contrast `#0B1013`):**
   - Teks putih (`60px`): `Rapikan stok & HPP` *mulai minggu ini.* (`#E5BA78`)
   - Pill box `#D9A962`: `Pro Rp49.000/bln · Trial Gratis 14 Hari`
-  - Bawah: `Komen "HPP" atau klik kassa.biz.id di bio.`
+  - Bawah: `Komen "HPP" atau klik tumpu.biz.id di bio.`
 
 ---
 
@@ -85,9 +85,9 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
 | Detik | Visual / Rekaman | Teks di Layar | Voiceover / Arahan |
 |---|---|---|---|
 | `00–03` | B-roll cepat kertas bon dapur menumpuk / kusut (atau slide teks kontras). | `Bon kertas hilang = 1 meja komplain.` | "Satu kertas bon nyelip, pelanggan nunggu 30 menit." |
-| `03–09` | Screen record split / transisi ke `/kds`: kartu pesanan `#108` muncul realtime di kolom **Masuk** dengan timer berjalan. | `Pesanan langsung masuk layar Bar & Dapur.` | "Di Kassa, kopi langsung masuk layar Bar, makanan ke Dapur." |
+| `03–09` | Screen record split / transisi ke `/kds`: kartu pesanan `#108` muncul realtime di kolom **Masuk** dengan timer berjalan. | `Pesanan langsung masuk layar Bar & Dapur.` | "Di Tumpu, kopi langsung masuk layar Bar, makanan ke Dapur." |
 | `09–14` | Drag & drop kartu dari **Masuk → Dimasak → Siap Saji** (rekam smooth di tablet/laptop). | `Tinggal geser. Lengkap timer masak.` | "Staf tinggal geser statusnya. Ada timer otomatis biar nggak ada order kelewat." |
-| `14–18` | End-card `#0B1013`: Tablet bekas menampilkan KDS + `Sudah termasuk di Kassa Pro Rp49rb/bln`. | `Pakai tablet yang ada · kassa.biz.id` | "Cukup pakai tablet yang ada. Coba di kassa.biz.id." |
+| `14–18` | End-card `#0B1013`: Tablet bekas menampilkan KDS + `Sudah termasuk di Tumpu Pro Rp49rb/bln`. | `Pakai tablet yang ada · tumpu.biz.id` | "Cukup pakai tablet yang ada. Coba di tumpu.biz.id." |
 
 ---
 
@@ -101,16 +101,16 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
   - Visual: 3 baris kartu checklist kecil dengan ikon gembok (`PIN Manager`, `Shift Terpisah`, `Akses Terkunci`).
 - **Slide 2 (Celah 1):**
   - Badge merah lembut: `CELAH 01` · Judul (`48px`): `Void / hapus order tanpa izin.`
-  - Kartu Solusi (border `#0F5257`): `Solusi Kassa → Pembatalan wajib PIN Manager & tercatat permanen di log.`
+  - Kartu Solusi (border `#0F5257`): `Solusi Tumpu → Pembatalan wajib PIN Manager & tercatat permanen di log.`
 - **Slide 3 (Celah 2):**
   - Badge merah lembut: `CELAH 02` · Judul (`48px`): `Semua staf pakai 1 akun yang sama.`
-  - Kartu Solusi: `Solusi Kassa → Tiap kasir punya PIN 4–6 digit sendiri. Z-Report Shift Pagi & Sore terpisah rapi.`
+  - Kartu Solusi: `Solusi Tumpu → Tiap kasir punya PIN 4–6 digit sendiri. Z-Report Shift Pagi & Sore terpisah rapi.`
 - **Slide 4 (Celah 3 — Visual RBAC):**
   - Badge merah lembut: `CELAH 03` · Judul (`48px`): `Kasir bisa intip omzet & ubah stok.`
   - Visual: Mockup widget RBAC (Role `Kasir` aktif → `Kasir POS: Terbuka`, `Layar Dapur / Omzet / Stok: Terkunci`) + cuplikan [`08-rbac.png`](file:///Users/ahdirmai/Pos/landing/public/screenshots/08-rbac.png).
 - **Slide 5 (CTA — Dark Contrast `#0B1013`):**
   - Headline (`56px`): `Sistem rapi bikin staf nyaman,` *owner tenang.*
-  - CTA: `Komen "AMAN" atau coba gratis di kassa.biz.id`
+  - CTA: `Komen "AMAN" atau coba gratis di tumpu.biz.id`
 
 ---
 
@@ -135,7 +135,7 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
   - 2 Kartu berdampingan:
     - Kiri (`#12181B`): **Starter — Rp0** (`Gratis selamanya · 1 outlet · tanpa batas transaksi`)
     - Kanan (border `#D9A962`): **Pro — Rp49.000/bln** (`Trial gratis 14 hari · All-in KDS & HPP`)
-  - Tombol visual `#D9A962` teks `#0B1013`: **`Coba Gratis di kassa.biz.id`**
+  - Tombol visual `#D9A962` teks `#0B1013`: **`Coba Gratis di tumpu.biz.id`**
 
 ---
 
@@ -147,10 +147,10 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
 ### Shot List Detik-per-Detik
 | Detik | Visual / Rekaman | Teks di Layar | Voiceover / Arahan |
 |---|---|---|---|
-| `00–03` | Rekam langsung HP di tangan membuka `app.kassa.biz.id/pos` di meja cafe. | `Malam Minggu ramai? Pakai HP aja.` | "Outlet penuh pas weekend? Nggak perlu beli mesin kasir jutaan." |
+| `00–03` | Rekam langsung HP di tangan membuka `pos.tumpu.biz.id/pos` di meja cafe. | `Malam Minggu ramai? Pakai HP aja.` | "Outlet penuh pas weekend? Nggak perlu beli mesin kasir jutaan." |
 | `03–09` | Ibu jari tap 2 menu di grid 2-kolom mobile → sticky checkout bar muncul di bawah → tap **Bayar / Kirim Dapur**. | `Catat order langsung dari meja tamu.` | "Pramusaji tinggal catat pesanan langsung dari HP di meja tamu." |
 | `09–13` | Cut cepat ke printer Bluetooth kecil mencetak struk / layar dapur menerima tiket. | `Langsung masuk dapur & cetak struk Bluetooth.` | "Pesanan langsung masuk dapur, struk langsung keluar via Bluetooth." |
-| `13–16` | End-card `#0B1013`: `Jalan di HP, Tablet & Laptop · kassa.biz.id`. | `Mulai Gratis · kassa.biz.id` | "Coba langsung dari HP kamu di kassa.biz.id." |
+| `13–16` | End-card `#0B1013`: `Jalan di HP, Tablet & Laptop · tumpu.biz.id`. | `Mulai Gratis · tumpu.biz.id` | "Coba langsung dari HP kamu di tumpu.biz.id." |
 
 ---
 
@@ -173,10 +173,10 @@ Dokumen ini adalah **brief teknis siap produksi** untuk Desainer Grafis, Video E
 - **Slide 4 (Checklist Kesiapan 5 Menit):**
   - Judul (`46px`): `Cuma butuh 5 menit buat mulai:`
   - 3 poin bernomor besar (`01`, `02`, `03`):
-    - `01` Buka `kassa.biz.id` dari HP/tablet
+    - `01` Buka `tumpu.biz.id` dari HP/tablet
     - `02` Masukkan 5 menu terlaris dulu
     - `03` Hubungkan printer thermal Bluetooth 58/80mm
 - **Slide 5 (Final CTA — Dark Contrast `#0B1013`):**
   - Headline (`58px`): `Mulai gratis hari ini.` *Tanpa kartu kredit.* (`#E5BA78`)
-  - Pill CTA `#D9A962`: **`kassa.biz.id`**
+  - Pill CTA `#D9A962`: **`tumpu.biz.id`**
   - Subline bawah: `Ada pertanyaan? DM kami atau klik tombol WhatsApp di website.`

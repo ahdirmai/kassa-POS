@@ -124,7 +124,7 @@ export default function LandingSection({
   // 1-Click Convert Lead → Tenant modal
   const [convertTarget, setConvertTarget] = useState<LeadItem | null>(null);
   const [convEmail, setConvEmail] = useState("");
-  const [convPassword, setConvPassword] = useState("Kassa2026!");
+  const [convPassword, setConvPassword] = useState("Tumpu2026!");
   const [convPlan, setConvPlan] = useState<"FREE" | "PRO" | "ENTERPRISE">("PRO");
   const [convDays, setConvDays] = useState(14);
   const [converting, setConverting] = useState(false);
@@ -233,7 +233,7 @@ export default function LandingSection({
       lead.email ||
         `owner@${lead.businessName.toLowerCase().replace(/[^a-z0-9]+/g, "") || "bisnis"}.id`,
     );
-    setConvPassword("Kassa2026!");
+    setConvPassword("Tumpu2026!");
     setConvPlan(lead.planInterest.toLowerCase().includes("free") ? "FREE" : "PRO");
     setConvDays(14);
   }
@@ -281,7 +281,7 @@ export default function LandingSection({
         method: "PUT",
         body: JSON.stringify(content),
       });
-      onNotify("Konten Landing berhasil disimpan ke MySQL & langsung live di kassa.biz.id!");
+      onNotify("Konten Landing berhasil disimpan ke MySQL & langsung live di tumpu.biz.id!");
     } catch (err) {
       onNotify(err instanceof Error ? err.message : "Gagal menyimpan konten", "err");
     } finally {
@@ -335,7 +335,7 @@ export default function LandingSection({
           rel="noreferrer"
           className="inline-flex items-center gap-1.5 rounded-full border border-[var(--line-2)] bg-[var(--glass-2)] px-3.5 py-1.5 text-xs font-semibold text-[var(--text)] hover:bg-[var(--glass-3)]"
         >
-          Buka kassa.biz.id
+          Buka tumpu.biz.id
           <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
       </div>
@@ -479,7 +479,7 @@ export default function LandingSection({
                   {!loadingLeads && leads.length === 0 && (
                     <tr>
                       <td colSpan={5} className="px-4 py-10 text-center text-[var(--muted)]">
-                        Belum ada lead masuk dari Landing Page. Klik &ldquo;Tambah Lead&rdquo; untuk simulasi atau isi form di kassa.biz.id.
+                        Belum ada lead masuk dari Landing Page. Klik &ldquo;Tambah Lead&rdquo; untuk simulasi atau isi form di tumpu.biz.id.
                       </td>
                     </tr>
                   )}
@@ -601,7 +601,7 @@ export default function LandingSection({
           <div className="card flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="text-xs text-[var(--muted)]">
               Perubahan disimpan langsung ke <strong>MySQL</strong> dan otomatis tampil di{" "}
-              <span className="font-mono-num font-semibold text-[var(--text)]">kassa.biz.id</span>.
+              <span className="font-mono-num font-semibold text-[var(--text)]">tumpu.biz.id</span>.
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -886,7 +886,7 @@ export default function LandingSection({
             ) : (
               <form onSubmit={handleConvertToTenant} className="space-y-3">
                 <p className="text-[var(--muted)]">
-                  Otomatis membuat <strong>Tenant</strong>, <strong>Outlet Pusat</strong>, pengaturan pajak default, dan akun <strong>Owner</strong> di `app.kassa.biz.id`, lalu mengubah status lead menjadi <strong>WON</strong>.
+                  Otomatis membuat <strong>Tenant</strong>, <strong>Outlet Pusat</strong>, pengaturan pajak default, dan akun <strong>Owner</strong> di `pos.tumpu.biz.id`, lalu mengubah status lead menjadi <strong>WON</strong>.
                 </p>
                 <div>
                   <label className="mb-1 block font-semibold">Email Login Owner</label>
@@ -917,7 +917,7 @@ export default function LandingSection({
                       onChange={(e) => setConvPlan(e.target.value as "FREE" | "PRO" | "ENTERPRISE")}
                       className="w-full rounded-xl border border-[var(--line-2)] bg-[var(--glass-2)] px-3 py-2"
                     >
-                      <option value="PRO">Kassa Pro (Trial / Aktif)</option>
+                      <option value="PRO">Tumpu Pro (Trial / Aktif)</option>
                       <option value="FREE">Starter (Gratis)</option>
                       <option value="ENTERPRISE">Enterprise</option>
                     </select>

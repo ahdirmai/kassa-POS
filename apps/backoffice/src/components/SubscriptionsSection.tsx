@@ -306,7 +306,7 @@ export default function SubscriptionsSection({
                     onChange={(e) => setPlan(e.target.value as "PRO" | "ENTERPRISE")}
                     className="w-full rounded-xl border border-[var(--line)] bg-[var(--glass-2)] px-3 py-2"
                   >
-                    <option value="PRO">Kassa Pro</option>
+                    <option value="PRO">Tumpu Pro</option>
                     <option value="ENTERPRISE">Enterprise</option>
                   </select>
                 </div>

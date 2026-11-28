@@ -5,7 +5,7 @@ import { prisma } from "./lib/prisma.js";
 const app = createAdminApp();
 
 const server = app.listen(env.ADMIN_API_PORT, () => {
-  console.log(`Kassa Admin API (admin-api) listening on http://localhost:${env.ADMIN_API_PORT}`);
+  console.log(`Tumpu Admin API (admin-api) listening on http://localhost:${env.ADMIN_API_PORT}`);
 });
 
 async function shutdown(signal: string) {

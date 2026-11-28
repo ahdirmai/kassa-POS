@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Kassa Host Deployment & Webhook Agent (kassa-webhook)
- * Runs on host VM `kassa` (default port 9000).
+ * Tumpu Host Deployment & Webhook Agent (tumpu-webhook)
+ * Runs on host VM `tumpu` (default port 9000).
  *
- * Public endpoints (via https://deploy.kassa.biz.id):
+ * Public endpoints (via https://deploy.tumpu.biz.id):
  *   - GET  /health
  *   - POST /webhook (GitHub HMAC-SHA256 verified)
  *
@@ -52,7 +52,7 @@ loadDotEnv(path.join(__dirname, ".env"));
 
 const PORT = Number(process.env.WEBHOOK_PORT || process.env.PORT || 9000);
 const BIND_HOST = process.env.WEBHOOK_HOST || "0.0.0.0";
-const REPO_DIR = process.env.REPO_DIR || "/home/boxd/kassa-POS";
+const REPO_DIR = process.env.REPO_DIR || "/home/boxd/tumpu-POS";
 const DEPLOY_SCRIPT = process.env.DEPLOY_SCRIPT || path.join(REPO_DIR, "docker/deploy.sh");
 const COMPOSE_FILE = process.env.COMPOSE_FILE || "docker/docker-compose.prod.yml";
 const DATA_DIR = process.env.WEBHOOK_DATA_DIR || __dirname;
@@ -60,7 +60,7 @@ const HISTORY_FILE = path.join(DATA_DIR, "history.json");
 const LOGS_DIR = path.join(DATA_DIR, "logs");
 const GITHUB_WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET || "";
 const DEPLOY_INTERNAL_TOKEN = process.env.DEPLOY_INTERNAL_TOKEN || "";
-const GITHUB_REPO_URL = process.env.GITHUB_REPO_URL || "https://github.com/ahdirmai/kassa-POS";
+const GITHUB_REPO_URL = process.env.GITHUB_REPO_URL || "https://github.com/ahdirmai/tumpu-POS";
 const HEALTH_BASE_URL = process.env.HEALTH_BASE_URL || "http://127.0.0.1:80";
 const MAX_LOG_FILES = 50;
 const MAX_HISTORY_ITEMS = 100;
@@ -161,7 +161,7 @@ function isAllowedInternalIp(remoteAddress) {
 }
 
 function authorizeInternal(req, res) {
-  // Reject any request forwarded from public reverse proxy (e.g. deploy.kassa.biz.id)
+  // Reject any request forwarded from public reverse proxy (e.g. deploy.tumpu.biz.id)
   if (req.headers["x-forwarded-for"] || req.headers["x-real-ip"]) {
     sendJson(res, 403, {
       code: "FORBIDDEN_PROXY",
@@ -181,7 +181,7 @@ function authorizeInternal(req, res) {
   if (!DEPLOY_INTERNAL_TOKEN) {
     sendJson(res, 503, {
       code: "INTERNAL_TOKEN_NOT_CONFIGURED",
-      message: "DEPLOY_INTERNAL_TOKEN is not configured on kassa-webhook",
+      message: "DEPLOY_INTERNAL_TOKEN is not configured on tumpu-webhook",
     });
     return false;
   }
@@ -234,11 +234,11 @@ async function getCurrentCommit() {
 }
 
 const SERVICE_TARGETS = [
-  { key: "landing", name: "Landing Page", url: "https://kassa.biz.id", host: "kassa.biz.id", path: "/" },
-  { key: "web", name: "POS Web", url: "https://app.kassa.biz.id", host: "app.kassa.biz.id", path: "/" },
-  { key: "api", name: "POS API", url: "https://app-api.kassa.biz.id/health", host: "app-api.kassa.biz.id", path: "/health" },
-  { key: "backoffice", name: "Back Office", url: "https://admin.kassa.biz.id", host: "admin.kassa.biz.id", path: "/" },
-  { key: "admin-api", name: "Admin API", url: "https://admin-api.kassa.biz.id/health", host: "admin-api.kassa.biz.id", path: "/health" },
+  { key: "landing", name: "Landing Page", url: "https://tumpu.biz.id", host: "tumpu.biz.id", path: "/" },
+  { key: "web", name: "POS Web", url: "https://pos.tumpu.biz.id", host: "pos.tumpu.biz.id", path: "/" },
+  { key: "api", name: "POS API", url: "https://app-api.tumpu.biz.id/health", host: "app-api.tumpu.biz.id", path: "/health" },
+  { key: "backoffice", name: "Back Office", url: "https://admin.tumpu.biz.id", host: "admin.tumpu.biz.id", path: "/" },
+  { key: "admin-api", name: "Admin API", url: "https://admin-api.tumpu.biz.id/health", host: "admin-api.tumpu.biz.id", path: "/health" },
 ];
 
 function checkServiceHealth(target) {
@@ -389,14 +389,14 @@ async function startDeployment({ trigger, triggeredBy, rebuildAll, fromSha, toSh
     stdoutBuffer = lines.pop() || "";
     let dirty = false;
     for (const line of lines) {
-      if (line.startsWith("KASSA_DEPLOY_FROM_SHA=")) {
-        run.fromSha = line.slice("KASSA_DEPLOY_FROM_SHA=".length).trim().slice(0, 7);
+      if (line.startsWith("TUMPU_DEPLOY_FROM_SHA=")) {
+        run.fromSha = line.slice("TUMPU_DEPLOY_FROM_SHA=".length).trim().slice(0, 7);
         dirty = true;
-      } else if (line.startsWith("KASSA_DEPLOY_TO_SHA=")) {
-        run.toSha = line.slice("KASSA_DEPLOY_TO_SHA=".length).trim().slice(0, 7);
+      } else if (line.startsWith("TUMPU_DEPLOY_TO_SHA=")) {
+        run.toSha = line.slice("TUMPU_DEPLOY_TO_SHA=".length).trim().slice(0, 7);
         dirty = true;
-      } else if (line.startsWith("KASSA_DEPLOY_SERVICES=")) {
-        const val = line.slice("KASSA_DEPLOY_SERVICES=".length).trim();
+      } else if (line.startsWith("TUMPU_DEPLOY_SERVICES=")) {
+        const val = line.slice("TUMPU_DEPLOY_SERVICES=".length).trim();
         run.servicesRebuilt = val === "none" || !val ? [] : val.split(",").filter(Boolean);
         dirty = true;
       }
@@ -506,7 +506,7 @@ const server = http.createServer(async (req, res) => {
     if (method === "GET" && pathname === "/health") {
       return sendJson(res, 200, {
         status: "ok",
-        service: "kassa-webhook",
+        service: "tumpu-webhook",
         deploying: Boolean(activeRun),
         timestamp: new Date().toISOString(),
       });
@@ -673,7 +673,7 @@ const server = http.createServer(async (req, res) => {
 
     return sendJson(res, 404, { code: "NOT_FOUND", message: "Not found" });
   } catch (err) {
-    console.error("[kassa-webhook] Unhandled error:", err);
+    console.error("[tumpu-webhook] Unhandled error:", err);
     return sendJson(res, 500, {
       code: "INTERNAL_ERROR",
       message: err instanceof Error ? err.message : "Internal server error",
@@ -682,5 +682,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, BIND_HOST, () => {
-  console.log(`[kassa-webhook] Listening on http://${BIND_HOST}:${PORT} (repo: ${REPO_DIR})`);
+  console.log(`[tumpu-webhook] Listening on http://${BIND_HOST}:${PORT} (repo: ${REPO_DIR})`);
 });

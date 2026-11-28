@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { z } from "zod";
 
-const DEV_ACCESS_DEFAULT = "kassa-pos-dev-access-secret-key-min-32-chars";
-const DEV_REFRESH_DEFAULT = "kassa-pos-dev-refresh-secret-key-min-32-chars";
+const DEV_ACCESS_DEFAULT = "tumpu-pos-dev-access-secret-key-min-32-chars";
+const DEV_REFRESH_DEFAULT = "tumpu-pos-dev-refresh-secret-key-min-32-chars";
 
 const envSchema = z
   .object({
@@ -18,10 +18,10 @@ const envSchema = z
     MIDTRANS_MODE: z.enum(["mock", "sandbox", "production"]).default("mock"),
     MIDTRANS_SERVER_KEY: z.string().default("SB-Mid-server-mock-key"),
     MIDTRANS_API_URL: z.string().default("https://api.sandbox.midtrans.com"),
-    PUBLIC_LANDING_URL: z.string().default("https://kassa.biz.id"),
+    PUBLIC_LANDING_URL: z.string().default("https://tumpu.biz.id"),
     APP_WEB_URL: z.string().default("http://localhost:3000"),
     EMAIL_PROVIDER: z.enum(["auto", "resend", "smtp", "console"]).default("auto"),
-    EMAIL_FROM: z.string().default("Kassa POS <noreply@kassa.biz.id>"),
+    EMAIL_FROM: z.string().default("Tumpu POS <noreply@tumpu.biz.id>"),
     RESEND_API_KEY: z.string().optional(),
     SMTP_HOST: z.string().optional(),
     SMTP_PORT: z.coerce.number().default(587),

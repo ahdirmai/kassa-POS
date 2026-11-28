@@ -1,7 +1,7 @@
 {
   "id": "/pos",
-  "name": "Kassa — POS Cafe & Rumah Makan",
-  "short_name": "Kassa POS",
+  "name": "Tumpu — POS Cafe & Rumah Makan",
+  "short_name": "Tumpu POS",
   "start_url": "/pos",
   "scope": "/",
   "display": "standalone",
@@ -11,7 +11,7 @@
   "theme_color": "#0B1013",
   "lang": "id",
   "categories": ["business", "finance", "food"],
-  "description": "Kassa (kassa.biz.id) — Sistem POS Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, stok fleksibel & kontrol HPP.",
+  "description": "Tumpu (tumpu.biz.id) — Sistem POS Cafe & Rumah Makan dengan mode offline, KDS Kanban realtime, stok fleksibel & kontrol HPP.",
   "icons": [
     {
       "src": "/icons/icon-192.png",

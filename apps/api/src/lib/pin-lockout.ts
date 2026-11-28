@@ -4,8 +4,8 @@ import { env } from "../config/env.js";
 export const PIN_MAX_ATTEMPTS = 5;
 export const PIN_LOCKOUT_SECONDS = 15 * 60; // 15 menit
 
-const FAIL_KEY_PREFIX = "kassa:pin_fail:outlet:";
-const LOCK_KEY_PREFIX = "kassa:pin_lock:outlet:";
+const FAIL_KEY_PREFIX = "tumpu:pin_fail:outlet:";
+const LOCK_KEY_PREFIX = "tumpu:pin_lock:outlet:";
 
 interface MemoryEntry {
   count: number;

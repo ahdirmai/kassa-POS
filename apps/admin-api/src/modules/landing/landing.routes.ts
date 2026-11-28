@@ -42,7 +42,7 @@ async function logLandingAction(params: {
 }
 
 // ============================================================================
-// PUBLIC LANDING ENDPOINTS (dikonsumsi oleh apps/landing — kassa.biz.id)
+// PUBLIC LANDING ENDPOINTS (dikonsumsi oleh apps/landing — tumpu.biz.id)
 // ============================================================================
 
 publicLandingRouter.get("/content", async (_req, res, next) => {
@@ -277,7 +277,7 @@ adminLandingRouter.put(
         adminId: req.platformAdmin!.id,
         action: "LANDING_CONTENT_UPDATE",
         targetId: saved.id,
-        summary: "Memperbarui konten CMS Landing Page (kassa.biz.id)",
+        summary: "Memperbarui konten CMS Landing Page (tumpu.biz.id)",
         ipAddress: req.ip,
       });
 
@@ -474,7 +474,7 @@ adminLandingRouter.post(
       const email = body.ownerEmail.trim().toLowerCase();
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) {
-        throw new AppError(409, "EMAIL_EXISTS", `Email ${email} sudah terdaftar di Kassa POS`);
+        throw new AppError(409, "EMAIL_EXISTS", `Email ${email} sudah terdaftar di Tumpu POS`);
       }
 
       const ownerRole = await prisma.role.findFirst({

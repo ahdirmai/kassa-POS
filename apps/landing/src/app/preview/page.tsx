@@ -58,7 +58,7 @@ export default function DesignPreviewPage() {
                 DESIGN DIRECTION PREVIEW
               </div>
               <div className="text-[13.5px] font-semibold">
-                Pilih Konsep Visual Kassa POS (Tanpa Serif Italic / AI Slop)
+                Pilih Konsep Visual Tumpu POS (Tanpa Serif Italic / AI Slop)
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function DesignPreviewPage() {
           <div className="min-h-[calc(100vh-110px)] bg-white text-[#0a0a0a]">
             <div className="mx-auto max-w-7xl px-6 py-14 sm:px-10">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#0a0a0a] pb-4 font-mono-num text-[11px] uppercase tracking-[0.14em]">
-                <span>KASSA SYSTEMS — ISSUE 2026</span>
+                <span>TUMPU SYSTEMS — ISSUE 2026</span>
                 <span className="text-[#1d4ed8] font-semibold">
                   POS · KDS · INVENTORI · RBAC
                 </span>
@@ -217,7 +217,7 @@ export default function DesignPreviewPage() {
                 <div className="mt-8 border border-[#0a0a0a] bg-[#fafafa] p-3 lg:col-span-8 lg:mt-0">
                   <img
                     src="/screenshots/02-pos.png"
-                    alt="Kassa POS Monochrome Frame"
+                    alt="Tumpu POS Monochrome Frame"
                     className="aspect-[16/10] w-full object-cover object-top"
                   />
                 </div>
@@ -238,7 +238,7 @@ export default function DesignPreviewPage() {
                   </div>
 
                   <h1 className="font-display mt-6 text-[2.8rem] font-bold leading-[1.04] tracking-[-0.035em] text-[#1b3a2d] sm:text-[3.9rem]">
-                    Fokus melayani tamu, biar Kassa yang rapikan kasir &amp; dapur.
+                    Fokus melayani tamu, biar Tumpu yang rapikan kasir &amp; dapur.
                   </h1>
 
                   <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-[#57534e]">
@@ -284,7 +284,7 @@ export default function DesignPreviewPage() {
                     <div className="overflow-hidden rounded-2xl bg-white">
                       <img
                         src="/screenshots/02-pos.png"
-                        alt="Kassa Hospitality Preview"
+                        alt="Tumpu Hospitality Preview"
                         className="aspect-[16/10] w-full object-cover object-top"
                       />
                     </div>

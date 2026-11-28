@@ -1,0 +1,24 @@
+Jujur, awalnya cuma pengen eksperimen kecil-kecilan.
+Ternyata dalam 2 hari, 1 orang bisa bangun 1 produk SaaS POS F&B lengkap dari nol sampai live — pakai Gemini Neon + Orca.
+
+Bukan cuma halaman depan atau mockup doang. Ini data asli dari log build tumpu.biz.id:
+
+• 5 aplikasi dalam 1 monorepo (POS Web, POS API, Landing Page, plus sistem Back Office internal)
+• 256 file & 47.333 baris kode, konfigurasi Docker/Nginx, dan dokumentasi
+• 225,4 juta total token diproses — dengan 91,1% cache hit rate (jadi jauh lebih hemat)
+• 1.482 agent steps yang dibagi ke 41 sesi agent & subagent paralel
+
+Yang bikin cepat ternyata bukan sekadar "prompt sakti", tapi cara bagi kerjanya.
+Alih-alih ngerjain semua di 1 chat panjang sampai AI-nya lupa konteks, saya bagi peran di Orca kayak 1 tim startup beneran:
+1. Core Fullstack → PRD, database, POS offline, KDS dapur, & Back Office
+2. DevOps → Docker Compose, Nginx multi-domain & deploy server
+3. PWA & Mobile → Audit offline PWA & setup Android
+4. Marketing & Brand → Logo SVG, Brand Kit, plan 30 hari, Kanban & video Reels
+5. Pentest & Security → Audit celah lintas-tenant & langsung patch temuan kritikal
+
+Intinya: AI bukan gantiin engineer. Tapi kalau kita paham arsitektur & cara bagi peran, 1 builder bisa punya leverage 1 tim.
+
+Hasil produknya bisa langsung dilihat di tumpu.biz.id ☕
+Buat yang penasaran detail workflow + template prompt pembagian role-nya, saya sudah rangkum jadi Playbook PDF lengkap. Komen "WORKFLOW" atau DM aja kalau mau intip 👇
+
+#buildinpublic #indiehacker #saasindonesia #geminineon #orca #aiengineering #founderlife #tumpu

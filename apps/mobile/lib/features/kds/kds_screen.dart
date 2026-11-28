@@ -272,88 +272,121 @@ class _KdsScreenState extends ConsumerState<KdsScreen> {
                         ],
                       ),
                     )
-                  : ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      itemCount: cols.length,
-                      itemBuilder: (ctx, i) {
-                        final col = cols[i];
-                        final list =
-                            _tickets.where((t) => t.status == col.$1).toList();
-                        return Container(
-                          width: 310,
-                          margin: const EdgeInsets.only(right: 12),
-                          decoration: BoxDecoration(
-                            color: p.surface,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: p.line),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(14),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 10,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        color: col.$3,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      col.$2,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 2,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: p.raised,
-                                        borderRadius: BorderRadius.circular(999),
-                                      ),
-                                      child: Text(
-                                        '${list.length}',
-                                        style: CadraTheme.tabularStyle.copyWith(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 12,
+                  : LayoutBuilder(
+                      builder: (ctx, constraints) {
+                        final fitAll = constraints.maxWidth >= cols.length * 250;
+                        Widget buildColumn((String, String, Color) col,
+                            {required bool expand}) {
+                          final list = _tickets
+                              .where((t) => t.status == col.$1)
+                              .toList();
+                          final card = Container(
+                            width: expand ? null : 310,
+                            margin: EdgeInsets.only(right: expand ? 0 : 12),
+                            decoration: BoxDecoration(
+                              color: p.surface,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: p.line),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(14),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 10,
+                                        height: 10,
+                                        decoration: BoxDecoration(
+                                          color: col.$3,
+                                          shape: BoxShape.circle,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: list.isEmpty
-                                    ? Center(
+                                      const SizedBox(width: 8),
+                                      Expanded(
                                         child: Text(
-                                          'Kosong',
-                                          style: TextStyle(color: p.faint),
+                                          col.$2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                          ),
                                         ),
-                                      )
-                                    : ListView.separated(
-                                        padding: const EdgeInsets.fromLTRB(
-                                          12,
-                                          0,
-                                          12,
-                                          12,
-                                        ),
-                                        itemCount: list.length,
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(height: 10),
-                                        itemBuilder: (_, idx) =>
-                                            _ticketCard(list[idx], p),
                                       ),
-                              ),
-                            ],
-                          ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: p.raised,
+                                          borderRadius:
+                                              BorderRadius.circular(999),
+                                        ),
+                                        child: Text(
+                                          '${list.length}',
+                                          style:
+                                              CadraTheme.tabularStyle.copyWith(
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: list.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            'Kosong',
+                                            style: TextStyle(color: p.faint),
+                                          ),
+                                        )
+                                      : ListView.separated(
+                                          padding: const EdgeInsets.fromLTRB(
+                                            12,
+                                            0,
+                                            12,
+                                            12,
+                                          ),
+                                          itemCount: list.length,
+                                          separatorBuilder: (context, index) =>
+                                              const SizedBox(height: 10),
+                                          itemBuilder: (_, idx) =>
+                                              _ticketCard(list[idx], p),
+                                        ),
+                                ),
+                              ],
+                            ),
+                          );
+                          return expand
+                              ? Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6),
+                                    child: card,
+                                  ),
+                                )
+                              : card;
+                        }
+
+                        if (fitAll) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 16),
+                            child: Row(
+                              children: cols
+                                  .map((c) => buildColumn(c, expand: true))
+                                  .toList(),
+                            ),
+                          );
+                        }
+
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          itemCount: cols.length,
+                          itemBuilder: (ctx, i) =>
+                              buildColumn(cols[i], expand: false),
                         );
                       },
                     ),

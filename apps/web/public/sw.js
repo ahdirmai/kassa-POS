@@ -1,7 +1,7 @@
-/* Kassa POS Service Worker — Focused on reliable /pos offline shell & asset caching */
-const SHELL_CACHE = "kassa-shell-v2";
-const ASSET_CACHE = "kassa-assets-v2";
-const IMAGE_CACHE = "kassa-images-v2";
+/* Tumpu POS Service Worker — Focused on reliable /pos offline shell & asset caching */
+const SHELL_CACHE = "tumpu-shell-v2";
+const ASSET_CACHE = "tumpu-assets-v2";
+const IMAGE_CACHE = "tumpu-images-v2";
 const ALL_CACHES = [SHELL_CACHE, ASSET_CACHE, IMAGE_CACHE];
 
 const PRECACHE_URLS = [
@@ -14,9 +14,9 @@ const PRECACHE_URLS = [
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/icons/apple-touch-icon.png",
-  "/branding/kassa-icon-dark.svg",
-  "/branding/kassa-icon-light.svg",
-  "/branding/kassa-monochrome-thermal.svg",
+  "/branding/tumpu-icon-dark.svg",
+  "/branding/tumpu-icon-light.svg",
+  "/branding/tumpu-monochrome-thermal.svg",
 ];
 
 self.addEventListener("install", (event) => {
@@ -78,7 +78,7 @@ self.addEventListener("message", (event) => {
 
 // Background Sync API (Chromium): notify open tabs to flush pending offline transactions
 self.addEventListener("sync", (event) => {
-  if (event.tag === "kassa-offline-sync") {
+  if (event.tag === "tumpu-offline-sync") {
     event.waitUntil(
       (async () => {
         const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });

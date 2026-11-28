@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: kassa_mysql_prod
+    container_name: tumpu_mysql_prod
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
@@ -19,7 +19,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: kassa_redis_prod
+    container_name: tumpu_redis_prod
     restart: unless-stopped
     volumes:
       - redis_prod_data:/data
@@ -28,7 +28,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.api
-    container_name: kassa_api_prod
+    container_name: tumpu_api_prod
     restart: unless-stopped
     depends_on:
       mysql:
@@ -40,7 +40,7 @@ services:
       API_PORT: 4000
       DATABASE_URL: mysql://${MYSQL_USER:-pos_user}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE:-pos_cafe}
       REDIS_URL: redis://redis:6379
-      CORS_ORIGIN: ${CORS_ORIGIN:-https://app.kassa.biz.id,https://kassa.biz.id}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://pos.tumpu.biz.id,https://tumpu.biz.id}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?JWT_ACCESS_SECRET is required}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?JWT_REFRESH_SECRET is required}
       JWT_ACCESS_EXPIRES: ${JWT_ACCESS_EXPIRES:-15m}
@@ -49,10 +49,10 @@ services:
       MIDTRANS_MODE: ${MIDTRANS_MODE:-production}
       MIDTRANS_SERVER_KEY: ${MIDTRANS_SERVER_KEY:-}
       MIDTRANS_API_URL: ${MIDTRANS_API_URL:-https://api.midtrans.com}
-      PUBLIC_LANDING_URL: ${PUBLIC_LANDING_URL:-https://kassa.biz.id}
-      APP_WEB_URL: ${APP_WEB_URL:-https://app.kassa.biz.id}
+      PUBLIC_LANDING_URL: ${PUBLIC_LANDING_URL:-https://tumpu.biz.id}
+      APP_WEB_URL: ${APP_WEB_URL:-https://pos.tumpu.biz.id}
       EMAIL_PROVIDER: ${EMAIL_PROVIDER:-auto}
-      EMAIL_FROM: ${EMAIL_FROM:-Kassa POS <noreply@kassa.biz.id>}
+      EMAIL_FROM: ${EMAIL_FROM:-Tumpu POS <noreply@tumpu.biz.id>}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
@@ -64,7 +64,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.admin-api
-    container_name: kassa_admin_api_prod
+    container_name: tumpu_admin_api_prod
     restart: unless-stopped
     depends_on:
       mysql:
@@ -75,7 +75,7 @@ services:
       NODE_ENV: production
       ADMIN_API_PORT: 4001
       DATABASE_URL: mysql://${MYSQL_USER:-pos_user}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE:-pos_cafe}
-      ADMIN_CORS_ORIGIN: ${ADMIN_CORS_ORIGIN:-https://admin.kassa.biz.id,https://kassa.biz.id}
+      ADMIN_CORS_ORIGIN: ${ADMIN_CORS_ORIGIN:-https://admin.tumpu.biz.id,https://tumpu.biz.id}
       PLATFORM_JWT_ACCESS_SECRET: ${PLATFORM_JWT_ACCESS_SECRET:?PLATFORM_JWT_ACCESS_SECRET is required}
       PLATFORM_JWT_EXPIRES: ${PLATFORM_JWT_EXPIRES:-8h}
       DEPLOY_AGENT_URL: ${DEPLOY_AGENT_URL:-http://host.docker.internal:9000}
@@ -86,10 +86,10 @@ services:
       context: ..
       dockerfile: docker/Dockerfile.web
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://app-api.kassa.biz.id/api/v1}
-        NEXT_PUBLIC_SOCKET_URL: ${NEXT_PUBLIC_SOCKET_URL:-https://app-api.kassa.biz.id}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://app-api.tumpu.biz.id/api/v1}
+        NEXT_PUBLIC_SOCKET_URL: ${NEXT_PUBLIC_SOCKET_URL:-https://app-api.tumpu.biz.id}
         NEXT_PUBLIC_DEMO_MODE: "false"
-    container_name: kassa_web_prod
+    container_name: tumpu_web_prod
     restart: unless-stopped
     depends_on:
       - api
@@ -99,16 +99,16 @@ services:
       context: ..
       dockerfile: docker/Dockerfile.landing
       args:
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://kassa.biz.id}
-        NEXT_PUBLIC_ADMIN_API_URL: ${NEXT_PUBLIC_ADMIN_API_URL:-https://admin-api.kassa.biz.id/api/v1}
-    container_name: kassa_landing_prod
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://tumpu.biz.id}
+        NEXT_PUBLIC_ADMIN_API_URL: ${NEXT_PUBLIC_ADMIN_API_URL:-https://admin-api.tumpu.biz.id/api/v1}
+    container_name: tumpu_landing_prod
     restart: unless-stopped
     environment:
       NODE_ENV: production
       ADMIN_API_URL: http://admin-api:4001/api/v1
       POS_API_URL: http://api:4000/api/v1
       ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:?ADMIN_SESSION_SECRET is required}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@kassa.biz.id}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@tumpu.biz.id}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
     depends_on:
       - api
@@ -119,16 +119,16 @@ services:
       context: ..
       dockerfile: docker/Dockerfile.backoffice
       args:
-        NEXT_PUBLIC_ADMIN_API_URL: ${NEXT_PUBLIC_ADMIN_API_URL:-https://admin-api.kassa.biz.id/api/v1}
-        NEXT_PUBLIC_LANDING_URL: ${NEXT_PUBLIC_LANDING_URL:-https://kassa.biz.id}
-    container_name: kassa_backoffice_prod
+        NEXT_PUBLIC_ADMIN_API_URL: ${NEXT_PUBLIC_ADMIN_API_URL:-https://admin-api.tumpu.biz.id/api/v1}
+        NEXT_PUBLIC_LANDING_URL: ${NEXT_PUBLIC_LANDING_URL:-https://tumpu.biz.id}
+    container_name: tumpu_backoffice_prod
     restart: unless-stopped
     depends_on:
       - admin-api
 
   nginx:
     image: nginx:1.27-alpine
-    container_name: kassa_nginx_prod
+    container_name: tumpu_nginx_prod
     restart: unless-stopped
     depends_on:
       - web

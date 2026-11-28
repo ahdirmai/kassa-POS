@@ -7,11 +7,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Kassa POS</string>
+	<string>Tumpu POS</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Kassa POS membutuhkan akses jaringan lokal untuk menghubungkan ke printer thermal LAN dan server POS lokal.</string>
+	<string>Tumpu POS membutuhkan akses jaringan lokal untuk menghubungkan ke printer thermal LAN dan server POS lokal.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Kassa POS membutuhkan akses Bluetooth untuk mencetak struk ke printer thermal.</string>
+	<string>Tumpu POS membutuhkan akses Bluetooth untuk mencetak struk ke printer thermal.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>kassa_pos</string>
+	<string>tumpu_pos</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

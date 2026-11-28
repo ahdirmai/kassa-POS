@@ -4,7 +4,7 @@ export const ADMIN_API_BASE =
 export const LANDING_ADMIN_URL =
   process.env.NEXT_PUBLIC_LANDING_URL || "http://localhost:3005";
 
-const TOKEN_KEY = "kassa_bo_access_token";
+const TOKEN_KEY = "tumpu_bo_access_token";
 
 export function getStoredToken(): string | null {
   if (typeof window === "undefined") return null;

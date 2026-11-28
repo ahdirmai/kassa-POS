@@ -17,7 +17,7 @@ settingsRouter.get("/", async (req, res, next) => {
       prisma.outlet.findUnique({ where: { id: req.user!.outletId } }),
     ]);
     res.json({
-      businessName: map.businessName ?? req.user!.tenantName ?? "Kassa POS",
+      businessName: map.businessName ?? req.user!.tenantName ?? "Tumpu POS",
       outletName: map.outletName ?? outlet?.name ?? req.user!.outletName ?? "Outlet Utama",
       address: map.address ?? outlet?.address ?? "",
       phone: map.phone ?? outlet?.phone ?? "",

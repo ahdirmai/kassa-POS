@@ -125,7 +125,7 @@ export default function OverviewSection({
   const planSegments = [
     {
       key: "PRO",
-      label: "Kassa Pro",
+      label: "Tumpu Pro",
       count: kpis.planBreakdown.PRO,
       color: "var(--teal)",
     },

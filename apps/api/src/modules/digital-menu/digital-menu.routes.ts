@@ -15,7 +15,7 @@ import { requireAuth, requireFeature, requirePermission } from "../../middleware
 import { validateBody } from "../../middleware/validate.js";
 import { AppError } from "../../middleware/error.js";
 
-const PUBLIC_BASE_URL = process.env.PUBLIC_LANDING_URL || "https://kassa.biz.id";
+const PUBLIC_BASE_URL = process.env.PUBLIC_LANDING_URL || "https://tumpu.biz.id";
 
 function getEffectivePlan(plan: string, planExpiresAt: Date | null) {
   const raw = normalizePlanTier(plan);
@@ -271,7 +271,7 @@ digitalMenuRouter.patch(
 );
 
 // ============================================================================
-// PUBLIC ROUTER (/api/v1/public/digital-menu) — Untuk SSR kassa.biz.id/p/[slug] & SEO Sitemap
+// PUBLIC ROUTER (/api/v1/public/digital-menu) — Untuk SSR tumpu.biz.id/p/[slug] & SEO Sitemap
 // ============================================================================
 
 export const publicDigitalMenuRouter = Router();

@@ -34,7 +34,7 @@ interface OutletsResponse {
   outlets: OutletItem[];
 }
 
-const KASSA_SUPPORT_WA =
+const TUMPU_SUPPORT_WA =
   (process.env.NEXT_PUBLIC_SUPPORT_WA || "62895388220777").replace(/\D/g, "") || "62895388220777";
 
 export default function OutletsAndPlanPage() {
@@ -90,16 +90,16 @@ export default function OutletsAndPlanPage() {
   const isFree = tenant?.plan === "FREE";
 
   const upgradeWaUrl = tenant
-    ? `https://wa.me/${KASSA_SUPPORT_WA}?text=${encodeURIComponent(
-        `Halo Tim Kassa, saya ingin mengaktifkan paket Kassa Pro (Rp49.000/bulan).\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}\nJumlah Outlet: ${tenant.usedOutlets}`,
+    ? `https://wa.me/${TUMPU_SUPPORT_WA}?text=${encodeURIComponent(
+        `Halo Tim Tumpu, saya ingin mengaktifkan paket Tumpu Pro (Rp49.000/bulan).\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}\nJumlah Outlet: ${tenant.usedOutlets}`,
       )}`
-    : `https://wa.me/${KASSA_SUPPORT_WA}`;
+    : `https://wa.me/${TUMPU_SUPPORT_WA}`;
 
   const supportWaUrl = tenant
-    ? `https://wa.me/${KASSA_SUPPORT_WA}?text=${encodeURIComponent(
-        `Halo Tim Kassa, saya butuh bantuan terkait langganan Kassa Pro.\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}`,
+    ? `https://wa.me/${TUMPU_SUPPORT_WA}?text=${encodeURIComponent(
+        `Halo Tim Tumpu, saya butuh bantuan terkait langganan Tumpu Pro.\n\nNama Bisnis: ${tenant.name}\nSlug Tenant: ${tenant.slug}\nEmail Owner: ${user?.email ?? "-"}`,
       )}`
-    : `https://wa.me/${KASSA_SUPPORT_WA}`;
+    : `https://wa.me/${TUMPU_SUPPORT_WA}`;
 
   return (
     <CadraShell title="Outlet & Paket Langganan" crumb="Multi-Tenant">
@@ -115,7 +115,7 @@ export default function OutletsAndPlanPage() {
                 <Crown className={`h-4 w-4 ${isFree ? "text-[var(--muted)]" : "text-amber-500"}`} />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-bold">{isFree ? "Starter (FREE)" : "Kassa PRO"}</span>
+                <span className="text-2xl font-bold">{isFree ? "Starter (FREE)" : "Tumpu PRO"}</span>
               </div>
               <p className="mt-1 text-xs text-[var(--muted)]">
                 {isFree
@@ -227,7 +227,7 @@ export default function OutletsAndPlanPage() {
                   <p className="font-bold text-amber-800 dark:text-amber-300">Multi-Outlet terkunci di Paket Free</p>
                   <p className="mt-1 text-[var(--muted)]">
                     Paket Free dibatasi 1 Outlet, total 3 akun (1 Owner + 2 Staf), dan khusus layar Kasir POS.
-                    Upgrade ke <b>Kassa Pro (Rp49.000/bulan)</b> untuk menambah outlet serta membuka KDS, Stok/HPP, Laporan, dan Landing Page Menu Digital (SEO Google).
+                    Upgrade ke <b>Tumpu Pro (Rp49.000/bulan)</b> untuk menambah outlet serta membuka KDS, Stok/HPP, Laporan, dan Landing Page Menu Digital (SEO Google).
                   </p>
                   <a
                     href={upgradeWaUrl}
@@ -236,7 +236,7 @@ export default function OutletsAndPlanPage() {
                     className="btn-cadra btn-cadra--primary mt-3 w-full justify-center text-xs"
                   >
                     <MessageCircle className="h-3.5 w-3.5" />
-                    Aktifkan Kassa Pro via WhatsApp
+                    Aktifkan Tumpu Pro via WhatsApp
                   </a>
                 </div>
               ) : (

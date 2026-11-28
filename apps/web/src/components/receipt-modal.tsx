@@ -147,8 +147,8 @@ export function ReceiptModal({
           </div>
           <div className="mt-3 flex flex-col items-center gap-1 border-t border-dashed border-[var(--line-2)] pt-2.5">
             <img
-              src="/branding/kassa-monochrome-thermal.svg"
-              alt="Powered by Kassa POS"
+              src="/branding/tumpu-monochrome-thermal.svg"
+              alt="Powered by Tumpu POS"
               className="h-14 w-14 object-contain"
             />
           </div>

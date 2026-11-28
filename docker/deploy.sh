@@ -2,10 +2,10 @@
 set -euo pipefail
 
 # Prevent overlapping deployments
-exec 9>/tmp/kassa-deploy.lock
+exec 9>/tmp/tumpu-deploy.lock
 flock -x 9
 
-REPO_DIR="/home/boxd/kassa-POS"
+REPO_DIR="/home/boxd/tumpu-POS"
 COMPOSE_FILE="docker/docker-compose.prod.yml"
 ENV_FILE=".env"
 REBUILD_ALL="${1:-false}"
@@ -20,8 +20,8 @@ git pull --ff-only origin main
 NEW_SHA=$(git rev-parse HEAD)
 
 echo "==> Deploy commit: ${OLD_SHA:0:7} -> ${NEW_SHA:0:7}"
-echo "KASSA_DEPLOY_FROM_SHA=${OLD_SHA:0:7}"
-echo "KASSA_DEPLOY_TO_SHA=${NEW_SHA:0:7}"
+echo "TUMPU_DEPLOY_FROM_SHA=${OLD_SHA:0:7}"
+echo "TUMPU_DEPLOY_TO_SHA=${NEW_SHA:0:7}"
 
 CHANGED_FILES=""
 if [ "$OLD_SHA" != "$NEW_SHA" ]; then
@@ -70,10 +70,10 @@ else
 fi
 
 if [ ${#SERVICES_TO_BUILD[@]} -eq 0 ]; then
-  echo "KASSA_DEPLOY_SERVICES=none"
+  echo "TUMPU_DEPLOY_SERVICES=none"
   echo "==> No app Dockerfiles or source files changed; skipping image builds."
 else
-  IFS=, ; echo "KASSA_DEPLOY_SERVICES=${SERVICES_TO_BUILD[*]}" ; unset IFS
+  IFS=, ; echo "TUMPU_DEPLOY_SERVICES=${SERVICES_TO_BUILD[*]}" ; unset IFS
   for svc in "${SERVICES_TO_BUILD[@]}"; do
     build_service "$svc"
   done
@@ -81,23 +81,23 @@ fi
 
 if echo "$CHANGED_FILES" | grep -qE "^apps/api/prisma/"; then
   echo "==> Prisma schema changed; running db push..."
-  sudo docker exec kassa_api_prod npx prisma db push --skip-generate
+  sudo docker exec tumpu_api_prod npx prisma db push --skip-generate
 fi
 
 if echo "$CHANGED_FILES" | grep -qE "^docker/nginx\.conf"; then
   echo "==> Nginx config changed; recreating nginx container..."
   sudo docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --force-recreate --no-deps nginx
-  sudo docker exec kassa_nginx_prod nginx -t
+  sudo docker exec tumpu_nginx_prod nginx -t
 fi
 
 echo "==> Running health checks..."
 sleep 3
 for target in \
-  "kassa.biz.id:/" \
-  "app.kassa.biz.id:/" \
-  "app-api.kassa.biz.id:/health" \
-  "admin.kassa.biz.id:/" \
-  "admin-api.kassa.biz.id:/health"; do
+  "tumpu.biz.id:/" \
+  "pos.tumpu.biz.id:/" \
+  "app-api.tumpu.biz.id:/health" \
+  "admin.tumpu.biz.id:/" \
+  "admin-api.tumpu.biz.id:/health"; do
   h="${target%%:*}"
   p="${target#*:}"
   code=$(curl -s -o /dev/null -w "%{http_code}" -H "Host: $h" "http://127.0.0.1:80${p}")

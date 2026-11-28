@@ -87,7 +87,7 @@ function formatRupiah(amount: number): string {
 function buildWhatsappHref(raw: string, cafeName: string): string {
   const digits = raw.replace(/\D/g, "");
   const normalized = digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
-  const text = encodeURIComponent(`Halo ${cafeName}, saya melihat menu digital Anda di Kassa.`);
+  const text = encodeURIComponent(`Halo ${cafeName}, saya melihat menu digital Anda di Tumpu.`);
   return `https://wa.me/${normalized}?text=${text}`;
 }
 
@@ -508,13 +508,13 @@ export function DigitalMenuClient({ data }: { data: PublicDigitalMenuData }) {
               className="inline-flex items-center gap-1.5 font-semibold text-[#0F5257] underline-offset-2 hover:underline"
             >
               <img
-                src="/branding/kassa-icon-dark.svg"
-                alt="Kassa POS"
+                src="/branding/tumpu-icon-dark.svg"
+                alt="Tumpu POS"
                 width={18}
                 height={18}
                 className="h-4.5 w-4.5 rounded"
               />
-              Kassa POS
+              Tumpu POS
             </Link>
           </div>
         </div>

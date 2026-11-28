@@ -2,13 +2,13 @@
 
 **Status:** Draft / Ready for Implementation  
 **Owner:** DevOps & Platform Engineering  
-**Target Apps:** `apps/backoffice`, `apps/admin-api`, `kassa-webhook` (Host VM `kassa`), `docker/deploy.sh`
+**Target Apps:** `apps/backoffice`, `apps/admin-api`, `tumpu-webhook` (Host VM `tumpu`), `docker/deploy.sh`
 
 ---
 
 ## 1. Tujuan
 
-Memberikan visibilitas penuh bagi **Superadmin** di Back Office (`https://admin.kassa.biz.id/deployments`) untuk:
+Memberikan visibilitas penuh bagi **Superadmin** di Back Office (`https://admin.tumpu.biz.id/deployments`) untuk:
 - Memantau proses auto-deploy dari GitHub (`push` ke `main`) secara real-time.
 - Melihat log build & health check setiap deployment langsung dari dashboard.
 - Mengecek status kesehatan seluruh 5 layanan produksi & container Docker.
@@ -18,13 +18,13 @@ Memberikan visibilitas penuh bagi **Superadmin** di Back Office (`https://admin.
 
 ## 2. Arsitektur Integrasi (Tanpa Expose Docker Socket ke Container)
 
-Karena `admin-api` berjalan di dalam container Docker sedangkan `docker/deploy.sh` dan `kassa-webhook` berjalan di host VM `kassa`:
+Karena `admin-api` berjalan di dalam container Docker sedangkan `docker/deploy.sh` dan `tumpu-webhook` berjalan di host VM `tumpu`:
 
 ```text
 GitHub Push (main)
-   │ (HMAC-SHA256 via https://deploy.kassa.biz.id/webhook)
+   │ (HMAC-SHA256 via https://deploy.tumpu.biz.id/webhook)
    ▼
-[Host VM: kassa-webhook :9000]  ◄──(Internal Bearer Token)──►  [Container: admin-api :4001]
+[Host VM: tumpu-webhook :9000]  ◄──(Internal Bearer Token)──►  [Container: admin-api :4001]
    ├── Jalankan docker/deploy.sh                                     │ (Platform Superadmin JWT)
    ├── Simpan metadata per run (history.json)                        ▼
    └── Simpan log per run (logs/<runId>.log)                  [Back Office Web: /deployments]
@@ -36,7 +36,7 @@ GitHub Push (main)
    extra_hosts:
      - "host.docker.internal:host-gateway"
    ```
-2. Tambahkan env var berikut pada `admin-api` dan `/home/boxd/kassa-webhook/.env`:
+2. Tambahkan env var berikut pada `admin-api` dan `/home/boxd/tumpu-webhook/.env`:
    - `DEPLOY_AGENT_URL=http://host.docker.internal:9000`
    - `DEPLOY_INTERNAL_TOKEN=<random-32-byte-hex>`
 
@@ -57,11 +57,11 @@ Tambahkan menu **"Deployments"** di sidebar Back Office dengan route:
 
 ### 3.2. Service Health & Container Status Strip
 Kartu ringkas status 5 layanan + infra:
-- **Landing Page** (`https://kassa.biz.id`)
-- **POS Web** (`https://app.kassa.biz.id`)
-- **POS API** (`https://app-api.kassa.biz.id/health`)
-- **Back Office** (`https://admin.kassa.biz.id`)
-- **Admin API** (`https://admin-api.kassa.biz.id/health`)
+- **Landing Page** (`https://tumpu.biz.id`)
+- **POS Web** (`https://pos.tumpu.biz.id`)
+- **POS API** (`https://app-api.tumpu.biz.id/health`)
+- **Back Office** (`https://admin.tumpu.biz.id`)
+- **Admin API** (`https://admin-api.tumpu.biz.id/health`)
 - **Infra:** `mysql` (healthy), `redis`, `nginx`
 
 Setiap kartu menampilkan HTTP status (`200 OK` / error) dan status/uptime container (`Up Xh`).
@@ -84,14 +84,14 @@ Menampilkan 30 riwayat deployment terakhir dengan kolom:
 
 ## 4. Kontrak API
 
-### 4.1. Host Agent (`kassa-webhook` port `9000`)
+### 4.1. Host Agent (`tumpu-webhook` port `9000`)
 Semua endpoint `/internal/*` wajib menyertakan header `Authorization: Bearer <DEPLOY_INTERNAL_TOKEN>` dan hanya menerima request dari loopback / Docker bridge (`127.0.0.1`, `::1`, `172.16.0.0/12`):
 
 | Method | Path | Deskripsi |
 |---|---|---|
 | `GET` | `/internal/status` | Status deploy aktif, `HEAD` commit saat ini, health 5 service, status container (`docker compose ps --format json`). |
-| `GET` | `/internal/deployments?limit=30` | Daftar riwayat deploy terbaru dari `/home/boxd/kassa-webhook/history.json`. |
-| `GET` | `/internal/deployments/:id/logs?offset=0` | Potongan log dari `/home/boxd/kassa-webhook/logs/<id>.log` mulai byte `offset`, plus `nextOffset` dan `status`. |
+| `GET` | `/internal/deployments?limit=30` | Daftar riwayat deploy terbaru dari `/home/boxd/tumpu-webhook/history.json`. |
+| `GET` | `/internal/deployments/:id/logs?offset=0` | Potongan log dari `/home/boxd/tumpu-webhook/logs/<id>.log` mulai byte `offset`, plus `nextOffset` dan `status`. |
 | `POST` | `/internal/deploy` | Body: `{ "rebuildAll": boolean, "triggeredBy": string }`. Return `202 Accepted` + `{ "runId": "..." }`, atau `409 Conflict` jika sedang ada deploy berjalan. |
 
 #### Skema Metadata Run (`history.json`)
@@ -127,10 +127,10 @@ Semua endpoint diproteksi middleware **Platform Superadmin JWT**:
 
 ## 5. Keamanan & Guardrails
 
-- **Layered Auth:** Browser → `admin-api` (Platform Superadmin JWT) → `kassa-webhook` (`DEPLOY_INTERNAL_TOKEN` + IP allowlist lokal/Docker bridge).
-- **Publik Terisolasi:** Request publik ke `https://deploy.kassa.biz.id/internal/*` selalu ditolak (`401`/`403`). Endpoint publik yang diizinkan hanya `GET /health` dan `POST /webhook` (dengan verifikasi HMAC-SHA256 GitHub).
-- **Concurrency Safety:** Tetap gunakan `flock` di `docker/deploy.sh` + in-memory/file lock di `kassa-webhook` agar tidak pernah terjadi dua build bersamaan.
-- **Log Retention:** Simpan maksimal **50 file log** terakhir di `/home/boxd/kassa-webhook/logs/` (auto-prune log tertua setiap run baru dimulai).
+- **Layered Auth:** Browser → `admin-api` (Platform Superadmin JWT) → `tumpu-webhook` (`DEPLOY_INTERNAL_TOKEN` + IP allowlist lokal/Docker bridge).
+- **Publik Terisolasi:** Request publik ke `https://deploy.tumpu.biz.id/internal/*` selalu ditolak (`401`/`403`). Endpoint publik yang diizinkan hanya `GET /health` dan `POST /webhook` (dengan verifikasi HMAC-SHA256 GitHub).
+- **Concurrency Safety:** Tetap gunakan `flock` di `docker/deploy.sh` + in-memory/file lock di `tumpu-webhook` agar tidak pernah terjadi dua build bersamaan.
+- **Log Retention:** Simpan maksimal **50 file log** terakhir di `/home/boxd/tumpu-webhook/logs/` (auto-prune log tertua setiap run baru dimulai).
 - **Secret Redaction:** Pastikan `deploy.sh` tidak pernah mencetak isi `.env`, token, atau password ke stdout/stderr.
 
 ---
@@ -138,7 +138,7 @@ Semua endpoint diproteksi middleware **Platform Superadmin JWT**:
 ## 6. Acceptance Criteria (Definition of Done)
 
 - [ ] Push ke branch `main` otomatis muncul di halaman `/deployments` dengan status `running`, log mengalir live via polling incremental, lalu berubah ke `success` atau `failed` beserta durasi & daftar service yang di-rebuild.
-- [ ] Klik **"Deploy Latest"** atau **"Force Rebuild All"** dari Back Office berhasil memicu deploy di host VM `kassa` dan tercatat di `PlatformAuditLog`.
+- [ ] Klik **"Deploy Latest"** atau **"Force Rebuild All"** dari Back Office berhasil memicu deploy di host VM `tumpu` dan tercatat di `PlatformAuditLog`.
 - [ ] Saat deploy sedang berjalan, request trigger kedua mengembalikan `409 Conflict` dan tombol trigger di UI otomatis nonaktif.
-- [ ] Request ke `https://deploy.kassa.biz.id/internal/*` dari internet publik atau tanpa `DEPLOY_INTERNAL_TOKEN` valid selalu ditolak (`401`/`403`).
-- [ ] Status health 5 service (`kassa.biz.id`, `app`, `app-api`, `admin`, `admin-api`) tampil akurat di halaman `/deployments`.
+- [ ] Request ke `https://deploy.tumpu.biz.id/internal/*` dari internet publik atau tanpa `DEPLOY_INTERNAL_TOKEN` valid selalu ditolak (`401`/`403`).
+- [ ] Status health 5 service (`tumpu.biz.id`, `pos`, `app-api`, `admin`, `admin-api`) tampil akurat di halaman `/deployments`.

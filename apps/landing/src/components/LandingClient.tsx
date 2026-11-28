@@ -83,7 +83,7 @@ const RBAC_DEMO: Record<
 
 function getOrCreateVisitorId(): string {
   try {
-    const key = "kassa_vid";
+    const key = "tumpu_vid";
     let id = localStorage.getItem(key);
     if (!id) {
       id = `v_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
@@ -153,14 +153,14 @@ export default function LandingClient({ content }: LandingClientProps) {
   );
 
   useEffect(() => {
-    const saved = localStorage.getItem("kassa-landing-theme");
+    const saved = localStorage.getItem("tumpu-landing-theme");
     const isDark = saved === "dark";
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
   }, []);
 
   useEffect(() => {
-    const sessionKey = "kassa_pv_tracked";
+    const sessionKey = "tumpu_pv_tracked";
     if (sessionStorage.getItem(sessionKey)) return;
     sessionStorage.setItem(sessionKey, "1");
     const timer = window.setTimeout(() => {
@@ -173,7 +173,7 @@ export default function LandingClient({ content }: LandingClientProps) {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("kassa-landing-theme", next ? "dark" : "light");
+    localStorage.setItem("tumpu-landing-theme", next ? "dark" : "light");
   };
 
   const openLeadModal = (plan = "Pro", source = "landing-modal") => {
@@ -192,7 +192,7 @@ export default function LandingClient({ content }: LandingClientProps) {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
           <a href="#" className="flex items-center gap-2.5">
             <img
-              src="/branding/kassa-icon-dark.svg"
+              src="/branding/tumpu-icon-dark.svg"
               alt={content.general.brandName}
               width={32}
               height={32}
@@ -200,7 +200,7 @@ export default function LandingClient({ content }: LandingClientProps) {
             />
             <span className="text-[17px] font-bold tracking-tight text-[var(--ink)]">
               {content.general.brandName}
-              <span className="text-[var(--kassa-brass,#D9A962)]">.</span>
+              <span className="text-[var(--tumpu-brass,#D9A962)]">.</span>
             </span>
           </a>
 
@@ -439,7 +439,7 @@ export default function LandingClient({ content }: LandingClientProps) {
               <div className="relative overflow-hidden rounded-tl-2xl border-l border-t border-white/70 bg-white shadow-2xl">
                 <Image
                   src={content.showcaseTabs[0]?.img || "/screenshots/02-pos.png"}
-                  alt="Tampilan Kasir POS Kassa"
+                  alt="Tampilan Kasir POS Tumpu"
                   width={1440}
                   height={900}
                   loading="lazy"
@@ -643,7 +643,7 @@ export default function LandingClient({ content }: LandingClientProps) {
               <div className="relative w-[248px] overflow-hidden rounded-[32px] border-[7px] border-[#131a2e] bg-[#131a2e] shadow-[0_28px_60px_-20px_rgba(19,26,46,0.35)]">
                 <Image
                   src={content.mobileCard.screenshot}
-                  alt="Tampilan Kassa Mobile POS"
+                  alt="Tampilan Tumpu Mobile POS"
                   width={248}
                   height={537}
                   loading="lazy"
@@ -872,7 +872,7 @@ export default function LandingClient({ content }: LandingClientProps) {
           <div className="mt-10 flex flex-col justify-between gap-4 text-[13px] text-[var(--ink-muted)] sm:flex-row sm:items-center">
             <div className="flex items-center gap-2">
               <img
-                src="/branding/kassa-icon-dark.svg"
+                src="/branding/tumpu-icon-dark.svg"
                 alt={content.general.brandName}
                 width={26}
                 height={26}

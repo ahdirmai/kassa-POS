@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Kassa Icon Light">
-  <rect width="512" height="512" rx="112" fill="#F6F4EF" stroke="#E2DFD7" stroke-width="6"/>
-  <!-- Architectural K Monogram (Light Mode) -->
-  <path fill="#0B1013" d="M138 124H198V229L292 124H364L250 250L368 388H294L198 274V388H138V124Z"/>
-  <path fill="#0B1013" d="M214 124H270L214 186V124Z"/>
-  <path fill="#0F5257" d="M380 124H402L286 250L406 388H384L264 250L380 124Z"/>
-</svg>

@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
 setSocketServer(io);
 
 server.listen(env.API_PORT, () => {
-  console.log(`Kassa POS API berjalan di http://localhost:${env.API_PORT}`);
+  console.log(`Tumpu POS API berjalan di http://localhost:${env.API_PORT}`);
 });
 
 async function shutdown() {

@@ -75,7 +75,7 @@ export async function registerBackgroundSync(): Promise<void> {
     const reg = await navigator.serviceWorker.ready;
     const syncMgr = (reg as ServiceWorkerRegistration & { sync?: { register: (tag: string) => Promise<void> } }).sync;
     if (syncMgr) {
-      await syncMgr.register("kassa-offline-sync");
+      await syncMgr.register("tumpu-offline-sync");
     }
   } catch {
     // Background Sync is optional / Chromium-only

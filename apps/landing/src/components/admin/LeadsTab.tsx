@@ -201,7 +201,7 @@ export default function LeadsTab({ onNotify }: LeadsTabProps) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `kassa-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `tumpu-leads-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -343,7 +343,7 @@ export default function LeadsTab({ onNotify }: LeadsTabProps) {
                     const waLink = `https://wa.me/${normalizeWaPhone(
                       lead.whatsapp
                     )}?text=${encodeURIComponent(
-                      `Halo kak ${lead.name} dari ${lead.businessName}, terima kasih sudah menghubungi Kassa POS. Kapan sempat kami bantu demo singkat?`
+                      `Halo kak ${lead.name} dari ${lead.businessName}, terima kasih sudah menghubungi Tumpu POS. Kapan sempat kami bantu demo singkat?`
                     )}`;
                     return (
                       <tr
@@ -509,7 +509,7 @@ export default function LeadsTab({ onNotify }: LeadsTabProps) {
                   href={`https://wa.me/${normalizeWaPhone(
                     selectedLead.whatsapp
                   )}?text=${encodeURIComponent(
-                    `Halo kak ${selectedLead.name} dari ${selectedLead.businessName}, saya dari tim Kassa POS.`
+                    `Halo kak ${selectedLead.name} dari ${selectedLead.businessName}, saya dari tim Tumpu POS.`
                   )}`}
                   target="_blank"
                   rel="noreferrer"

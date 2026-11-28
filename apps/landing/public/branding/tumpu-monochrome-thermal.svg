@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Tumpu Monochrome Thermal">
+  <rect width="400" height="400" fill="#FFFFFF"/>
+  <!-- High-contrast 1-bit Thermal Printer Safe Mark -->
+  <g transform="translate(96, 36) scale(0.406)">
+    <rect width="512" height="512" rx="112" fill="#000000"/>
+    <path fill="#FFFFFF" d="M112 124H330L294 184H112V124Z"/>
+    <path fill="#FFFFFF" d="M224 182H288V388H224V182Z"/>
+    <path fill="#FFFFFF" d="M350 124H400L364 184H314L350 124Z"/>
+  </g>
+  <text x="200" y="330" text-anchor="middle" fill="#000000" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="76" font-weight="800" letter-spacing="-2.5">Tumpu</text>
+  <text x="200" y="366" text-anchor="middle" fill="#000000" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18" font-weight="700" letter-spacing="3">TUMPU.BIZ.ID</text>
+</svg>

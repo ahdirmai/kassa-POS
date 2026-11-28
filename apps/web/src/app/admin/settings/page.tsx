@@ -117,7 +117,7 @@ export default function AdminSettingsPage() {
 
           {/* Cadra Theme & Accent Controls */}
           <div className="border-t border-[var(--line)] pt-4 space-y-3">
-            <h3 className="text-sm font-bold">Tampilan &amp; Tema Kassa</h3>
+            <h3 className="text-sm font-bold">Tampilan &amp; Tema Tumpu</h3>
             <div className="flex flex-wrap items-center gap-2">
               <button onClick={() => setTheme("light")} className="chip" data-active={theme === "light"}>Light Mode</button>
               <button onClick={() => setTheme("dark")} className="chip" data-active={theme === "dark"}>Dark Mode</button>

@@ -9,22 +9,22 @@ export default async function HomePage() {
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Kassa POS",
+    name: "Tumpu POS",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web, Android, iOS, Windows, macOS",
-    url: "https://kassa.biz.id",
+    url: "https://tumpu.biz.id",
     description:
       "Sistem kasir POS offline-ready, Kitchen Display Kanban realtime, stok bahan & HPP otomatis, multi-outlet, dan Menu Digital SEO untuk cafe & rumah makan Indonesia.",
     offers: [
       {
         "@type": "Offer",
-        name: "Kassa Starter",
+        name: "Tumpu Starter",
         price: "0",
         priceCurrency: "IDR",
       },
       {
         "@type": "Offer",
-        name: "Kassa Pro",
+        name: "Tumpu Pro",
         price: "49000",
         priceCurrency: "IDR",
       },

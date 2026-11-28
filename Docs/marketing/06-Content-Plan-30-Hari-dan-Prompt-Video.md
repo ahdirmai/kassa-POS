@@ -1,4 +1,4 @@
-# 06 — Plan Marketing 30 Hari & Prompt Video (Google Flow + HyperFrames) — Kassa (`kassa.biz.id`)
+# 06 — Plan Marketing 30 Hari & Prompt Video (Google Flow + HyperFrames) — Tumpu (`tumpu.biz.id`)
 
 Rencana konten lengkap **30 hari (Minggu 1–4)** untuk Instagram & Threads, dilengkapi keputusan arsitektur produksi video dan **prompt siap pakai untuk Google Flow (Veo 3)** yang dirancang **ultra-realistis dan tidak terlihat seperti AI**.
 
@@ -10,14 +10,14 @@ Untuk menjaga kualitas visual **Editorial Hospitality-Tech** sekaligus menghinda
 
 | Jalur Produksi | Kapan Dipakai | Pembagian Tugas | Jumlah Reels (30 Hari) |
 |---|---|---|---|
-| **Hybrid: Google Flow + HyperFrames** *(Utama)* | Reels berbasis *pain point* manusia, suasana kedai/dapur, POV owner, dan *hook* emosional. | **Google Flow (Veo 3)** men-generate **klip B-roll live-action 4–8 detik** yang dokumenter & realistis (tanpa teks UI di dalam video AI). **HyperFrames** menumpuk screenshot UI Kassa asli, animasi interaksi (pill offline, geser KDS, angka HPP), tipografi editorial, dan end-card `#0B1013`. | **11 Reels** (H1, H3, H6, H8, H10, H14, H15, H17, H22, H24, H26, H30 → 12 Reels) |
+| **Hybrid: Google Flow + HyperFrames** *(Utama)* | Reels berbasis *pain point* manusia, suasana kedai/dapur, POV owner, dan *hook* emosional. | **Google Flow (Veo 3)** men-generate **klip B-roll live-action 4–8 detik** yang dokumenter & realistis (tanpa teks UI di dalam video AI). **HyperFrames** menumpuk screenshot UI Tumpu asli, animasi interaksi (pill offline, geser KDS, angka HPP), tipografi editorial, dan end-card `#0B1013`. | **11 Reels** (H1, H3, H6, H8, H10, H14, H15, H17, H22, H24, H26, H30 → 12 Reels) |
 | **HyperFrames Only** | Reels berbasis demo UI murni, perbandingan angka/harga, audit log, dan product tour cepat. | **100% HyperFrames** (HTML/CSS/GSAP → `1080×1920` 30fps) menggunakan screenshot asli `/screenshots/*.png` dan komponen animasi tajam. Nol risiko teks Rupiah/UI rusak. | **3 Reels** (H12, H19, H21, H28 → 4 Reels) |
 
 > **Kenapa tidak 100% Google Flow saja?**
 > Model video generatif (termasuk Veo 3 di Google Flow) masih sering merusak teks kecil, angka Rupiah (`Rp49.000`), dan tombol aplikasi POS. Begitu layar aplikasi di-generate oleh AI, penonton langsung sadar itu video AI dan kepercayaan (trust) terhadap produk SaaS turun drastis.
 >
 > **Kenapa Hybrid Google Flow + HyperFrames paling optimal?**
-> Google Flow menangani **suasana nyata kedai kopi & dapur Indonesia** (manusia, uap kopi, kesibukan kasir, bon kertas berantakan) dengan gaya kamera dokumenter, sementara HyperFrames merender **UI Kassa asli, angka HPP, dan teks hook** secara *pixel-perfect*.
+> Google Flow menangani **suasana nyata kedai kopi & dapur Indonesia** (manusia, uap kopi, kesibukan kasir, bon kertas berantakan) dengan gaya kamera dokumenter, sementara HyperFrames merender **UI Tumpu asli, angka HPP, dan teks hook** secara *pixel-perfect*.
 
 ### Aturan Wajib Prompt Google Flow (Anti-AI Look)
 Setiap prompt di bawah sudah menerapkan 5 prinsip ini:
@@ -33,15 +33,15 @@ Setiap prompt di bawah sudah menerapkan 5 prinsip ini:
 
 | Minggu | Fokus Funnel | Tema Utama | Target Utama |
 |---|---|---|---|
-| **Minggu 1 (H1–H7)** | **Awareness & Core Pain** | Wi-Fi mati (Offline), HPP Kopi Susu, KDS anti bon kertas, RBAC anti-bocor, Offer Rp49rb, Mobile POS, Recap 4 Langkah. | Reach organik, Save & Comment keyword (`KASSA`, `HPP`, `KDS`, `AMAN`). |
+| **Minggu 1 (H1–H7)** | **Awareness & Core Pain** | Wi-Fi mati (Offline), HPP Kopi Susu, KDS anti bon kertas, RBAC anti-bocor, Offer Rp49rb, Mobile POS, Recap 4 Langkah. | Reach organik, Save & Comment keyword (`TUMPU`, `HPP`, `KDS`, `AMAN`). |
 | **Minggu 2 (H8–H14)** | **Consideration & Operasional** | Tutup shift Z-Report 30 detik, Modal kasir Rp250rb, Pindah meja & Split bill, PB1 10%, PIN 4 digit, 5 kesalahan pilih POS, POV Owner Minggu. | Profile visits, DM konsultasi printer & alur shift. |
 | **Minggu 3 (H15–H21)** | **Desire, Profit & Scale** | Resep auto-potong stok, Studi kasus Rumah Makan, Routing Bar vs Dapur, Multi-Outlet 1 dashboard, Audit Void, SOP Opening/Closing, Compare Rp300rb vs Rp49rb. | Daftar Starter Gratis & Trial Pro 14 Hari. |
-| **Minggu 4 (H22–H30)** | **Objection & Conversion Push** | Setup 5 menu dalam 5 menit, Starter vs Pro, Tes printer Bluetooth 58/80mm, 4 data wajib akhir bulan, Kenapa cafe ramai tetap tutup, Alur Dine-In/Takeaway, Product Tour 20s, FAQ, Closing Bulan Baru. | Aktivasi outlet & konversi ke Kassa Pro Rp49.000/bln. |
+| **Minggu 4 (H22–H30)** | **Objection & Conversion Push** | Setup 5 menu dalam 5 menit, Starter vs Pro, Tes printer Bluetooth 58/80mm, 4 data wajib akhir bulan, Kenapa cafe ramai tetap tutup, Alur Dine-In/Takeaway, Product Tour 20s, FAQ, Closing Bulan Baru. | Aktivasi outlet & konversi ke Tumpu Pro Rp49.000/bln. |
 
 ### Target KPI 30 Hari (Bulan Pertama)
 - **Total Konten:** 30 Instagram (16 Reels + 14 Carousel) + 44 Threads = **74 konten terstruktur**.
 - **Total Reach Organik (30 Hari):** 40.000 – 120.000
-- **Klik `kassa.biz.id` / DM Masuk:** 250 – 600
+- **Klik `tumpu.biz.id` / DM Masuk:** 250 – 600
 - **Akun Register / Trial Aktif:** 80 – 180 outlet
 - **Konversi Berbayar Pro Rp49rb:** 15 – 40 outlet
 
@@ -73,7 +73,7 @@ Setiap prompt di bawah sudah menerapkan 5 prinsip ini:
 | **H18** | Carousel · Light | Punya 2–3 Cabang? Kelola Semua Outlet dalam 1 Dashboard | — | Kapan waktu yang tepat buka cabang ke-2 (tanda sistem siap) |
 | **H19** | Reels · Dark | Audit Void & Diskon: Kenapa Owner Wajib Kunci Akses Kasir | HyperFrames Only | 1 void fiktif Rp50rb/hari = Rp1,5 juta hilang per bulan |
 | **H20** | Carousel · Light | Checklist SOP Opening & Closing Cafe (Siap Simpan!) | — | Share checklist 5 menit sebelum buka & tutup kedai |
-| **H21** | Reels · Dark | Perbandingan Biaya POS Rp300rb/bln vs Kassa Pro Rp49rb/bln | HyperFrames Only | Penghematan Rp3 juta/tahun dari biaya langganan POS bisa buat apa? |
+| **H21** | Reels · Dark | Perbandingan Biaya POS Rp300rb/bln vs Tumpu Pro Rp49rb/bln | HyperFrames Only | Penghematan Rp3 juta/tahun dari biaya langganan POS bisa buat apa? |
 | **H22** | Reels · Dark | "Males Input Ulang Menu?" Setup 5 Menu Terlaris Cuma 5 Menit | Google Flow + HyperFrames | Alasan #1 owner menunda pindah POS & cara tes tanpa ribet |
 | **H23** | Carousel · Light | Starter Gratis Rp0 vs Pro Rp49rb — Pilih Mana Buat Outlet Kamu? | — | Transparansi penuh: kapan cukup pakai Starter gratis saja |
 | **H24** | Reels · Dark | Tes Cetak Struk Bluetooth 58mm & 80mm Langsung dari HP | Google Flow + HyperFrames | Tips memilih kertas thermal 58mm vs 80mm biar struk rapi |
@@ -81,8 +81,8 @@ Setiap prompt di bawah sudah menerapkan 5 prinsip ini:
 | **H26** | Reels · Dark | Kenapa Banyak Cafe Ramai Tapi Tetap Tutup di Tahun Pertama? | Google Flow + HyperFrames | Ramai belum tentu untung: bedah cashflow vs margin kotor |
 | **H27** | Carousel · Light | Alur Lengkap Dine-In, Takeaway & Delivery Tanpa Antre Kasir | — | Pisahkan alur order takeaway biar tamu dine-in gak kesal |
 | **H28** | Reels · Dark | Demo 20 Detik: Dari Pelanggan Pesan Sampai Laporan Laba Rugi | HyperFrames Only | Satu sistem dari depan (POS) sampai belakang (stok & laba) |
-| **H29** | Carousel · Light | FAQ Lengkap Kassa: Offline, Printer, Multi-Outlet & Data | — | Open Q&A akhir bulan: tanya apa saja soal setup Kassa |
-| **H30** | Reels · Dark | Bulan Baru, Outlet Lebih Rapi — Mulai Gratis di kassa.biz.id | Google Flow + HyperFrames | Refleksi 30 hari & ajakan rapikan operasional mulai tanggal 1 |
+| **H29** | Carousel · Light | FAQ Lengkap Tumpu: Offline, Printer, Multi-Outlet & Data | — | Open Q&A akhir bulan: tanya apa saja soal setup Tumpu |
+| **H30** | Reels · Dark | Bulan Baru, Outlet Lebih Rapi — Mulai Gratis di tumpu.biz.id | Google Flow + HyperFrames | Refleksi 30 hari & ajakan rapikan operasional mulai tanggal 1 |
 
 ---
 
@@ -95,7 +95,7 @@ Gunakan prompt di bawah langsung di **Google Flow (Veo 3, Aspect Ratio `9:16`)**
 ### H1 — Wi-Fi Mati di Jam Ramai? Kasir Tetap Jalan (`Hybrid: Google Flow + HyperFrames`)
 - **Google Flow Prompt (Clip 0–4s Hook):**
   > `Vertical 9:16 handheld smartphone documentary video inside a cozy, busy Indonesian specialty coffee shop during lunch rush. Medium shot over the shoulder of a young Indonesian female cashier in a dark canvas apron standing behind a wooden espresso counter. She taps a sleek tablet on a metal stand, pauses with a brief realistic look of mild worry as a Wi-Fi router with a blinking red light sits near the corner of the counter, while two blurred customers wait politely in line holding smartphones. Warm natural daylight through storefront glass mixed with soft warm tungsten pendant lights, authentic cluttered cafe counter with ceramic cups, stainless milk pitcher, and thermal receipt printer. Natural skin texture, subtle handheld camera micro-shake, 35mm documentary lens, realistic ambient cafe chatter and espresso machine steam sound. No readable text or logos on screens, no cinematic slow motion, completely authentic unpolished real-life footage.`
-- **HyperFrames Overlay (4–22s):** Cut ke screen UI `/screenshots/02-pos.png` → animasi pil `OFFLINE (Amber)` muncul → tap Es Kopi Susu + Nasi Goreng → kode `OFF-042` & struk thermal → status berubah hijau `ONLINE · SYNCED` → End-card `#0B1013` (`Starter Gratis · Pro Rp49rb/bln · kassa.biz.id`).
+- **HyperFrames Overlay (4–22s):** Cut ke screen UI `/screenshots/02-pos.png` → animasi pil `OFFLINE (Amber)` muncul → tap Es Kopi Susu + Nasi Goreng → kode `OFF-042` & struk thermal → status berubah hijau `ONLINE · SYNCED` → End-card `#0B1013` (`Starter Gratis · Pro Rp49rb/bln · tumpu.biz.id`).
 
 ---
 
@@ -116,7 +116,7 @@ Gunakan prompt di bawah langsung di **Google Flow (Veo 3, Aspect Ratio `9:16`)**
 ### H8 — Tutup Shift 30 Detik: Anti Selisih Laci Kasir (`Hybrid: Google Flow + HyperFrames`)
 - **Google Flow Prompt (Clip 0–5s Hook):**
   > `Vertical 9:16 candid handheld smartphone video inside a quiet Indonesian coffee shop late at night after closing, chairs stacked loosely in the background. Medium close-up of a tired Indonesian male cashier at the dimly lit wooden counter counting stacks of Indonesian Rupiah banknotes beside an open metal cash drawer, a pocket calculator, and messy crumpled paper receipts, frowning slightly as he recounts. Practical warm downlight over the counter, subtle shadows, realistic tired facial expression, slight handheld camera sway, quiet late-night refrigerator hum and soft paper rustling sound. Authentic documentary realism, no readable numbers or text, natural film-like grain.`
-- **HyperFrames Overlay (5–20s):** Transisi ke UI Tutup Shift & Z-Report Kassa (`/screenshots/04-dashboard.png`) → breakdown Tunai Sistem vs Fisik Laci → badge `SELISIH Rp0 · SHIFT AMAN` → End-card `#0B1013`.
+- **HyperFrames Overlay (5–20s):** Transisi ke UI Tutup Shift & Z-Report Tumpu (`/screenshots/04-dashboard.png`) → breakdown Tunai Sistem vs Fisik Laci → badge `SELISIH Rp0 · SHIFT AMAN` → End-card `#0B1013`.
 
 ---
 
@@ -133,7 +133,7 @@ Gunakan prompt di bawah langsung di **Google Flow (Veo 3, Aspect Ratio `9:16`)**
   - `0–3s`: Hook teks editorial di atas `#0B1013`: *"Masih 1 akun kasir dipakai 4 staf? Ini cara aman ganti shift dalam 3 detik."*
   - `3–9s`: Animasi layar `/screenshots/01-login.png` → tap PIN 4 digit (`• • • •`) → langsung masuk mode Kasir (`Shift Sore · Rina`).
   - `9–12s`: Tampilkan badge terkunci di `/screenshots/08-rbac.png` (Laporan Omzet & Edit Stok tersembunyi).
-  - `12–15s`: End-card `#0B1013` (`Coba Gratis di kassa.biz.id`).
+  - `12–15s`: End-card `#0B1013` (`Coba Gratis di tumpu.biz.id`).
 
 ---
 
@@ -163,16 +163,16 @@ Gunakan prompt di bawah langsung di **Google Flow (Veo 3, Aspect Ratio `9:16`)**
 - **Spesifikasi Scene HyperFrames (16 detik, `1080×1920`):**
   - `0–4s`: Angka editorial besar di `#0B1013`: `1 Void fiktif Rp50.000/hari` → animasi ticker naik ke `Rp1.500.000 / bulan` (warna `#DC2626`).
   - `4–12s`: Demo UI `/screenshots/08-rbac.png` → tombol `Void Order` memunculkan modal `Wajib PIN Manager` + catatan log permanen.
-  - `12–16s`: End-card `#0B1013` (`Amankan Outlet di kassa.biz.id`).
+  - `12–16s`: End-card `#0B1013` (`Amankan Outlet di tumpu.biz.id`).
 
 ---
 
-### H21 — Perbandingan Biaya POS Rp300rb/bln vs Kassa Pro Rp49rb/bln (`HyperFrames Only`)
+### H21 — Perbandingan Biaya POS Rp300rb/bln vs Tumpu Pro Rp49rb/bln (`HyperFrames Only`)
 - **Engine:** **100% HyperFrames** (motion graphics angka & perbandingan tabel editorial).
 - **Spesifikasi Scene HyperFrames (18 detik, `1080×1920`):**
   - `0–4s`: Hook `#0B1013` + aksen `#E5BA78`: *"Bayar POS Rp300rb/bulan atau Rp49rb/bulan? Cek bedanya dalam 15 detik."*
-  - `4–13s`: Animasi stack biaya kompetitor (`POS Rp150rb + Add-on Stok Rp75rb + KDS Rp75rb = Rp300rb/bln · Rp3,6jt/thn`) vs Kassa Pro (`All-In Rp49.000/bln · Hemat Rp3jt/thn · Rp0 Komisi`).
-  - `13–18s`: End-card `#0B1013` (`Starter Gratis · Trial Pro 14 Hari · kassa.biz.id`).
+  - `4–13s`: Animasi stack biaya kompetitor (`POS Rp150rb + Add-on Stok Rp75rb + KDS Rp75rb = Rp300rb/bln · Rp3,6jt/thn`) vs Tumpu Pro (`All-In Rp49.000/bln · Hemat Rp3jt/thn · Rp0 Komisi`).
+  - `13–18s`: End-card `#0B1013` (`Starter Gratis · Trial Pro 14 Hari · tumpu.biz.id`).
 
 ---
 
@@ -198,18 +198,18 @@ Gunakan prompt di bawah langsung di **Google Flow (Veo 3, Aspect Ratio `9:16`)**
 ---
 
 ### H28 — Demo 20 Detik: Dari Pelanggan Pesan Sampai Laporan Laba Rugi (`HyperFrames Only`)
-- **Engine:** **100% HyperFrames** (fast-paced product tour menggunakan 4 screenshot asli Kassa).
+- **Engine:** **100% HyperFrames** (fast-paced product tour menggunakan 4 screenshot asli Tumpu).
 - **Spesifikasi Scene HyperFrames (20 detik, `1080×1920`):**
   - `0–3s`: Hook: *"Alur lengkap operasional cafe dalam 20 detik."*
   - `3–7s`: Step 1 — Kasir 1-Tap (`/screenshots/02-pos.png`)
   - `7–11s`: Step 2 — Layar Dapur KDS (`/screenshots/03-kds.png`)
   - `11–15s`: Step 3 — Auto Potong Stok & HPP (`/screenshots/07-stock.png`)
   - `15–18s`: Step 4 — Dashboard Laba & Z-Report (`/screenshots/04-dashboard.png`)
-  - `18–20s`: End-card `#0B1013` (`kassa.biz.id`).
+  - `18–20s`: End-card `#0B1013` (`tumpu.biz.id`).
 
 ---
 
 ### H30 — Bulan Baru, Outlet Lebih Rapi — Mulai Gratis Hari Ini (`Hybrid: Google Flow + HyperFrames`)
 - **Google Flow Prompt (Clip 0–5s Hook):**
   > `Vertical 9:16 warm handheld documentary video in a sunlit Indonesian specialty coffee shop early in the morning just before opening. A smiling Indonesian café owner flips a small wooden door sign, wipes down the clean espresso counter, and places a clean tablet neatly on its stand next to a steaming cup of freshly brewed coffee. Golden morning sunlight slanting across the wooden counter, crisp dust motes in natural light, gentle handheld camera movement, peaceful morning café prep ambiance with espresso machine warming up. No readable text on signs or screens, genuine optimistic documentary realism.`
-- **HyperFrames Overlay (5–18s):** Recap 4 pilar Kassa + Offer penutup bulan (`Starter Gratis selamanya · Pro Rp49.000/bulan All-In · Tanpa Komisi`) → CTA `kassa.biz.id` / Komen `"KASSA"`.
+- **HyperFrames Overlay (5–18s):** Recap 4 pilar Tumpu + Offer penutup bulan (`Starter Gratis selamanya · Pro Rp49.000/bulan All-In · Tanpa Komisi`) → CTA `tumpu.biz.id` / Komen `"TUMPU"`.

@@ -13,7 +13,7 @@ export interface PlatformAuthAdmin {
   role: PlatformRole;
 }
 
-export const PLATFORM_COOKIE_NAME = "kassa_bo_token";
+export const PLATFORM_COOKIE_NAME = "tumpu_bo_token";
 
 declare global {
   namespace Express {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Mail, RefreshCw, Store } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { useUiStore } from "@/stores/ui-store";
-import { KassaBrandMark } from "@/components/kassa-brand-mark";
+import { TumpuBrandMark } from "@/components/tumpu-brand-mark";
 
 interface RegisterResponse {
   requiresEmailVerification: boolean;
@@ -52,7 +52,7 @@ export default function RegisterPage() {
         }),
       });
       if (res.outletCode) {
-        window.localStorage.setItem("kassa_outlet_code", res.outletCode);
+        window.localStorage.setItem("tumpu_outlet_code", res.outletCode);
       }
       setPendingVerify(res);
       setCooldown(60);
@@ -159,9 +159,9 @@ export default function RegisterPage() {
       <div className="cadra-card w-full max-w-md space-y-5 p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <KassaBrandMark />
+            <TumpuBrandMark />
             <div>
-              <h1 className="text-lg font-bold tracking-tight">Daftar Kassa Gratis</h1>
+              <h1 className="text-lg font-bold tracking-tight">Daftar Tumpu Gratis</h1>
               <p className="text-xs text-[var(--muted)]">Paket Free: 1 Outlet · Total 3 Akun · Kasir POS</p>
             </div>
           </div>

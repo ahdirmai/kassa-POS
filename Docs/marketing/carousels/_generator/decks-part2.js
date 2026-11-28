@@ -17,19 +17,19 @@ module.exports = [
 
 Satu kertas bon nyelip di bawah piring = 1 keluarga nunggu 35 menit lalu kasih ulasan bintang 1.
 
-Geser buat lihat perbandingan nyata sebelum vs sesudah rumah makan beralih ke Layar Dapur (KDS) Kassa:
+Geser buat lihat perbandingan nyata sebelum vs sesudah rumah makan beralih ke Layar Dapur (KDS) Tumpu:
 • Pramusaji catat order langsung dari HP di meja tamu
 • Tiket otomatis muncul di tablet dapur lengkap timer SLA
 • Salah menu turun drastis & hemat 40 menit/hari di jam puncak
 
-Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung di kassa.biz.id.
+Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung di tumpu.biz.id.
 
-#rumahmakan #posresto #kitchendisplay #operasionalresto #bisniskuliner #kassa`,
+#rumahmakan #posresto #kitchendisplay #operasionalresto #bisniskuliner #tumpu`,
     firstComment: `Nggak perlu beli layar dapur mahal—cukup pakai tablet Android lama yang bisa buka browser. Ada yang masih pakai bon kertas di dapur? 👇`,
     stories: [
       "Slide 1 (Poll): \"Di dapur outlet kamu sekarang pakai apa?\" [Kertas bon / Printer dapur / Layar tablet KDS]",
       "Slide 2 (Teaser): Share Slide 1 (Sebelum vs Sesudah KDS Rumah Makan) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Trial Pro 14 Hari · Sudah termasuk KDS\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Trial Pro 14 Hari · Sudah termasuk KDS\"",
     ],
     slides: [
       {
@@ -47,7 +47,7 @@ Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung 
                 <div class="metric-sub">Rata-rata tunggu · rawan bon nyelip</div>
               </div>
               <div class="metric-card">
-                <div class="mono-label">SESUDAH (KDS KASSA)</div>
+                <div class="mono-label">SESUDAH (KDS TUMPU)</div>
                 <div class="metric-big good">9 mnt</div>
                 <div class="metric-sub">Urutan jelas · 0 tiket hilang</div>
               </div>
@@ -71,7 +71,7 @@ Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung 
       },
       {
         theme: "light",
-        eyebrow: "ALUR BARU DI KASSA",
+        eyebrow: "ALUR BARU DI TUMPU",
         rightTag: "3 LANGKAH",
         html: `
           <h2 class="h2-slide">Catat di meja, <span class="serif">langsung tampil di dapur.</span></h2>
@@ -101,9 +101,9 @@ Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung 
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/kds</span>
+              <span class="device-url">pos.tumpu.biz.id/kds</span>
             </div>
-            <img class="device-img" src="{{IMG:03-kds.png}}" alt="Layar Dapur KDS Kassa" />
+            <img class="device-img" src="{{IMG:03-kds.png}}" alt="Layar Dapur KDS Tumpu" />
           </div>
         `,
       },
@@ -115,8 +115,8 @@ Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung 
           <div class="cta-stack">
             <span class="pill gold-dark">TRIAL PRO 14 HARI GRATIS</span>
             <h1 class="h1-cover dark">Dapur lebih tenang, <span class="serif-dark">tamu makin puas.</span></h1>
-            <p class="lead dark">Layar Dapur (KDS) sudah termasuk di Kassa Pro Rp49.000/outlet/bulan tanpa biaya add-on tambahan.</p>
-            <div class="cta-btn">Coba KDS Gratis di kassa.biz.id</div>
+            <p class="lead dark">Layar Dapur (KDS) sudah termasuk di Tumpu Pro Rp49.000/outlet/bulan tanpa biaya add-on tambahan.</p>
+            <div class="cta-btn">Coba KDS Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"KDS"</strong> untuk kirim demo layar dapur ke DM</div>
           </div>
         `,
@@ -138,20 +138,20 @@ Komen "KDS" kalau mau coba pasang di tablet bekas dapur kamu, atau cek langsung 
     themeLabel: "Light Editorial + Dark CTA",
     caption: `Buka cabang ke-2 seharusnya bikin bisnis makin tumbuh—bukan malah bikin owner pusing rekap 3 file laporan terpisah tiap malam.
 
-Di Kassa Pro, semua cabang terpantau rapi dari 1 akun Owner:
+Di Tumpu Pro, semua cabang terpantau rapi dari 1 akun Owner:
 • Bandingkan omzet, transaksi, & margin antar cabang dalam 1 layar
 • Master menu & resep tersinkron, tapi harga jual tetap bisa disesuaikan per lokasi
 • Biaya tetap masuk akal: Rp49.000 / outlet / bulan, Rp0 komisi transaksi
 
 Punya 2 cabang atau sedang persiapan ekspansi tahun ini?
-Komen "CABANG" biar tim kami bantu konsultasi setup multi-outlet, atau cek langsung di kassa.biz.id.
+Komen "CABANG" biar tim kami bantu konsultasi setup multi-outlet, atau cek langsung di tumpu.biz.id.
 
-#multioutlet #ekspansibisnis #poscafe #ownercafe #manajemenbisnis #kassa`,
+#multioutlet #ekspansibisnis #poscafe #ownercafe #manajemenbisnis #tumpu`,
     firstComment: `Buat yang sudah punya 2+ cabang, bagian mana yang paling menantang: jaga konsistensi resep, kontrol staf, atau rekap keuangan? 👇`,
     stories: [
       "Slide 1 (Poll): \"Target outlet kamu tahun ini...\" [Rapikan cabang 1 dulu / Buka cabang ke-2+ 🚀]",
       "Slide 2 (Teaser): Share Slide 2 (Dashboard Multi-Outlet) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Multi-Outlet tetap Rp49rb/outlet/bln\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Multi-Outlet tetap Rp49rb/outlet/bln\"",
     ],
     slides: [
       {
@@ -180,9 +180,9 @@ Komen "CABANG" biar tim kami bantu konsultasi setup multi-outlet, atau cek langs
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/dashboard</span>
+              <span class="device-url">pos.tumpu.biz.id/dashboard</span>
             </div>
-            <img class="device-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Multi Outlet Kassa" />
+            <img class="device-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Multi Outlet Tumpu" />
           </div>
         `,
       },
@@ -225,8 +225,8 @@ Komen "CABANG" biar tim kami bantu konsultasi setup multi-outlet, atau cek langs
           <div class="cta-stack">
             <span class="pill gold-dark">FREE KONSULTASI SETUP</span>
             <h1 class="h1-cover dark">Satu dashboard untuk <span class="serif-dark">semua cabang Anda.</span></h1>
-            <p class="lead dark">Mulai dari 1 outlet dulu atau langsung hubungkan seluruh cabang Anda dengan bantuan tim Kassa.</p>
-            <div class="cta-btn">Konsultasi via kassa.biz.id</div>
+            <p class="lead dark">Mulai dari 1 outlet dulu atau langsung hubungkan seluruh cabang Anda dengan bantuan tim Tumpu.</p>
+            <div class="cta-btn">Konsultasi via tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"CABANG"</strong> biar kami kirim panduan setup multi-outlet</div>
           </div>
         `,
@@ -255,16 +255,16 @@ Ringkasan 3 fase operasional harian:
 • Operasional: Login PIN personal, routing KDS, catat setiap kas keluar
 • Closing (22:00): Hitung fisik uang laci, cocokkan Z-Report, export laporan harian
 
-Di Kassa, seluruh alur buka-tutup shift dan Z-Report sudah tercatat otomatis dalam 30 detik.
+Di Tumpu, seluruh alur buka-tutup shift dan Z-Report sudah tercatat otomatis dalam 30 detik.
 
-Komen "SOP" kalau mau versi checklist praktisnya, atau coba langsung di kassa.biz.id.
+Komen "SOP" kalau mau versi checklist praktisnya, atau coba langsung di tumpu.biz.id.
 
-#sopcafe #operasionalfnb #baristaindonesia #manajemencafe #kasircafe #kassa`,
+#sopcafe #operasionalfnb #baristaindonesia #manajemencafe #kasircafe #tumpu`,
     firstComment: `Tag atau share postingan ini ke partner bisnis & kepala shift outlet kamu biar opening-closing makin rapi! 🙌`,
     stories: [
       "Slide 1 (Shareable): \"Checklist 5 menit Opening & Closing Cafe — langsung screenshot & kirim ke grup WA tim!\"",
       "Slide 2 (Teaser): Share Slide 2 (SOP Opening) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Tutup shift Z-Report cuma 30 detik\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Tutup shift Z-Report cuma 30 detik\"",
     ],
     slides: [
       {
@@ -330,14 +330,14 @@ Komen "SOP" kalau mau versi checklist praktisnya, atau coba langsung di kassa.bi
       },
       {
         theme: "dark",
-        eyebrow: "OTOMATIS TERCATAT DI KASSA",
-        rightTag: "KASSA POS",
+        eyebrow: "OTOMATIS TERCATAT DI TUMPU",
+        rightTag: "TUMPU POS",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">Z-REPORT 30 DETIK</span>
             <h1 class="h1-cover dark">SOP rapi dijalankan, <span class="serif-dark">tutup shift tanpa drama.</span></h1>
-            <p class="lead dark">Modal awal, kas keluar, PIN shift, hingga Z-Report otomatis tersedia di Kassa. Mulai gratis hari ini.</p>
-            <div class="cta-btn">Coba Gratis di kassa.biz.id</div>
+            <p class="lead dark">Modal awal, kas keluar, PIN shift, hingga Z-Report otomatis tersedia di Tumpu. Mulai gratis hari ini.</p>
+            <div class="cta-btn">Coba Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"SOP"</strong> atau simpan postingan ini buat tim kamu</div>
           </div>
         `,
@@ -365,14 +365,14 @@ Komen "SOP" kalau mau versi checklist praktisnya, atau coba langsung di kassa.bi
 
 Nggak ada jebakan kontrak tahunan, dan Rp0 komisi transaksi di kedua paket.
 
-Komen "STARTER" untuk link daftar gratis 2 menit, atau langsung buka kassa.biz.id.
+Komen "STARTER" untuk link daftar gratis 2 menit, atau langsung buka tumpu.biz.id.
 
-#aplikasikasirgratis #poscafe #umkmindonesia #bisniskuliner #kassa`,
+#aplikasikasirgratis #poscafe #umkmindonesia #bisniskuliner #tumpu`,
     firstComment: `Bisa mulai dari Starter Rp0 dulu tanpa kartu kredit, lalu aktifkan Trial Pro 14 Hari kapan pun kamu siap ✨`,
     stories: [
       "Slide 1 (Poll): \"Outlet kamu saat ini lebih butuh yang mana?\" [Kasir Cepat + Struk (Rp0) / Full KDS + Stok HPP (Rp49rb)]",
       "Slide 2 (Teaser): Share Slide 1 (Starter Rp0 vs Pro Rp49rb) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Daftar Starter Gratis 2 Menit\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Daftar Starter Gratis 2 Menit\"",
     ],
     slides: [
       {
@@ -431,13 +431,13 @@ Komen "STARTER" untuk link daftar gratis 2 menit, atau langsung buka kassa.biz.i
       {
         theme: "dark",
         eyebrow: "FLEKSIBEL TANPA KONTRAK",
-        rightTag: "KASSA",
+        rightTag: "TUMPU",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">Rp0 KOMISI TRANSAKSI</span>
             <h1 class="h1-cover dark">Mulai dari Starter Rp0, <span class="serif-dark">upgrade kapan saja.</span></h1>
             <p class="lead dark">Tersedia juga Trial Pro Gratis 14 Hari buat kamu yang mau langsung tes KDS &amp; Auto HPP.</p>
-            <div class="cta-btn">Pilih Paket di kassa.biz.id</div>
+            <div class="cta-btn">Pilih Paket di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"STARTER"</strong> untuk link daftar langsung ke DM</div>
           </div>
         `,
@@ -468,14 +468,14 @@ Banyak coffee shop & rumah makan bisa menaikkan margin bersih 10–15% bukan dar
 04. Selisih kas & void bulanan (deteksi kebocoran lebih awal)
 
 Simpan buat agenda evaluasi akhir bulan outlet kamu 📌
-Komen "MARGIN" atau lihat dashboard otomatisnya di kassa.biz.id.
+Komen "MARGIN" atau lihat dashboard otomatisnya di tumpu.biz.id.
 
-#evaluasibisnis #marginfnb #ownercafe #bisniskuliner #dashboardpos #kassa`,
+#evaluasibisnis #marginfnb #ownercafe #bisniskuliner #dashboardpos #tumpu`,
     firstComment: `Dari 4 data ini, mana yang paling sering kamu cek setiap akhir bulan? Tulis angkanya (1–4) di komentar 👇`,
     stories: [
       "Slide 1 (Poll): \"Menjelang akhir bulan, kamu sudah rutin evaluasi menu yang jarang laku?\" [Sudah rutin ✅ / Belum sempat 😅]",
       "Slide 2 (Teaser): Share Slide 1 (4 Data Akhir Bulan) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Semua grafik otomatis jadi di Kassa Pro\"",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Semua grafik otomatis jadi di Tumpu Pro\"",
     ],
     slides: [
       {
@@ -551,22 +551,22 @@ Komen "MARGIN" atau lihat dashboard otomatisnya di kassa.biz.id.
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/reports</span>
+              <span class="device-url">pos.tumpu.biz.id/reports</span>
             </div>
-            <img class="device-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Evaluasi Kassa" />
+            <img class="device-img" src="{{IMG:04-dashboard.png}}" alt="Dashboard Evaluasi Tumpu" />
           </div>
         `,
       },
       {
         theme: "dark",
         eyebrow: "DATA OTOMATIS SIAP BACA",
-        rightTag: "KASSA PRO",
+        rightTag: "TUMPU PRO",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">DASHBOARD &amp; EXPORT CSV</span>
             <h1 class="h1-cover dark">Berhenti menebak, <span class="serif-dark">kelola pakai data.</span></h1>
-            <p class="lead dark">Semua grafik omzet, margin HPP, menu terlaris, dan laporan Z-Report otomatis tersedia di Kassa Pro Rp49rb/bln.</p>
-            <div class="cta-btn">Lihat Dashboard di kassa.biz.id</div>
+            <p class="lead dark">Semua grafik omzet, margin HPP, menu terlaris, dan laporan Z-Report otomatis tersedia di Tumpu Pro Rp49rb/bln.</p>
+            <div class="cta-btn">Lihat Dashboard di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"MARGIN"</strong> untuk kirim demo laporan ke DM</div>
           </div>
         `,
@@ -590,20 +590,20 @@ Komen "MARGIN" atau lihat dashboard otomatisnya di kassa.biz.id.
 
 Solusinya bukan cuma nyuruh dapur "lebih teliti", tapi memastikan jenis order sudah terpisah jelas sejak dari layar kasir.
 
-Di Kassa:
+Di Tumpu:
 • Dine-In otomatis terhubung ke nomor meja & bisa pindah meja / split bill
 • Takeaway & Delivery (Ojol) langsung tampil dengan badge khusus di Layar Dapur (KDS)
 • Tim dapur langsung tahu mana yang pakai piring, mana yang pakai kemasan bungkus
 
 Kurangi salah bungkus pas malam Minggu nanti!
-Komen "RESTO" atau langsung coba alur mejanya di kassa.biz.id.
+Komen "RESTO" atau langsung coba alur mejanya di tumpu.biz.id.
 
-#operasionalresto #dinein #takeaway #posresto #bisniscafe #kassa`,
+#operasionalresto #dinein #takeaway #posresto #bisniscafe #tumpu`,
     firstComment: `Pernah ngalamin kejadian pesanan dine-in malah kebungkus pas jam ramai? 😅 Share ceritanya di bawah!`,
     stories: [
       "Slide 1 (Relatable): \"Malam Minggu outlet penuh? Jangan sampai pesanan meja 04 malah dibungkus buat ojol 😅\"",
-      "Slide 2 (Teaser): Share Slide 2 (Denah Meja Kassa) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Atur Dine-In, Takeaway & Delivery rapi\"",
+      "Slide 2 (Teaser): Share Slide 2 (Denah Meja Tumpu) ke Story",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Atur Dine-In, Takeaway & Delivery rapi\"",
     ],
     slides: [
       {
@@ -632,9 +632,9 @@ Komen "RESTO" atau langsung coba alur mejanya di kassa.biz.id.
           <div class="device-frame">
             <div class="device-bar">
               <span class="d-dot"></span><span class="d-dot"></span><span class="d-dot"></span>
-              <span class="device-url">app.kassa.biz.id/tables</span>
+              <span class="device-url">pos.tumpu.biz.id/tables</span>
             </div>
-            <img class="device-img" src="{{IMG:06-tables.png}}" alt="Manajemen Meja Kassa" />
+            <img class="device-img" src="{{IMG:06-tables.png}}" alt="Manajemen Meja Tumpu" />
           </div>
         `,
       },
@@ -675,13 +675,13 @@ Komen "RESTO" atau langsung coba alur mejanya di kassa.biz.id.
       {
         theme: "dark",
         eyebrow: "SIAP HADAPI WEEKEND RUSH?",
-        rightTag: "KASSA POS",
+        rightTag: "TUMPU POS",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">DENAH MEJA + KDS</span>
             <h1 class="h1-cover dark">Malam Minggu penuh, <span class="serif-dark">alur tetap mulus.</span></h1>
             <p class="lead dark">Kelola Dine-In, Takeaway, dan Delivery dalam satu sistem rapi. Starter Rp0 atau Pro Rp49.000/bln All-In.</p>
-            <div class="cta-btn">Coba Gratis di kassa.biz.id</div>
+            <div class="cta-btn">Coba Gratis di tumpu.biz.id</div>
             <div class="cta-sub">Komen <strong>"RESTO"</strong> untuk kirim demo manajemen meja &amp; KDS</div>
           </div>
         `,
@@ -690,18 +690,18 @@ Komen "RESTO" atau langsung coba alur mejanya di kassa.biz.id.
   },
 
   // =========================================================================
-  // 14. H29-faq-lengkap-kassa (ig-d29 · 5 slides · Light Editorial + Dark CTA)
+  // 14. H29-faq-lengkap-tumpu (ig-d29 · 5 slides · Light Editorial + Dark CTA)
   // =========================================================================
   {
     id: "ig-d29",
-    folder: "H29-faq-lengkap-kassa",
+    folder: "H29-faq-lengkap-tumpu",
     day: 29,
     dayLabel: "Senin",
     time: "18:30 WIB",
-    dmKeyword: "KASSA",
-    title: "FAQ Lengkap Kassa: Offline, Printer, Multi-Outlet & Keamanan Data",
+    dmKeyword: "TUMPU",
+    title: "FAQ Lengkap Tumpu: Offline, Printer, Multi-Outlet & Keamanan Data",
     themeLabel: "Light Editorial + Dark CTA",
-    caption: `Masih ada keraguan sebelum mulai pakai Kassa? Kami rangkum 4 pertanyaan yang paling sering masuk ke DM dari owner coffee shop & rumah makan:
+    caption: `Masih ada keraguan sebelum mulai pakai Tumpu? Kami rangkum 4 pertanyaan yang paling sering masuk ke DM dari owner coffee shop & rumah makan:
 
 Q1: Benar tetap jalan kalau Wi-Fi mati?
 → Ya! Transaksi tunai & cetak struk tetap jalan offline, lalu otomatis sinkron saat internet balik.
@@ -715,14 +715,14 @@ Q3: Ada potongan komisi per transaksi?
 Q4: Bagaimana keamanan data & akses staf?
 → Tiap staf punya PIN personal, akses menu terkunci per peran (RBAC), dan data tersimpan aman di cloud.
 
-Masih ada pertanyaan lain soal outlet kamu? Drop di kolom komentar atau komen "KASSA" biar kami bantu langsung di DM 👇
+Masih ada pertanyaan lain soal outlet kamu? Drop di kolom komentar atau komen "TUMPU" biar kami bantu langsung di DM 👇
 
-#faqkassa #aplikasikasir #bisniskuliner #poscafe #posresto #kassa`,
+#faqtumpu #aplikasikasir #bisniskuliner #poscafe #posresto #tumpu`,
     firstComment: `Ada pertanyaan lain soal pindah data menu dari POS lama atau kompatibilitas printer? Tulis di bawah ya, kami balas satu-satu! 🙌`,
     stories: [
-      "Slide 1 (Question Sticker): \"Open Q&A soal Kassa! Mau tanya soal printer Bluetooth, mode offline, atau harga? Drop di sini 👇\"",
-      "Slide 2 (Teaser): Share Slide 1 (FAQ Lengkap Kassa) ke Story",
-      "Slide 3 (CTA): Link kassa.biz.id — \"Coba gratis 2 menit tanpa kartu kredit\"",
+      "Slide 1 (Question Sticker): \"Open Q&A soal Tumpu! Mau tanya soal printer Bluetooth, mode offline, atau harga? Drop di sini 👇\"",
+      "Slide 2 (Teaser): Share Slide 1 (FAQ Lengkap Tumpu) ke Story",
+      "Slide 3 (CTA): Link tumpu.biz.id — \"Coba gratis 2 menit tanpa kartu kredit\"",
     ],
     slides: [
       {
@@ -731,7 +731,7 @@ Masih ada pertanyaan lain soal outlet kamu? Drop di kolom komentar atau komen "K
         rightTag: "SWIPE →",
         html: `
           <div class="cover-stack">
-            <h1 class="h1-cover">FAQ Kassa: <span class="serif">Semua jawaban cepat.</span></h1>
+            <h1 class="h1-cover">FAQ Tumpu: <span class="serif">Semua jawaban cepat.</span></h1>
             <p class="lead">Semua pertanyaan yang paling sering masuk ke DM dari owner coffee shop &amp; rumah makan—kami jawab transparan di sini.</p>
             <div class="pill-row">
               <span class="chip">Mode Offline</span>
@@ -791,14 +791,14 @@ Masih ada pertanyaan lain soal outlet kamu? Drop di kolom komentar atau komen "K
       {
         theme: "dark",
         eyebrow: "MASIH ADA PERTANYAAN LAIN?",
-        rightTag: "KASSA SUPPORT",
+        rightTag: "TUMPU SUPPORT",
         html: `
           <div class="cta-stack">
             <span class="pill gold-dark">RESPON CEPAT VIA DM &amp; WA</span>
             <h1 class="h1-cover dark">Coba langsung 2 menit, <span class="serif-dark">rasakan bedanya.</span></h1>
-            <p class="lead dark">Daftar Starter Gratis Rp0 atau aktifkan Trial Pro 14 Hari tanpa kartu kredit di kassa.biz.id.</p>
-            <div class="cta-btn">Mulai Gratis di kassa.biz.id</div>
-            <div class="cta-sub">Tulis pertanyaan di komentar atau komen <strong>"KASSA"</strong></div>
+            <p class="lead dark">Daftar Starter Gratis Rp0 atau aktifkan Trial Pro 14 Hari tanpa kartu kredit di tumpu.biz.id.</p>
+            <div class="cta-btn">Mulai Gratis di tumpu.biz.id</div>
+            <div class="cta-sub">Tulis pertanyaan di komentar atau komen <strong>"TUMPU"</strong></div>
           </div>
         `,
       },

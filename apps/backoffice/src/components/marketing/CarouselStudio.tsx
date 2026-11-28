@@ -55,10 +55,10 @@ const DECKS: DeckDef[] = [
     dayLabel: "Minggu",
     shortLabel: "H7 · 4 Langkah (5)",
     title: "Hari 7 (Minggu) — Recap 4 Langkah: Rapikan Outlet Mulai Senin Besok",
-    sub: "Carousel Product Tour · Screenshot POS, KDS, Stok & Mobile · Keyword: KASSA",
+    sub: "Carousel Product Tour · Screenshot POS, KDS, Stok & Mobile · Keyword: TUMPU",
     folder: "H07-recap-4-langkah",
     slideCount: 5,
-    dmKeyword: "KASSA",
+    dmKeyword: "TUMPU",
   },
   {
     id: "ig-d9",
@@ -163,12 +163,12 @@ const DECKS: DeckDef[] = [
     id: "ig-d29",
     day: 29,
     dayLabel: "Senin",
-    shortLabel: "H29 · FAQ Kassa (5)",
-    title: "Hari 29 (Senin) — FAQ Lengkap Kassa: Offline, Printer, Harga & Keamanan",
-    sub: "Carousel Objection Handling · Light Editorial + Dark CTA · Keyword: KASSA",
-    folder: "H29-faq-lengkap-kassa",
+    shortLabel: "H29 · FAQ Tumpu (5)",
+    title: "Hari 29 (Senin) — FAQ Lengkap Tumpu: Offline, Printer, Harga & Keamanan",
+    sub: "Carousel Objection Handling · Light Editorial + Dark CTA · Keyword: TUMPU",
+    folder: "H29-faq-lengkap-tumpu",
     slideCount: 5,
-    dmKeyword: "KASSA",
+    dmKeyword: "TUMPU",
   },
 ];
 
@@ -290,11 +290,11 @@ export default function CarouselStudio() {
             <div className="flex items-center justify-between border-b border-[#e2dfd7] px-4 py-2.5 text-xs font-semibold">
               <div className="flex items-center gap-2">
                 <img
-                  src="/branding/kassa-icon-dark.svg"
-                  alt="Kassa"
+                  src="/branding/tumpu-icon-dark.svg"
+                  alt="Tumpu"
                   className="h-6 w-6 rounded-md"
                 />
-                <span>kassa.biz.id</span>
+                <span>tumpu.biz.id</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-mono-num text-[11px] text-[#787e86]">

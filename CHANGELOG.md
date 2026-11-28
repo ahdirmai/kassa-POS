@@ -1,6 +1,6 @@
 # Changelog
 
-Semua perubahan penting pada proyek **Kassa POS Ecosystem** dicatat dalam file ini.
+Semua perubahan penting pada proyek **Tumpu POS Ecosystem** dicatat dalam file ini.
 
 Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [Conventional Commits](https://www.conventionalcommits.org/).
 
@@ -22,13 +22,13 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
 - **Onboarding & Demo Seeder Photos (`@pos/shared`, `apps/api`):**
   - Menambahkan foto produk (`imageUrl`) ke seluruh 19 template menu di `packages/shared/src/onboarding.ts` dan menyimpannya saat dynamic onboarding seeder berjalan (`apps/api/src/modules/onboarding/onboarding.routes.ts`), serta menambahkan `heroImageUrl` untuk Digital Menu demo `kopi-senja` di `apps/api/prisma/seed.ts`.
 - **Direct WhatsApp Upgrade CTA (`apps/web/src/app/admin/outlets/page.tsx`):**
-  - Mengarahkan tombol aktivasi/upgrade Kassa Pro langsung ke WhatsApp resmi Kassa (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi nama bisnis, slug tenant, email owner, dan jumlah outlet.
+  - Mengarahkan tombol aktivasi/upgrade Tumpu Pro langsung ke WhatsApp resmi Tumpu (`62895388220777` / `NEXT_PUBLIC_SUPPORT_WA`) dengan pesan otomatis berisi nama bisnis, slug tenant, email owner, dan jumlah outlet.
 
 ## [1.3.0] - 2026-11-22
 
 ### Added
 - **14 Ready-to-Post Instagram Carousels (`docs/marketing/carousels/`, 69 Slide PNG `1080×1350`):**
-  - Menghasilkan seluruh 14 deck Carousel Instagram dari rencana konten 30 hari Kassa (`H2`, `H4`, `H5`, `H7`, `H9`, `H11`, `H13`, `H16`, `H18`, `H20`, `H23`, `H25`, `H27`, `H29`) dalam format PNG `1080×1350` (4:5) sesuai panduan visual *Editorial Hospitality-Tech* lengkap dengan screenshot produk asli dan logo Kassa.
+  - Menghasilkan seluruh 14 deck Carousel Instagram dari rencana konten 30 hari Tumpu (`H2`, `H4`, `H5`, `H7`, `H9`, `H11`, `H13`, `H16`, `H18`, `H20`, `H23`, `H25`, `H27`, `H29`) dalam format PNG `1080×1350` (4:5) sesuai panduan visual *Editorial Hospitality-Tech* lengkap dengan screenshot produk asli dan logo Tumpu.
   - Menyertakan `caption.txt` siap salin di setiap folder (caption final, CTA + keyword DM, hashtag, first comment, jadwal tayang WIB, dan ide IG Story pendamping) serta skrip generator di `docs/marketing/carousels/_generator/` untuk kebutuhan re-render cepat.
   - Menambahkan panduan master & checklist publikasi di `docs/marketing/07-Ready-To-Post-Carousels.md` dan memperbarui `docs/marketing/README.md`.
 - **Back Office Marketing Kanban & Carousel Studio (`apps/backoffice`):**
@@ -42,19 +42,19 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan [C
 - **Official Brand Identity & Favicon Rollout (`apps/web`, `apps/landing`, `apps/backoffice`, `apps/mobile`, `docs`):**
   - Menerapkan seluruh aset identitas visual resmi dari `assets/branding/` (Monogram `K` geometris dengan *Warm Brass* `#D9A962` chevron di atas *Deep Espresso* `#0B1013`) dan token CSS (`brand-tokens.css`) secara konsisten di seluruh produk.
   - **Favicon & App Icons:** Mengganti dan melengkapi `favicon.svg`, `favicon.ico` (multi-ukuran 16/32/48px), `icon.svg`, `apple-touch-icon.png` (180×180), `icon-192.png`, `icon-512.png`, dan `icon-maskable-512.png` di `apps/web`, `apps/landing`, `apps/backoffice`, serta `<link rel="icon">` di dokumen HTML (`docs/manual-book`, `docs/pitch-deck`, `docs/audit-report`).
-  - **POS Web (`apps/web`):** Mengganti mark teks `K` pada header shell, login, register, dan onboarding dengan komponen `KassaBrandMark` (`/branding/kassa-icon-dark.svg`), menyelaraskan warna `manifest.json` & `viewport` (`#F6F4EF` / `#0B1013`), menambahkan logo struk 1-bit (`kassa-monochrome-thermal.svg`) pada `ReceiptModal`, serta meningkatkan versi cache Service Worker (`v2`) untuk precache aset branding.
+  - **POS Web (`apps/web`):** Mengganti mark teks `K` pada header shell, login, register, dan onboarding dengan komponen `TumpuBrandMark` (`/branding/tumpu-icon-dark.svg`), menyelaraskan warna `manifest.json` & `viewport` (`#F6F4EF` / `#0B1013`), menambahkan logo struk 1-bit (`tumpu-monochrome-thermal.svg`) pada `ReceiptModal`, serta meningkatkan versi cache Service Worker (`v2`) untuk precache aset branding.
   - **Landing Page (`apps/landing`):** Mengganti `src/app/icon.svg` lama dengan favicon resmi, memperbarui logo di navbar, footer, landing admin login/dashboard, footer Digital Menu, serta simulator struk thermal (`ThermalReceiptWidget`).
   - **Back Office (`apps/backoffice`):** Menambahkan favicon & ikon aplikasi, mengganti mark teks `K` pada shell, login, dan footer slide `CarouselStudio`, menyelaraskan warna *Espresso Surface* (`#141B1F`), serta menambahkan galeri preview & unduh **Official Brand Logo Kit (SVG)** di tab *Marketing → Brand & Warna*.
   - **Mobile App (`apps/mobile`):** Mengganti seluruh ikon launcher bawaan Flutter di Android (`mipmap-mdpi` s.d. `mipmap-xxxhdpi` + splash `launch_background.xml`) dan iOS (`AppIcon.appiconset` 15 ukuran + `LaunchImage.imageset` & `LaunchScreen.storyboard`), mendaftarkan `assets/branding/` di `pubspec.yaml`, serta menerapkan logo resmi di splash loading, layar login, AppBar utama, dan preview struk thermal.
-  - **Dokumentasi (`docs/`):** Mengganti seluruh badge teks `K` pada `manual-book`, `pitch-deck`, dan `audit-report` dengan vektor logo resmi Kassa.
+  - **Dokumentasi (`docs/`):** Mengganti seluruh badge teks `K` pada `manual-book`, `pitch-deck`, dan `audit-report` dengan vektor logo resmi Tumpu.
 
 ## [1.1.0] - 2026-11-22
 
 ### Added
 - **PWA Full Support (`apps/web`):**
-  - Service Worker (`apps/web/public/sw.js`) dengan precache App Shell (`/pos`, `/login`, `/offline.html`), caching `CacheFirst` untuk static chunks/ikon, `NetworkFirst` + fallback cache untuk navigasi & RSC, `StaleWhileRevalidate` untuk gambar produk, serta dukungan Background Sync (`kassa-offline-sync`).
+  - Service Worker (`apps/web/public/sw.js`) dengan precache App Shell (`/pos`, `/login`, `/offline.html`), caching `CacheFirst` untuk static chunks/ikon, `NetworkFirst` + fallback cache untuk navigasi & RSC, `StaleWhileRevalidate` untuk gambar produk, serta dukungan Background Sync (`tumpu-offline-sync`).
   - Halaman fallback offline (`apps/web/public/offline.html`).
-  - Set lengkap ikon PWA (`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `icon.svg`, `favicon.svg`) dari aset branding Kassa.
+  - Set lengkap ikon PWA (`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `icon.svg`, `favicon.svg`) dari aset branding Tumpu.
   - Web App Manifest lengkap (`apps/web/public/manifest.json`) dengan `icons`, `maskable`, `shortcuts`, serta metadata `viewport` & `appleWebApp` untuk iOS/iPadOS.
   - Tombol **Install App** pada top bar saat event `beforeinstallprompt` tersedia.
 - **Dedicated Auto Sync Engine & Offline Queue UI (`apps/web`):**

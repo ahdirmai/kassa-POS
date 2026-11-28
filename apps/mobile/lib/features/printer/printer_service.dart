@@ -48,13 +48,13 @@ class PrinterConfig {
 }
 
 class ThermalPrinterService {
-  static const _kMode = 'kassa_printer_mode';
-  static const _kPaper = 'kassa_printer_paper_mm';
-  static const _kLanIp = 'kassa_printer_lan_ip';
-  static const _kLanPort = 'kassa_printer_lan_port';
-  static const _kBtMac = 'kassa_printer_bt_mac';
-  static const _kBtName = 'kassa_printer_bt_name';
-  static const _kAutoCut = 'kassa_printer_autocut';
+  static const _kMode = 'tumpu_printer_mode';
+  static const _kPaper = 'tumpu_printer_paper_mm';
+  static const _kLanIp = 'tumpu_printer_lan_ip';
+  static const _kLanPort = 'tumpu_printer_lan_port';
+  static const _kBtMac = 'tumpu_printer_bt_mac';
+  static const _kBtName = 'tumpu_printer_bt_name';
+  static const _kAutoCut = 'tumpu_printer_autocut';
 
   Future<PrinterConfig> loadConfig() async {
     final prefs = await SharedPreferences.getInstance();

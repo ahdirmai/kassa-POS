@@ -84,7 +84,7 @@ class _PrinterSettingsScreenState extends ConsumerState<PrinterSettingsScreen> {
     setState(() => _testing = true);
     final user = ref.read(authControllerProvider).user;
     final err = await ref.read(thermalPrinterServiceProvider).testPrint(
-          outletName: user?.outletName ?? 'KASSA POS',
+          outletName: user?.outletName ?? 'TUMPU POS',
         );
     if (!mounted) return;
     setState(() => _testing = false);
@@ -111,7 +111,10 @@ class _PrinterSettingsScreenState extends ConsumerState<PrinterSettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Card(
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 680),
+              child: Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -249,6 +252,8 @@ class _PrinterSettingsScreenState extends ConsumerState<PrinterSettingsScreen> {
                     ],
                   ),
                 ],
+              ),
+                ),
               ),
             ),
           ),

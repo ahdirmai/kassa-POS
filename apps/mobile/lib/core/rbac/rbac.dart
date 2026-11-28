@@ -43,6 +43,7 @@ class AuthUser {
     this.outletCode,
     this.outletName,
     this.tenantName,
+    this.emailVerified = true,
   });
 
   final int id;
@@ -57,6 +58,7 @@ class AuthUser {
   final String? outletCode;
   final String? outletName;
   final String? tenantName;
+  final bool emailVerified;
 
   bool hasPermission(String permission) {
     if (roleCode.toUpperCase() == 'OWNER') return true;
@@ -89,6 +91,7 @@ class AuthUser {
           json['outlet']?['name']?.toString(),
       tenantName: json['tenantName']?.toString() ??
           json['tenant']?['name']?.toString(),
+      emailVerified: json['emailVerified'] != false,
     );
   }
 }

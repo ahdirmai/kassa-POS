@@ -85,7 +85,7 @@ outletsRouter.post("/", requireOwner, validateBody(createOutletSchema), async (r
         403,
         "PLAN_LIMIT_REACHED",
         effectivePlan === "FREE"
-          ? "Paket Free (atau langganan Pro yang sudah berakhir) hanya mendukung 1 outlet. Perpanjang/upgrade ke Kassa Pro (Rp49.000/bln) untuk menambah banyak cabang."
+          ? "Paket Free (atau langganan Pro yang sudah berakhir) hanya mendukung 1 outlet. Perpanjang/upgrade ke Tumpu Pro (Rp49.000/bln) untuk menambah banyak cabang."
           : `Batas maksimal ${effectiveMaxOutlets} outlet telah tercapai.`,
       );
     }
@@ -226,7 +226,7 @@ outletsRouter.post("/plan", requireOwner, validateBody(updatePlanSchema), async 
       throw new AppError(
         403,
         "BILLING_VERIFICATION_REQUIRED",
-        "Upgrade paket berbayar wajib melalui konfirmasi pembayaran resmi atau hubungi admin Kassa.",
+        "Upgrade paket berbayar wajib melalui konfirmasi pembayaran resmi atau hubungi admin Tumpu.",
       );
     }
     const policy = PLAN_POLICIES[plan];

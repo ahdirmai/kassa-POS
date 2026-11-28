@@ -16,10 +16,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kassa — Sistem POS All-In untuk Cafe & Rumah Makan",
+  title: "Tumpu — Sistem POS All-In untuk Cafe & Rumah Makan",
   description:
     "Sistem kasir POS offline-ready, Kitchen Display Kanban realtime, stok bahan & HPP otomatis, multi-outlet, dan Menu Digital SEO dalam satu sistem mulai Rp0–Rp49rb/bln.",
-  metadataBase: new URL("https://kassa.biz.id"),
+  metadataBase: new URL("https://tumpu.biz.id"),
   alternates: { canonical: "/" },
   icons: {
     icon: [
@@ -38,14 +38,14 @@ export const metadata: Metadata = {
     "KDS dapur realtime",
     "hitung HPP cafe",
     "menu digital QR",
-    "Kassa POS",
+    "Tumpu POS",
   ],
   openGraph: {
-    title: "Kassa — Sistem POS All-In untuk Cafe & Rumah Makan",
+    title: "Tumpu — Sistem POS All-In untuk Cafe & Rumah Makan",
     description:
       "Kasir cepat offline-ready, dapur KDS realtime, stok HPP otomatis, dan Menu Digital SEO mulai Rp0–Rp49rb/bln.",
-    url: "https://kassa.biz.id",
-    siteName: "Kassa POS",
+    url: "https://tumpu.biz.id",
+    siteName: "Tumpu POS",
     locale: "id_ID",
     type: "website",
     images: [
@@ -53,13 +53,13 @@ export const metadata: Metadata = {
         url: "/screenshots/04-dashboard.png",
         width: 1200,
         height: 630,
-        alt: "Dashboard Kassa POS — Kasir, Dapur KDS, dan Stok HPP",
+        alt: "Dashboard Tumpu POS — Kasir, Dapur KDS, dan Stok HPP",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kassa — Sistem POS All-In untuk Cafe & Rumah Makan",
+    title: "Tumpu — Sistem POS All-In untuk Cafe & Rumah Makan",
     description:
       "Kasir cepat offline-ready, dapur KDS realtime, stok HPP otomatis, dan Menu Digital SEO.",
     images: ["/screenshots/04-dashboard.png"],

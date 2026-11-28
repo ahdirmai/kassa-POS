@@ -73,13 +73,13 @@ interface DigitalMenuResponse {
 const THEME_OPTIONS: Array<{ id: DigitalMenuTheme; label: string; swatch: string }> = [
   { id: "amber", label: "Warm Coffee", swatch: "bg-amber-500" },
   { id: "emerald", label: "Matcha Mint", swatch: "bg-emerald-500" },
-  { id: "indigo", label: "Kassa Indigo", swatch: "bg-indigo-500" },
+  { id: "indigo", label: "Tumpu Indigo", swatch: "bg-indigo-500" },
   { id: "rose", label: "Berry Rose", swatch: "bg-rose-500" },
   { id: "slate", label: "Minimal Mono", swatch: "bg-slate-800" },
 ];
 
 const LANDING_BASE_URL =
-  process.env.NEXT_PUBLIC_LANDING_URL?.replace(/\/$/, "") || "https://kassa.biz.id";
+  process.env.NEXT_PUBLIC_LANDING_URL?.replace(/\/$/, "") || "https://tumpu.biz.id";
 
 export default function AdminDigitalMenuPage() {
   const queryClient = useQueryClient();
@@ -187,7 +187,7 @@ export default function AdminDigitalMenuPage() {
 
   const displayPublicUrl = useMemo(() => {
     const slug = (form?.slug || data?.tenant.slug || "").trim().toLowerCase();
-    return `https://kassa.biz.id/p/${slug}`;
+    return `https://tumpu.biz.id/p/${slug}`;
   }, [form?.slug, data?.tenant.slug]);
 
   const computedSeoTitle = useMemo(() => {
@@ -333,7 +333,7 @@ export default function AdminDigitalMenuPage() {
                 </label>
                 <div className="flex items-center overflow-hidden rounded-xl border border-[var(--rim)] bg-[var(--glass-2)] focus-within:border-[var(--primary)]">
                   <span className="border-r border-[var(--rim)] bg-[var(--glass-1)] px-3 py-2.5 font-mono text-[11px] font-semibold text-[var(--muted)]">
-                    kassa.biz.id/p/
+                    tumpu.biz.id/p/
                   </span>
                   <input
                     className="w-full bg-transparent px-3 py-2.5 font-mono text-xs font-semibold outline-none"
@@ -563,9 +563,9 @@ export default function AdminDigitalMenuPage() {
                     K
                   </span>
                   <div className="min-w-0 truncate">
-                    <div className="font-semibold text-slate-800 dark:text-slate-200">Kassa Digital Menu</div>
+                    <div className="font-semibold text-slate-800 dark:text-slate-200">Tumpu Digital Menu</div>
                     <div className="truncate text-[10px] text-slate-500">
-                      https://kassa.biz.id › p › {form.slug || "nama-cafe"}
+                      https://tumpu.biz.id › p › {form.slug || "nama-cafe"}
                     </div>
                   </div>
                 </div>

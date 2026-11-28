@@ -7,7 +7,7 @@ import { ArrowRight, CheckCircle2, Loader2, Mail, XCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { useAuthStore, type UserSession } from "@/stores/auth-store";
 import { useUiStore } from "@/stores/ui-store";
-import { KassaBrandMark } from "@/components/kassa-brand-mark";
+import { TumpuBrandMark } from "@/components/tumpu-brand-mark";
 
 function VerifyEmailContent() {
   const router = useRouter();
@@ -49,7 +49,7 @@ function VerifyEmailContent() {
 
         setSession(res.user, res.accessToken);
         if (res.user.outletCode) {
-          window.localStorage.setItem("kassa_outlet_code", res.user.outletCode);
+          window.localStorage.setItem("tumpu_outlet_code", res.user.outletCode);
         }
         setStatus("success");
         setMessage("Email Anda berhasil dikonfirmasi! Mengarahkan ke setup outlet...");
@@ -97,10 +97,10 @@ function VerifyEmailContent() {
     <div className="grid min-h-dvh place-items-center p-5">
       <div className="cadra-card w-full max-w-md space-y-5 p-6 text-center">
         <div className="flex items-center justify-center gap-3">
-          <KassaBrandMark />
+          <TumpuBrandMark />
           <div className="text-left">
             <h1 className="text-lg font-bold tracking-tight">Konfirmasi Email</h1>
-            <p className="text-xs text-[var(--muted)]">Kassa Cloud POS · app.kassa.biz.id</p>
+            <p className="text-xs text-[var(--muted)]">Tumpu Cloud POS · pos.tumpu.biz.id</p>
           </div>
         </div>
 

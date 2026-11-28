@@ -132,7 +132,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem("kassa-bo-theme") as "light" | "dark" | null;
+    const saved = localStorage.getItem("tumpu-bo-theme") as "light" | "dark" | null;
     if (saved === "dark" || saved === "light") {
       setTheme(saved);
       document.documentElement.setAttribute("data-theme", saved);
@@ -143,7 +143,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("kassa-bo-theme", next);
+    localStorage.setItem("tumpu-bo-theme", next);
   };
 
   const loadOverview = useCallback(async () => {
@@ -186,7 +186,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
   if (checkingAuth || !admin || !contextValue) {
     return (
       <div className="grid min-h-dvh place-items-center p-6 text-sm text-[var(--muted)]">
-        Memuat Kassa Back Office...
+        Memuat Tumpu Back Office...
       </div>
     );
   }
@@ -282,15 +282,15 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
         >
           <Link href="/" className="cadra-brand text-left">
             <img
-              src="/branding/kassa-icon-dark.svg"
-              alt="Kassa"
+              src="/branding/tumpu-icon-dark.svg"
+              alt="Tumpu"
               width={42}
               height={42}
               className="cadra-brand__mark"
             />
             <span className="cadra-brand__text">
-              <b>Kassa Admin</b>
-              <small>admin.kassa.biz.id</small>
+              <b>Tumpu Admin</b>
+              <small>admin.tumpu.biz.id</small>
             </span>
           </Link>
 
@@ -337,7 +337,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
         >
           <div className="phead__lead">
             <nav className="crumbs" aria-label="Breadcrumb">
-              <span>Kassa Platform</span>
+              <span>Tumpu Platform</span>
               <span>/</span>
               <span aria-current="page">{activeNav.label}</span>
             </nav>
@@ -351,7 +351,7 @@ export default function BackOfficeShell({ children }: { children: ReactNode }) {
             </span>
             <span className="shift__txt">
               <b>{overview ? `${overview.kpis.activeTenants} Tenant Aktif` : "Memuat..."}</b>
-              <small>admin.kassa.biz.id</small>
+              <small>admin.tumpu.biz.id</small>
             </span>
           </div>
         </section>

@@ -1,10 +1,10 @@
-# Production multi-stage Dockerfile for @pos/backoffice (Next.js 15 — admin.kassa.biz.id)
+# Production multi-stage Dockerfile for @pos/backoffice (Next.js 15 — admin.tumpu.biz.id)
 FROM node:20-alpine AS builder
 RUN corepack enable && corepack prepare pnpm@10.32.0 --activate
 WORKDIR /app
 
-ARG NEXT_PUBLIC_ADMIN_API_URL=https://admin-api.kassa.biz.id/api/v1
-ARG NEXT_PUBLIC_LANDING_URL=https://kassa.biz.id
+ARG NEXT_PUBLIC_ADMIN_API_URL=https://admin-api.tumpu.biz.id/api/v1
+ARG NEXT_PUBLIC_LANDING_URL=https://tumpu.biz.id
 ENV NEXT_PUBLIC_ADMIN_API_URL=$NEXT_PUBLIC_ADMIN_API_URL
 ENV NEXT_PUBLIC_LANDING_URL=$NEXT_PUBLIC_LANDING_URL
 

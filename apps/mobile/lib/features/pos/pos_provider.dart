@@ -150,7 +150,7 @@ class PosController extends StateNotifier<PosState> {
   }
 
   final ApiClient _api;
-  final KassaSocketService _socket;
+  final TumpuSocketService _socket;
   final int _outletId;
   final _uuid = const Uuid();
   final List<StreamSubscription<dynamic>> _subs = [];

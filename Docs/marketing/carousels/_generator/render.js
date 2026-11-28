@@ -10,7 +10,7 @@ const ROOT = "/Users/ahdirmai/Pos";
 const OUT_BASE = path.join(ROOT, "docs/marketing/carousels");
 const PUBLIC_BASE = path.join(ROOT, "apps/backoffice/public/carousels");
 const SCREENSHOTS_DIR = path.join(ROOT, "apps/backoffice/public/screenshots");
-const LOGO_PATH = path.join(ROOT, "assets/branding/kassa-icon-dark.svg");
+const LOGO_PATH = path.join(ROOT, "assets/branding/tumpu-icon-dark.svg");
 
 const logoSvg = fs.readFileSync(LOGO_PATH, "utf8");
 const logoDataUri = "data:image/svg+xml;base64," + Buffer.from(logoSvg).toString("base64");
@@ -968,8 +968,8 @@ function buildSlideHtml(slide, index, total) {
     </main>
     <footer class="footer">
       <div class="brand-foot">
-        <img class="brand-logo" src="${logoDataUri}" alt="Kassa" />
-        <span><strong>Kassa</strong> · kassa.biz.id</span>
+        <img class="brand-logo" src="${logoDataUri}" alt="Tumpu" />
+        <span><strong>Tumpu</strong> · tumpu.biz.id</span>
       </div>
       <span>${pageStr}</span>
     </footer>
@@ -980,7 +980,7 @@ function buildSlideHtml(slide, index, total) {
 
 function buildCaptionTxt(deck) {
   return `================================================================================
-KASSA INSTAGRAM CAROUSEL — HARI ${deck.day} (${deck.dayLabel.toUpperCase()})
+TUMPU INSTAGRAM CAROUSEL — HARI ${deck.day} (${deck.dayLabel.toUpperCase()})
 ================================================================================
 Judul       : ${deck.title}
 Post ID     : ${deck.id}

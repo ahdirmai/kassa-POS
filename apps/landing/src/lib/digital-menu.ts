@@ -85,7 +85,7 @@ export interface PublicDigitalMenuData {
   totalItems: number;
 }
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://kassa.biz.id").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://tumpu.biz.id").replace(/\/$/, "");
 
 const POS_API_URL = (
   process.env.POS_API_URL ||
@@ -246,7 +246,7 @@ export function buildDigitalMenuJsonLd(data: PublicDigitalMenuData) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Kassa",
+        name: "Tumpu",
         item: SITE_URL,
       },
       {
